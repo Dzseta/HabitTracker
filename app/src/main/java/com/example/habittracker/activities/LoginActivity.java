@@ -25,7 +25,7 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(i);
                 break;
             case R.id.loginButton:
-                i.setClass(this, HabitsActivity.class);
+                i.setClass(this, TodayActivity.class);
                 startActivity(i);
                 break;
             default: break;

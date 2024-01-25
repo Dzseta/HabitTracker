@@ -1,6 +1,8 @@
 package com.example.habittracker.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import com.example.habittracker.R;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,4 +16,27 @@ public class HabitsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_habits);
     }
 
+    // onClick - open new activity
+    public void openActivity(View view) {
+        Intent i = new Intent();
+        switch (view.getId()) {
+            case R.id.todayButton:
+                i.setClass(this, TodayActivity.class);
+                startActivity(i);
+                break;
+            case R.id.calendarButton:
+                i.setClass(this, CalendarActivity.class);
+                startActivity(i);
+                break;
+            case R.id.statsButton:
+                i.setClass(this, StatsActivity.class);
+                startActivity(i);
+                break;
+            case R.id.settingsButton:
+                i.setClass(this, SettingsActivity.class);
+                startActivity(i);
+                break;
+            default: break;
+        }
+    }
 }

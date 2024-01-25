@@ -21,7 +21,7 @@ public class RegisterActivity extends AppCompatActivity {
         Intent i = new Intent();
         switch (view.getId()) {
             case R.id.registerButton:
-                i.setClass(this, HabitsActivity.class);
+                i.setClass(this, TodayActivity.class);
                 startActivity(i);
                 break;
             default: break;

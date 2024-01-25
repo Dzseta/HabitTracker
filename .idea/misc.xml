@@ -3,13 +3,21 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Programozas/Android/HabitTracker/app/src/main/res/layout/activity_calendar.xml" value="0.25416666666666665" />
+        <entry key="..\:/Programozas/Android/HabitTracker/app/src/main/res/layout/activity_goals.xml" value="0.25416666666666665" />
         <entry key="..\:/Programozas/Android/HabitTracker/app/src/main/res/layout/activity_habits.xml" value="0.2" />
         <entry key="..\:/Programozas/Android/HabitTracker/app/src/main/res/layout/activity_login.xml" value="0.25416666666666665" />
+        <entry key="..\:/Programozas/Android/HabitTracker/app/src/main/res/layout/activity_new_category.xml" value="0.25416666666666665" />
+        <entry key="..\:/Programozas/Android/HabitTracker/app/src/main/res/layout/activity_new_goal.xml" value="0.25416666666666665" />
+        <entry key="..\:/Programozas/Android/HabitTracker/app/src/main/res/layout/activity_new_habit.xml" value="0.25416666666666665" />
         <entry key="..\:/Programozas/Android/HabitTracker/app/src/main/res/layout/activity_register.xml" value="0.25416666666666665" />
         <entry key="..\:/Programozas/Android/HabitTracker/app/src/main/res/layout/activity_settings.xml" value="0.25416666666666665" />
+        <entry key="..\:/Programozas/Android/HabitTracker/app/src/main/res/layout/activity_stats.xml" value="0.25416666666666665" />
+        <entry key="..\:/Programozas/Android/HabitTracker/app/src/main/res/layout/activity_today.xml" value="0.25416666666666665" />
         <entry key="..\:/Programozas/Android/HabitTracker/app/src/main/res/layout/fragment_dashboard.xml" value="0.25416666666666665" />
         <entry key="..\:/Programozas/Android/HabitTracker/app/src/main/res/layout/fragment_home.xml" value="0.1" />
         <entry key="..\:/Programozas/Android/HabitTracker/app/src/main/res/layout/fragment_notifications.xml" value="0.25416666666666665" />
+        <entry key="..\:/Programozas/Android/HabitTracker/app/src/main/res/layout/toolbar.xml" value="0.25416666666666665" />
       </map>
     </option>
   </component>
