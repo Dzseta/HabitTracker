@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="SETTINGS"
+        android:text="Beállítások"
         android:textSize="50sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -30,35 +30,35 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="openActivity"
-            android:text="HABITS" />
+            android:text="Szokások" />
 
         <Button
             android:id="@+id/goalsButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="openActivity"
-            android:text="GOALS" />
+            android:text="Célok" />
 
         <Button
             android:id="@+id/newHabitButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="openActivity"
-            android:text="NEW HABIT" />
+            android:text="Új szokás létrehozása" />
 
         <Button
             android:id="@+id/newCategoryButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="openActivity"
-            android:text="NEW CATEGORY" />
+            android:text="Új kategória létrehozása" />
 
         <Button
             android:id="@+id/newGoalButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="openActivity"
-            android:text="NEW GOAL" />
+            android:text="Új cél létrehozása" />
     </LinearLayout>
 
     <include

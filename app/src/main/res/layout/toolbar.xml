@@ -19,7 +19,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="openActivity"
-            android:text="TODAY" />
+            android:textSize="10dp"
+            android:text="Mai nap" />
 
         <Button
             android:id="@+id/calendarButton"
@@ -27,7 +28,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="openActivity"
-            android:text="CALENDAR" />
+            android:textSize="10dp"
+            android:text="Naptár" />
 
         <Button
             android:id="@+id/statsButton"
@@ -35,7 +37,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="openActivity"
-            android:text="STATS" />
+            android:textSize="10dp"
+
+            android:text="Statisztikák" />
 
         <Button
             android:id="@+id/settingsButton"
@@ -43,6 +47,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="openActivity"
-            android:text="SETTINGS" />
+            android:textSize="10dp"
+
+            android:text="Beállítások" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

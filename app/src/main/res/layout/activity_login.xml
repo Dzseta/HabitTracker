@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="LOGIN"
+        android:text="Bejelentkezés"
         android:textSize="50sp"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="20dp" />
@@ -57,7 +57,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Password" />
+                android:text="Jelszó" />
 
             <EditText
                 android:id="@+id/editTextTextPassword"
@@ -74,14 +74,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="login"
-            android:text="LOGIN" />
+            android:text="Belépés" />
 
         <Button
             android:id="@+id/registerButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="openActivity"
-            android:text="REGISTER" />
+            android:text="Regisztráció" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
