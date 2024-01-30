@@ -9,14 +9,15 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:orientation="horizontal"
+        android:background="@color/orange"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
             android:id="@+id/todayButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:onClick="openActivity"
             android:textSize="10dp"
@@ -24,31 +25,29 @@
 
         <Button
             android:id="@+id/calendarButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:onClick="openActivity"
             android:textSize="10dp"
             android:text="Naptár" />
 
         <Button
-            android:id="@+id/statsButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/goalsButton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:onClick="openActivity"
             android:textSize="10dp"
-
-            android:text="Statisztikák" />
+            android:text="Célok" />
 
         <Button
-            android:id="@+id/settingsButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/statsButton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:onClick="openActivity"
             android:textSize="10dp"
-
-            android:text="Beállítások" />
+            android:text="Statok" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

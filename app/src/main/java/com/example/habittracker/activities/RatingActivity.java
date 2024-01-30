@@ -1,21 +1,21 @@
 package com.example.habittracker.activities;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
 import com.example.habittracker.R;
-import androidx.appcompat.app.AppCompatActivity;
 
-
-public class HabitsActivity extends AppCompatActivity {
+public class RatingActivity extends AppCompatActivity {
 
     public View hamburgerMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_habits);
+        setContentView(R.layout.activity_rating);
 
         // hamburger menu
         hamburgerMenu = findViewById(R.id.hamburgerMenu);

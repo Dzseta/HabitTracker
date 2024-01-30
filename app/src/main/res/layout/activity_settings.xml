@@ -6,66 +6,46 @@
     android:layout_height="match_parent"
     tools:context=".activities.SettingsActivity">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Beállítások"
-        android:textSize="50sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20sp"
-        android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        tools:layout_editor_absoluteX="20dp">
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <Button
-            android:id="@+id/habitsButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="openActivity"
-            android:text="Szokások" />
 
-        <Button
-            android:id="@+id/goalsButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="openActivity"
-            android:text="Célok" />
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="10dp"
+            android:layout_weight="0"
+            android:onClick="openCloseHamburgerMenu"
+            android:src="@drawable/hamburger_menu" />
 
-        <Button
-            android:id="@+id/newHabitButton"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="openActivity"
-            android:text="Új szokás létrehozása" />
-
-        <Button
-            android:id="@+id/newCategoryButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="openActivity"
-            android:text="Új kategória létrehozása" />
-
-        <Button
-            android:id="@+id/newGoalButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="openActivity"
-            android:text="Új cél létrehozása" />
+            android:layout_gravity="center"
+            android:text="Beállítások"
+            android:textSize="30sp" />
     </LinearLayout>
 
     <include
         layout="@layout/toolbar"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <include
+        layout="@layout/hamburger_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/linearLayout2" />
 </androidx.constraintlayout.widget.ConstraintLayout>
