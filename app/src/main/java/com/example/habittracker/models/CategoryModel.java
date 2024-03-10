@@ -1,13 +1,13 @@
 package com.example.habittracker.models;
 
-public class Category {
+public class CategoryModel {
 
     // variables
     private String icon;
     private String name;
     private String color;
 
-    public Category(String icon, String name, String color) {
+    public CategoryModel(String icon, String name, String color) {
         this.icon = icon;
         this.name = name;
         this.color = color;

@@ -3,10 +3,10 @@ package com.example.habittracker.models;
 import java.sql.Time;
 import java.util.Date;
 
-public class Habit {
+public class HabitModel {
 
     // variables
-    private Category category;
+    private CategoryModel categoryModel;
     private String type;    // yesNo, number, timer, checklist
     private String name;
     private String description;
@@ -17,8 +17,8 @@ public class Habit {
     private int priority;
     private Time reminder;
 
-    public Habit(Category category, String type, String name, String description, String repeatType, String repeatNumber, Date startDate, Date endDate, int priority, Time reminder) {
-        this.category = category;
+    public HabitModel(CategoryModel categoryModel, String type, String name, String description, String repeatType, String repeatNumber, Date startDate, Date endDate, int priority, Time reminder) {
+        this.categoryModel = categoryModel;
         this.type = type;
         this.name = name;
         this.description = description;
@@ -30,12 +30,12 @@ public class Habit {
         this.reminder = reminder;
     }
 
-    public Category getCategory() {
-        return category;
+    public CategoryModel getCategory() {
+        return categoryModel;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setCategory(CategoryModel categoryModel) {
+        this.categoryModel = categoryModel;
     }
 
     public String getType() {
