@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Habit Tracker</string>
+    <string name="title_rating">Alkalmazás értékelése</string>
+    <string name="rating_opinion">Fejtse ki a véleményét bővebben (nem kötelező)</string>
+    <string name="button_send">Küldés</string>
+    <string name="button_save">Mentés</string>
+    <string name="button_cancel">Mégse</string>
+    <string name="button_delete">Törlés</string>
+    <string name="button_logout">Kilépés</string>
+    <string name="button_signin">Belépés</string>
+    <string name="title_settings">Beállítások</string>
+    <string name="settings_reminder">Emlékeztető</string>
+    <string name="settings_time">Időpont</string>
+</resources>

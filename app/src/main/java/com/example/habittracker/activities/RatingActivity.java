@@ -47,7 +47,7 @@ public class RatingActivity extends AppCompatActivity {
         // rating bar
         ratingbar = (RatingBar)findViewById(R.id.ratingBar);
         // edittext
-        opinionText = findViewById(R.id.editTextTextMultiLine);
+        opinionText = findViewById(R.id.opinionMultiLine);
         // rating
         rating = null;
 

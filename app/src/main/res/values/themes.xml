@@ -20,8 +20,17 @@
         <item name="android:windowAnimationStyle">@null</item>
     </style>
 
-    <style name="RatingBar" parent="Theme.AppCompat">
+    <style name="RatingBar" parent="Theme.HabitTracker">
         <item name="colorControlNormal">@color/white</item>
-        <item name="colorControlActivated">@color/orange</item>
+        <item name="colorControlActivated">?attr/colorPrimary</item>
+    </style>
+
+    <style name="ReverseColors" parent="Theme.HabitTracker">
+        <item name="android:background">?attr/colorPrimary</item>
+        <item name="android:textColor">?attr/colorOnPrimary</item>
+    </style>
+
+    <style name="TimePickerTheme" parent="Theme.AppCompat.Dialog">
+        <item name="colorOnPrimary">@color/light_gray</item>
     </style>
 </resources>

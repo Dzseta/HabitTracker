@@ -7,7 +7,7 @@
     tools:context=".activities.RatingActivity">
 
     <LinearLayout
-        android:id="@+id/linearLayout2"
+        android:id="@+id/ratingTitlebar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:orientation="horizontal"
@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Alkalmazás értékelése"
+            android:text="@string/title_rating"
             android:textSize="30sp" />
 
     </LinearLayout>
@@ -41,7 +41,7 @@
         android:layout_weight="0"
         android:layout_margin="20dp"
         android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+        app:layout_constraintTop_toBottomOf="@+id/ratingTitlebar">
 
         <RatingBar
             android:id="@+id/ratingBar"
@@ -53,7 +53,7 @@
             android:layout_height="wrap_content" />
 
         <EditText
-            android:id="@+id/editTextTextMultiLine"
+            android:id="@+id/opinionMultiLine"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -66,12 +66,12 @@
             android:inputType="textMultiLine" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/sendButton"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="sendRating"
-            android:text="Küldés" />
+            android:text="@string/button_send" />
     </LinearLayout>
 
     <include
