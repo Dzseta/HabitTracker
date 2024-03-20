@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.habittracker.R;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -19,6 +20,15 @@ public class ProfileActivity extends AppCompatActivity {
 
         // hamburger menu
         hamburgerMenu = findViewById(R.id.hamburgerMenu);
+    }
+
+    // ############################## ONCLICKS ########################################
+    // logout
+    public void logout(View view) {
+        FirebaseAuth.getInstance().signOut();
+        Intent i = new Intent();
+        i.setClass(this, LoginActivity.class);
+        startActivity(i);
     }
 
     // open and close the hamburger menu

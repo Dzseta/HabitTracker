@@ -23,4 +23,7 @@
     <string name="settings_reminder">Reminder</string>
     <string name="settings_time">Time</string>
 
+    <!-- Profile -->
+    <string name="title_profile">Profile</string>
+    <string name="profile_logout">Logout</string>
 </resources>

@@ -87,8 +87,6 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     // ############################## ONCLICKS ########################################
-
-
     // select time for reminder
     public void selectTime(View v) {
         // initialize Time Picker Dialog
