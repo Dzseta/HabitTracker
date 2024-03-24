@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.habittracker.models.CategoryModel;
 import com.example.habittracker.models.RatingModel;
 
 import java.text.SimpleDateFormat;
@@ -23,15 +24,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String ID_COL = "id";
     // ratings table
     // table name
-    private static final String RATINGS_TABLE_NAME = "ratings";
+    private static final String CATEGORY_TABLE_NAME = "ratings";
     // user column
-    private static final String EMAIL_COL = "email";
+    private static final String ICON_COL = "icon";
     // starts column
-    private static final String STARS = "stars";
+    private static final String NAME_COL = "name";
     // rating column
-    private static final String OPINION_COL = "opinion";
-    // date column
-    private static final String DATE_COL = "date";
+    private static final String COLOR_COL = "color";
 
     // constructor for database handler
     public DatabaseHandler(Context context) {
@@ -42,86 +41,96 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         // create customers table
-        String queryRatings = "CREATE TABLE " + RATINGS_TABLE_NAME + " ("
+        String queryRatings = "CREATE TABLE " + CATEGORY_TABLE_NAME + " ("
                 + ID_COL + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + EMAIL_COL + " TEXT,"
-                + STARS + " NUMBER,"
-                + OPINION_COL + " TEXT,"
-                + DATE_COL + " TEXT)";
+                + ICON_COL + " TEXT,"
+                + NAME_COL + " TEXT UNIQUE,"
+                + COLOR_COL + " TEXT)";
         // execute sql query
         db.execSQL(queryRatings);
     }
 
-    // ############################################### RATINGS ###########################################################
-    // add new rating
-    public void addRating(String email, float stars, String opinion) {
+    // ############################################### CATEGORIES ###########################################################
+    // add new category
+    public void addCategory(CategoryModel cat) {
         // writing data in the database
         SQLiteDatabase db = this.getWritableDatabase();
         // variable for content values
         ContentValues values = new ContentValues();
 
         // passing all values
-        values.put(EMAIL_COL, email);
-        values.put(STARS, stars);
-        // date
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DATE, 0);
-        SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
-        String formatted = format1.format(cal.getTime());
-        values.put(DATE_COL, formatted);
+        values.put(ICON_COL, cat.getIcon());
+        values.put(NAME_COL, cat.getName());
+        values.put(COLOR_COL, cat.getColor());
 
         // passing content values
-        db.insert(RATINGS_TABLE_NAME, null, values);
+        db.insert(CATEGORY_TABLE_NAME, null, values);
         // closing the database
         db.close();
     }
 
-    // update rating
-    public void updateRating(String email, float stars, String opinion) {
+    // update category
+    public void updateCategory(CategoryModel cat, String origName) {
         // get database
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        // pass values
-        values.put(EMAIL_COL, email);
-        values.put(STARS, stars);
-        // date
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DATE, 0);
-        SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
-        String formatted = format1.format(cal.getTime());
-        values.put(DATE_COL, formatted);
+        // passing all values
+        values.put(ICON_COL, cat.getIcon());
+        values.put(NAME_COL, cat.getName());
+        values.put(COLOR_COL, cat.getColor());
 
         // update and close database
-        db.update(RATINGS_TABLE_NAME, values, "email=?", new String[]{email});
+        db.update(CATEGORY_TABLE_NAME, values, "name=?", new String[]{String.valueOf(origName)});
         db.close();
     }
 
-    // read a rating
-    public RatingModel readRatingByUser(String email) {
+    // read a category
+    public CategoryModel readCategoryByName(String name) {
         // create database
         SQLiteDatabase db = this.getReadableDatabase();
         // create cursor
-        Cursor cursorCourses = db.rawQuery("SELECT * FROM " + RATINGS_TABLE_NAME + " WHERE name=?", new String[]{email});
+        Cursor cursorCourses = db.rawQuery("SELECT * FROM " + CATEGORY_TABLE_NAME + " WHERE name=?", new String[]{name});
         // create order
-        RatingModel rating = null;
+        CategoryModel cat = null;
 
         // move cursor to first position
         if (cursorCourses.moveToFirst()) {
-            rating = new RatingModel(cursorCourses.getString(1), cursorCourses.getFloat(2), cursorCourses.getString(3));
+            cat = new CategoryModel(cursorCourses.getString(1), cursorCourses.getString(2), cursorCourses.getString(3));
         }
         // closing cursor
         cursorCourses.close();
-        return rating;
+        return cat;
+    }
+
+    // read all categories
+    public ArrayList<CategoryModel> readAllCategories() {
+        // create database
+        SQLiteDatabase db = this.getReadableDatabase();
+        // create cursor
+        Cursor cursorCourses = db.rawQuery("SELECT * FROM " + CATEGORY_TABLE_NAME, null);
+        // create array list
+        ArrayList<CategoryModel> categoryModelArrayList = new ArrayList<>();
+
+        // move cursor to first position
+        if (cursorCourses.moveToFirst()) {
+            do {
+                // add data to the arraylist
+                categoryModelArrayList.add(new CategoryModel(cursorCourses.getString(1), cursorCourses.getString(2), cursorCourses.getString(3)));
+            } while (cursorCourses.moveToNext());
+        }
+        // closing cursor
+        cursorCourses.close();
+        return categoryModelArrayList;
     }
 
     // delete rating
-    public void deleteRating(String email) {
+    public void deleteCategory(String name) {
         // get database
         SQLiteDatabase db = this.getWritableDatabase();
 
         // delete customer and close database
-        db.delete(RATINGS_TABLE_NAME, "email=?", new String[]{email});
+        db.delete(CATEGORY_TABLE_NAME, "name=?", new String[]{name});
         db.close();
     }
 
@@ -129,7 +138,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // check if the table exists
-        db.execSQL("DROP TABLE IF EXISTS " + RATINGS_TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + CATEGORY_TABLE_NAME);
         onCreate(db);
     }
 }

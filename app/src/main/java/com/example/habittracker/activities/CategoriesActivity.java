@@ -1,16 +1,30 @@
 package com.example.habittracker.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 
 import com.example.habittracker.R;
+import com.example.habittracker.adapters.CategoriesAdapter;
+import com.example.habittracker.adapters.DatabaseHandler;
+import com.example.habittracker.models.CategoryModel;
+
+import java.util.ArrayList;
 
 public class CategoriesActivity extends AppCompatActivity {
 
     public View hamburgerMenu;
+    private Button createButton;
+    private DatabaseHandler dbHandler;
+    private CategoriesAdapter categoriesAdapter;
+    private RecyclerView categoriesRecyclerView;
+    private ArrayList<CategoryModel> categoriesArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,8 +33,29 @@ public class CategoriesActivity extends AppCompatActivity {
 
         // hamburger menu
         hamburgerMenu = findViewById(R.id.hamburgerMenu);
+        // buttons
+        createButton = findViewById(R.id.createButton);
+        // database handler
+        dbHandler = new DatabaseHandler(CategoriesActivity.this);
+        // get categories
+        categoriesArrayList = dbHandler.readAllCategories();
+        // passing list to adapter
+        categoriesAdapter = new CategoriesAdapter(categoriesArrayList, CategoriesActivity.this);
+        categoriesRecyclerView = findViewById(R.id.categoryRecyclerView);
+        // setting layout manager for recycler view
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(CategoriesActivity.this, RecyclerView.VERTICAL, false);
+        categoriesRecyclerView.setLayoutManager(linearLayoutManager);
+        // setting adapter to recycler view
+        categoriesRecyclerView.setAdapter(categoriesAdapter);
+
+        createButton.setOnClickListener(view -> {
+            CategoryModel test = new CategoryModel("icon_cross", "test2", Integer.toString(Color.parseColor("#00ff00")));
+            CategoryModel prev = dbHandler.readCategoryByName(test.getName());
+            if(prev == null) dbHandler.addCategory(test);
+        });
     }
 
+    // ############################### ONCLICKS ######################################x
     // open and close the hamburger menu
     public void openCloseHamburgerMenu(View view) {
         if (hamburgerMenu.getVisibility() == View.VISIBLE) {
