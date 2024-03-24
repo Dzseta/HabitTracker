@@ -49,9 +49,13 @@ public class CategoriesActivity extends AppCompatActivity {
         categoriesRecyclerView.setAdapter(categoriesAdapter);
 
         createButton.setOnClickListener(view -> {
-            CategoryModel test = new CategoryModel("icon_cross", "test2", Integer.toString(Color.parseColor("#00ff00")));
+            CategoryModel test = new CategoryModel("icon_icecream", "test5", Integer.toString(Color.parseColor("#ff0000")));
             CategoryModel prev = dbHandler.readCategoryByName(test.getName());
-            if(prev == null) dbHandler.addCategory(test);
+            if(prev == null) {
+                dbHandler.addCategory(test);
+                categoriesArrayList.add(test);
+                categoriesAdapter.notifyDataSetChanged();
+            }
         });
     }
 
