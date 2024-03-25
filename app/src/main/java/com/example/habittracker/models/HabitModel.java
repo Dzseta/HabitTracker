@@ -6,44 +6,40 @@ import java.util.Date;
 public class HabitModel {
 
     // variables
-    private CategoryModel categoryModel;
-    private String type;    // yesNo, number, timer, checklist
+    private CategoryModel category;
     private String name;
     private String description;
-    private String repeatType;
+    private String type;    // yesNo, number, timer, checklist
+    private String typeData;
+    private String repeatType; // every x days, x times a week/month/year, m/t/w/th/f/s/su
     private String repeatNumber;
     private Date startDate;
     private Date endDate;
     private int priority;
-    private Time reminder;
+    private boolean reminder;
+    private Time reminderTime;
 
-    public HabitModel(CategoryModel categoryModel, String type, String name, String description, String repeatType, String repeatNumber, Date startDate, Date endDate, int priority, Time reminder) {
-        this.categoryModel = categoryModel;
-        this.type = type;
+    public HabitModel(CategoryModel category, String name, String description, String type, String typeData, String repeatType, String repeatNumber, Date startDate, Date endDate, int priority, boolean reminder, Time reminderTime) {
+        this.category = category;
         this.name = name;
         this.description = description;
+        this.type = type;
+        this.typeData = typeData;
         this.repeatType = repeatType;
         this.repeatNumber = repeatNumber;
         this.startDate = startDate;
         this.endDate = endDate;
         this.priority = priority;
         this.reminder = reminder;
+        this.reminderTime = reminderTime;
     }
 
     public CategoryModel getCategory() {
-        return categoryModel;
+        return category;
     }
 
-    public void setCategory(CategoryModel categoryModel) {
-        this.categoryModel = categoryModel;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
+    public void setCategory(CategoryModel category) {
+        this.category = category;
     }
 
     public String getName() {
@@ -60,6 +56,22 @@ public class HabitModel {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getTypeData() {
+        return typeData;
+    }
+
+    public void setTypeData(String typeData) {
+        this.typeData = typeData;
     }
 
     public String getRepeatType() {
@@ -102,11 +114,19 @@ public class HabitModel {
         this.priority = priority;
     }
 
-    public Time getReminder() {
+    public boolean isReminder() {
         return reminder;
     }
 
-    public void setReminder(Time reminder) {
+    public void setReminder(boolean reminder) {
         this.reminder = reminder;
+    }
+
+    public Time getReminderTime() {
+        return reminderTime;
+    }
+
+    public void setReminderTime(Time reminderTime) {
+        this.reminderTime = reminderTime;
     }
 }
