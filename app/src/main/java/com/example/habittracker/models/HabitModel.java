@@ -6,21 +6,22 @@ import java.util.Date;
 public class HabitModel {
 
     // variables
-    private CategoryModel category;
+    private String categoryName;
     private String name;
     private String description;
     private String type;    // yesNo, number, timer, checklist
     private String typeData;
     private String repeatType; // every x days, x times a week/month/year, m/t/w/th/f/s/su
     private String repeatNumber;
-    private Date startDate;
-    private Date endDate;
+    private String startDate;
+    private String endDate;
     private int priority;
     private boolean reminder;
-    private Time reminderTime;
+    private int reminderHour;
+    private int reminderMinute;
 
-    public HabitModel(CategoryModel category, String name, String description, String type, String typeData, String repeatType, String repeatNumber, Date startDate, Date endDate, int priority, boolean reminder, Time reminderTime) {
-        this.category = category;
+    public HabitModel(String categoryName, String name, String description, String type, String typeData, String repeatType, String repeatNumber, String startDate, String endDate, int priority, boolean reminder, int reminderHour, int reminderMinute) {
+        this.categoryName = categoryName;
         this.name = name;
         this.description = description;
         this.type = type;
@@ -31,15 +32,16 @@ public class HabitModel {
         this.endDate = endDate;
         this.priority = priority;
         this.reminder = reminder;
-        this.reminderTime = reminderTime;
+        this.reminderHour = reminderHour;
+        this.reminderMinute = reminderMinute;
     }
 
-    public CategoryModel getCategory() {
-        return category;
+    public String getCategoryName() {
+        return categoryName;
     }
 
-    public void setCategory(CategoryModel category) {
-        this.category = category;
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
     public String getName() {
@@ -90,19 +92,19 @@ public class HabitModel {
         this.repeatNumber = repeatNumber;
     }
 
-    public Date getStartDate() {
+    public String getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
 
-    public Date getEndDate() {
+    public String getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
 
@@ -122,11 +124,19 @@ public class HabitModel {
         this.reminder = reminder;
     }
 
-    public Time getReminderTime() {
-        return reminderTime;
+    public int getReminderHour() {
+        return reminderHour;
     }
 
-    public void setReminderTime(Time reminderTime) {
-        this.reminderTime = reminderTime;
+    public void setReminderHour(int reminderHour) {
+        this.reminderHour = reminderHour;
+    }
+
+    public int getReminderMinute() {
+        return reminderMinute;
+    }
+
+    public void setReminderMinute(int reminderMinute) {
+        this.reminderMinute = reminderMinute;
     }
 }
