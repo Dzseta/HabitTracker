@@ -20,7 +20,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     // database name
     private static final String DB_NAME = "habitsdb";
     // database version
-    private static final int DB_VERSION = 2;
+    private static final int DB_VERSION = 3;
     // id column
     private static final String ID_COL = "id";
     // name column
@@ -56,7 +56,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     // reminder column
     private static final String REMINDER_COL = "reminder";
     // reminder hour column
-    private static final String REMINDERHOUR_COL = "reminderhour";// reminder time column
+    private static final String REMINDERHOUR_COL = "reminderhour";
     // reminder minute column
     private static final String REMINDERMINUTE_COL = "reminderminute";
     // goal table
@@ -90,7 +90,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + TYPE_COL + " TEXT,"
                 + TYPEDATA_COL + " TEXT,"
                 + REPEATTYPE_COL + " TEXT,"
-                + REPEATNUMBER_COL + " TEXT,"
+                + REPEATNUMBER_COL + " INTEGER,"
                 + STARTDATE_COL + " TEXT,"
                 + ENDDATE_COL + " TEXT,"
                 + PRIORITY_COL + " INTEGER,"
@@ -259,7 +259,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
             // move cursor to first position
             if (cursorCourses.moveToFirst()) {
-            habit = new HabitModel(cursorCourses.getString(1), cursorCourses.getString(2), cursorCourses.getString(3), cursorCourses.getString(4), cursorCourses.getString(5), cursorCourses.getString(6), cursorCourses.getString(7), cursorCourses.getString(8), cursorCourses.getString(9), cursorCourses.getInt(10), cursorCourses.getInt(11) > 0, cursorCourses.getInt(12), cursorCourses.getInt(13));
+            habit = new HabitModel(cursorCourses.getString(1), cursorCourses.getString(2), cursorCourses.getString(3), cursorCourses.getString(4), cursorCourses.getString(5), cursorCourses.getString(6), cursorCourses.getInt(7), cursorCourses.getString(8), cursorCourses.getString(9), cursorCourses.getInt(10), cursorCourses.getInt(11) > 0, cursorCourses.getInt(12), cursorCourses.getInt(13));
         }
         // closing cursor
         cursorCourses.close();
@@ -279,7 +279,28 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         if (cursorCourses.moveToFirst()) {
             do {
                 // add data to the arraylist
-                habitModelArrayList.add(new HabitModel(cursorCourses.getString(1), cursorCourses.getString(2), cursorCourses.getString(3), cursorCourses.getString(4), cursorCourses.getString(5), cursorCourses.getString(6), cursorCourses.getString(7), cursorCourses.getString(8), cursorCourses.getString(9), cursorCourses.getInt(10), cursorCourses.getInt(11) > 0, cursorCourses.getInt(12), cursorCourses.getInt(13)));
+                habitModelArrayList.add(new HabitModel(cursorCourses.getString(1), cursorCourses.getString(2), cursorCourses.getString(3), cursorCourses.getString(4), cursorCourses.getString(5), cursorCourses.getString(6), cursorCourses.getInt(7), cursorCourses.getString(8), cursorCourses.getString(9), cursorCourses.getInt(10), cursorCourses.getInt(11) > 0, cursorCourses.getInt(12), cursorCourses.getInt(13)));
+            } while (cursorCourses.moveToNext());
+        }
+        // closing cursor
+        cursorCourses.close();
+        return habitModelArrayList;
+    }
+
+    // read all habits in a category
+    public ArrayList<HabitModel> readAllHabitsInCategory(String categoryName) {
+        // create database
+        SQLiteDatabase db = this.getReadableDatabase();
+        // create cursor
+        Cursor cursorCourses = db.rawQuery("SELECT * FROM " + HABIT_TABLE_NAME + " WHERE category=?", new String[]{categoryName});
+        // create array list
+        ArrayList<HabitModel> habitModelArrayList = new ArrayList<>();
+
+        // move cursor to first position
+        if (cursorCourses.moveToFirst()) {
+            do {
+                // add data to the arraylist
+                habitModelArrayList.add(new HabitModel(cursorCourses.getString(1), cursorCourses.getString(2), cursorCourses.getString(3), cursorCourses.getString(4), cursorCourses.getString(5), cursorCourses.getString(6), cursorCourses.getInt(7), cursorCourses.getString(8), cursorCourses.getString(9), cursorCourses.getInt(10), cursorCourses.getInt(11) > 0, cursorCourses.getInt(12), cursorCourses.getInt(13)));
             } while (cursorCourses.moveToNext());
         }
         // closing cursor
@@ -302,6 +323,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // check if the table exists
         db.execSQL("DROP TABLE IF EXISTS " + CATEGORY_TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + HABIT_TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + GOAL_TABLE_NAME);
         onCreate(db);
     }
 }

@@ -57,7 +57,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
         holder.iconImageView.setImageResource(context.getResources().getIdentifier(model.getIcon(), "drawable", context.getPackageName()));
         holder.iconImageView.setColorFilter(Integer.parseInt(model.getColor()), PorterDuff.Mode.SRC_IN);
         holder.nameTextView.setText(model.getName());
-        holder.entriesTextView.setText("x entries");
+        holder.entriesTextView.setText(dbHandler.readAllHabitsInCategory(model.getName()).size() + " entries");
     }
 
     @Override
