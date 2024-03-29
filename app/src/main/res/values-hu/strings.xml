@@ -14,4 +14,8 @@
     <string name="settings_time">Időpont</string>
     <string name="title_profile">Profil</string>
     <string name="profile_logout">Kijelentkezés</string>
+    <string name="toolbar_today">MAI NAP</string>
+    <string name="toolbar_calendar">NAPTÁR</string>
+    <string name="toolbar_goals">CÉLOK</string>
+    <string name="toolbar_stats">ELEMZÉS</string>
 </resources>

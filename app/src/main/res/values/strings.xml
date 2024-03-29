@@ -14,6 +14,12 @@
     <string name="button_signin">Sign in</string>
     <string name="button_logout">Log out</string>
 
+    <!-- Toolbar -->
+    <string name="toolbar_today">TODAY</string>
+    <string name="toolbar_calendar">CALENDAR</string>
+    <string name="toolbar_goals">GOALS</string>
+    <string name="toolbar_stats">STATS</string>
+
     <!-- Rating -->
     <string name="title_rating">Rate the App</string>
     <string name="rating_opinion">Write down your opinions (not mandatory)</string>
