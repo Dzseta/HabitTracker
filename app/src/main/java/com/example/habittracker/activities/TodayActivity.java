@@ -5,12 +5,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.habittracker.R;
 
 public class TodayActivity extends AppCompatActivity {
 
-    public View hamburgerMenu;
+    private View hamburgerMenu;
+    private ImageView todayIW;
+    private TextView todayTW;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +24,11 @@ public class TodayActivity extends AppCompatActivity {
 
         // hamburger menu
         hamburgerMenu = findViewById(R.id.hamburgerMenu);
+        // toolbar
+        todayIW = findViewById(R.id.todayImageView);
+        todayIW.setColorFilter(getResources().getColor(R.color.light_gray));
+        todayTW = findViewById(R.id.todayTextView);
+        todayTW.setTextColor(getResources().getColor(R.color.light_gray));
     }
 
     // open and close the hamburger menu
