@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Habit Tracker</string>
+    <string name="hamburger_categories">KATEGÓRIÁK</string>
+    <string name="hamburger_habits">SZOKÁSOK</string>
+    <string name="hamburger_options">BEÁLLÍTÁSOK</string>
+    <string name="hamburger_profile">PROFIL</string>
+    <string name="hamburger_backups">BIZTONSÁGI MENTÉS</string>
     <string name="title_rating">Alkalmazás értékelése</string>
     <string name="rating_opinion">Fejtse ki a véleményét bővebben (nem kötelező)</string>
     <string name="button_send">Küldés</string>
@@ -18,4 +23,5 @@
     <string name="toolbar_calendar">NAPTÁR</string>
     <string name="toolbar_goals">CÉLOK</string>
     <string name="toolbar_stats">ELEMZÉS</string>
+    <string name="hamburger_rating">APP ÉRTÉKELÉSE</string>
 </resources>

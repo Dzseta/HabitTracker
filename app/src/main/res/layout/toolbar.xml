@@ -9,6 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:orientation="horizontal"
+        android:paddingBottom="5dp"
+        android:background="@color/medium_gray"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -19,7 +21,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/orange"
             android:orientation="vertical">
 
             <ImageView
@@ -27,7 +28,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@color/orange"
+                app:tint="?attr/colorPrimary"
+                android:background="@color/medium_gray"
                 android:src="@drawable/icon_checklist" />
 
             <TextView
@@ -36,7 +38,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="2"
                 android:textStyle="bold"
-                android:theme="@style/ReverseColors"
+                android:textColor="?attr/colorPrimary"
+                android:background="@color/medium_gray"
                 android:gravity="center"
                 android:text="@string/toolbar_today" />
         </LinearLayout>
@@ -47,7 +50,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/orange"
             android:orientation="vertical">
 
             <ImageView
@@ -55,7 +57,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@color/orange"
+                app:tint="?attr/colorPrimary"
+                android:background="@color/medium_gray"
                 android:src="@drawable/icon_calendar" />
 
             <TextView
@@ -64,7 +67,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="2"
                 android:textStyle="bold"
-                android:theme="@style/ReverseColors"
+                android:textColor="?attr/colorPrimary"
+                android:background="@color/medium_gray"
                 android:gravity="center"
                 android:text="@string/toolbar_calendar" />
         </LinearLayout>
@@ -75,7 +79,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/orange"
             android:orientation="vertical">
 
             <ImageView
@@ -83,7 +86,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@color/orange"
+                app:tint="?attr/colorPrimary"
+                android:background="@color/medium_gray"
                 android:src="@drawable/icon_goalflag" />
 
             <TextView
@@ -92,7 +96,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="2"
                 android:textStyle="bold"
-                android:theme="@style/ReverseColors"
+                android:textColor="?attr/colorPrimary"
+                android:background="@color/medium_gray"
                 android:gravity="center"
                 android:text="@string/toolbar_goals" />
         </LinearLayout>
@@ -102,7 +107,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/orange"
             android:onClick="openActivity"
             android:orientation="vertical">
 
@@ -111,7 +115,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@color/orange"
+                app:tint="?attr/colorPrimary"
+                android:background="@color/medium_gray"
                 android:src="@drawable/icon_barchart" />
 
             <TextView
@@ -120,7 +125,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="2"
                 android:textStyle="bold"
-                android:theme="@style/ReverseColors"
+                android:textColor="?attr/colorPrimary"
+                android:background="@color/medium_gray"
                 android:gravity="center"
                 android:text="@string/toolbar_stats" />
 

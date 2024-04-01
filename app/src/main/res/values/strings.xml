@@ -20,6 +20,14 @@
     <string name="toolbar_goals">GOALS</string>
     <string name="toolbar_stats">STATS</string>
 
+    <!-- Hamburger menu -->
+    <string name="hamburger_categories">CATEGORIES</string>
+    <string name="hamburger_habits">HABITS</string>
+    <string name="hamburger_options">SETTINGS</string>
+    <string name="hamburger_profile">PROFILE</string>
+    <string name="hamburger_backups">BACKUPS</string>
+    <string name="hamburger_rating">RATE THE APP</string>
+
     <!-- Rating -->
     <string name="title_rating">Rate the App</string>
     <string name="rating_opinion">Write down your opinions (not mandatory)</string>

@@ -1,6 +1,7 @@
 package com.example.habittracker.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,9 +26,9 @@ public class StatsActivity extends AppCompatActivity {
         hamburgerMenu = findViewById(R.id.hamburgerMenu);
         // toolbar
         statsIW = findViewById(R.id.statsImageView);
-        statsIW.setColorFilter(getResources().getColor(R.color.light_gray));
+        statsIW.setColorFilter(ContextCompat.getColor(this, R.color.light_gray));
         statsTW = findViewById(R.id.statsTextView);
-        statsTW.setTextColor(getResources().getColor(R.color.light_gray));
+        statsTW.setTextColor(ContextCompat.getColor(this, R.color.light_gray));
     }
 
     // open and close the hamburger menu

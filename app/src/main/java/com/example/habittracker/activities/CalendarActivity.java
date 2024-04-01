@@ -1,6 +1,7 @@
 package com.example.habittracker.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,9 +26,9 @@ public class CalendarActivity extends AppCompatActivity {
         hamburgerMenu = findViewById(R.id.hamburgerMenu);
         // toolbar
         calendarIW = findViewById(R.id.calendarImageView);
-        calendarIW.setColorFilter(getResources().getColor(R.color.light_gray));
+        calendarIW.setColorFilter(ContextCompat.getColor(this, R.color.light_gray));
         calendarTW = findViewById(R.id.calendarTextView);
-        calendarTW.setTextColor(getResources().getColor(R.color.light_gray));
+        calendarTW.setTextColor(ContextCompat.getColor(this, R.color.light_gray));
     }
 
     // open and close the hamburger menu

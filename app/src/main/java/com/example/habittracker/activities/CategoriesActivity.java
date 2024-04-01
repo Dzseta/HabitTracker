@@ -1,6 +1,7 @@
 package com.example.habittracker.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -9,6 +10,9 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.habittracker.R;
 import com.example.habittracker.adapters.CategoriesAdapter;
@@ -20,7 +24,9 @@ import java.util.ArrayList;
 public class CategoriesActivity extends AppCompatActivity {
 
     public View hamburgerMenu;
-    private Button createButton;
+    private ImageView categoriesIW;
+    private TextView categoriesTW;
+    private ImageButton createButton;
     private DatabaseHandler dbHandler;
     private CategoriesAdapter categoriesAdapter;
     private RecyclerView categoriesRecyclerView;
@@ -33,6 +39,10 @@ public class CategoriesActivity extends AppCompatActivity {
 
         // hamburger menu
         hamburgerMenu = findViewById(R.id.hamburgerMenu);
+        categoriesIW = findViewById(R.id.categoryImageView);
+        categoriesIW.setColorFilter(ContextCompat.getColor(this, R.color.light_gray));
+        categoriesTW = findViewById(R.id.categoriesTextView);
+        categoriesTW.setTextColor(ContextCompat.getColor(this, R.color.light_gray));
         // buttons
         createButton = findViewById(R.id.createButton);
         // database handler
@@ -49,7 +59,7 @@ public class CategoriesActivity extends AppCompatActivity {
         categoriesRecyclerView.setAdapter(categoriesAdapter);
 
         createButton.setOnClickListener(view -> {
-            CategoryModel test = new CategoryModel("icon_icecream", "test5", Integer.toString(Color.parseColor("#ff0000")));
+            CategoryModel test = new CategoryModel("icon_profile", "test15", Integer.toString(Color.parseColor("#DDA0DD")));
             CategoryModel prev = dbHandler.readCategoryByName(test.getName());
             if(prev == null) {
                 dbHandler.addCategory(test);

@@ -5,6 +5,7 @@ import static android.content.Context.MODE_PRIVATE;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
 import android.transition.AutoTransition;
 import android.transition.TransitionManager;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.core.widget.ImageViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.habittracker.R;
@@ -55,7 +57,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
         // setting data to recycler view item
         CategoryModel model = categoriesArrayList.get(position);
         holder.iconImageView.setImageResource(context.getResources().getIdentifier(model.getIcon(), "drawable", context.getPackageName()));
-        holder.iconImageView.setColorFilter(Integer.parseInt(model.getColor()), PorterDuff.Mode.SRC_IN);
+        holder.iconImageView.setBackgroundTintList(ColorStateList.valueOf(Integer.parseInt(model.getColor())));
         holder.nameTextView.setText(model.getName());
         holder.entriesTextView.setText(dbHandler.readAllHabitsInCategory(model.getName()).size() + " entries");
     }

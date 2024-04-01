@@ -4,12 +4,15 @@ import static java.lang.Float.parseFloat;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RatingBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.habittracker.R;
@@ -31,6 +34,8 @@ import java.io.Console;
 public class RatingActivity extends AppCompatActivity {
 
     public View hamburgerMenu;
+    private ImageView ratingIW;
+    private TextView ratingTW;
     RatingBar ratingbar;
     EditText opinionText;
     RatingModel rating;
@@ -44,6 +49,11 @@ public class RatingActivity extends AppCompatActivity {
 
         // hamburger menu
         hamburgerMenu = findViewById(R.id.hamburgerMenu);
+        ratingIW= findViewById(R.id.ratingImageView);
+        ratingIW.setColorFilter(ContextCompat.getColor(this, R.color.light_gray));
+        ratingTW = findViewById(R.id.ratingTextView);
+        ratingTW.setTextColor(ContextCompat.getColor(this, R.color.light_gray));
+
         // rating bar
         ratingbar = (RatingBar)findViewById(R.id.ratingBar);
         // edittext

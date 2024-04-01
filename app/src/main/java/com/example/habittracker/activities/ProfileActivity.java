@@ -1,10 +1,13 @@
 package com.example.habittracker.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.habittracker.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -12,6 +15,8 @@ import com.google.firebase.auth.FirebaseAuth;
 public class ProfileActivity extends AppCompatActivity {
 
     public View hamburgerMenu;
+    private ImageView profileIW;
+    private TextView profileTW;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +25,10 @@ public class ProfileActivity extends AppCompatActivity {
 
         // hamburger menu
         hamburgerMenu = findViewById(R.id.hamburgerMenu);
+        profileIW= findViewById(R.id.profileImageView);
+        profileIW.setColorFilter(ContextCompat.getColor(this, R.color.light_gray));
+        profileTW = findViewById(R.id.profileTextView);
+        profileTW.setTextColor(ContextCompat.getColor(this, R.color.light_gray));
     }
 
     // ############################## ONCLICKS ########################################

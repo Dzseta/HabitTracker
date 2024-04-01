@@ -1,6 +1,7 @@
 package com.example.habittracker.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -8,6 +9,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextClock;
@@ -21,6 +23,8 @@ import java.util.Calendar;
 public class SettingsActivity extends AppCompatActivity {
 
     public View hamburgerMenu;
+    private ImageView settingsIW;
+    private TextView settingsTW;
     private LinearLayout reminderTimeLinearLayout;
     private TextView timeTextView;
     private Switch reminderSwitch;
@@ -43,6 +47,10 @@ public class SettingsActivity extends AppCompatActivity {
         timeTextView = findViewById(R.id.timeTextView);
         // hamburger menu
         hamburgerMenu = findViewById(R.id.hamburgerMenu);
+        settingsIW= findViewById(R.id.settingsImageView);
+        settingsIW.setColorFilter(ContextCompat.getColor(this, R.color.light_gray));
+        settingsTW = findViewById(R.id.settingsTextView);
+        settingsTW.setTextColor(ContextCompat.getColor(this, R.color.light_gray));
         // reminder time selector
         reminderTimeLinearLayout = findViewById(R.id.reminderTimeLinearLayout);
         // reminder switch

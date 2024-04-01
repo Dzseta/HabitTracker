@@ -1,16 +1,21 @@
 package com.example.habittracker.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.habittracker.R;
 
 public class BackupActivity extends AppCompatActivity {
 
     public View hamburgerMenu;
+    private ImageView backupIW;
+    private TextView backupTW;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +24,10 @@ public class BackupActivity extends AppCompatActivity {
 
         // hamburger menu
         hamburgerMenu = findViewById(R.id.hamburgerMenu);
+        backupIW= findViewById(R.id.backupImageView);
+        backupIW.setColorFilter(ContextCompat.getColor(this, R.color.light_gray));
+        backupTW = findViewById(R.id.backupTextView);
+        backupTW.setTextColor(ContextCompat.getColor(this, R.color.light_gray));
     }
 
     // open and close the hamburger menu

@@ -5,6 +5,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.habittracker.R;
 import com.example.habittracker.adapters.CategoriesAdapter;
@@ -14,6 +16,7 @@ import com.example.habittracker.models.CategoryModel;
 import com.example.habittracker.models.HabitModel;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,6 +26,8 @@ import java.util.ArrayList;
 public class HabitsActivity extends AppCompatActivity {
 
     public View hamburgerMenu;
+    private ImageView habitsIW;
+    private TextView habitsTW;
     private Button createButton;
     private DatabaseHandler dbHandler;
     private HabitsAdapter habitsAdapter;
@@ -37,6 +42,10 @@ public class HabitsActivity extends AppCompatActivity {
 
         // hamburger menu
         hamburgerMenu = findViewById(R.id.hamburgerMenu);
+        habitsIW= findViewById(R.id.habitsImageView);
+        habitsIW.setColorFilter(ContextCompat.getColor(this, R.color.light_gray));
+        habitsTW = findViewById(R.id.habitsTextView);
+        habitsTW.setTextColor(ContextCompat.getColor(this, R.color.light_gray));
         // buttons
         createButton = findViewById(R.id.createButton);
         // database handler
