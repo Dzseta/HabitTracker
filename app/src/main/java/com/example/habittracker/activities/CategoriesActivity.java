@@ -69,7 +69,7 @@ public class CategoriesActivity extends AppCompatActivity {
         });
     }
 
-    // ############################### ONCLICKS ######################################x
+    // ############################### ONCLICKS ######################################
     // open and close the hamburger menu
     public void openCloseHamburgerMenu(View view) {
         if (hamburgerMenu.getVisibility() == View.VISIBLE) {

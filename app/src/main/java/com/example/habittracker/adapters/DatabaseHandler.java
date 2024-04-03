@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.habittracker.models.CategoryModel;
+import com.example.habittracker.models.GoalModel;
 import com.example.habittracker.models.HabitModel;
 import com.example.habittracker.models.RatingModel;
 
@@ -150,7 +151,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         // create cursor
         Cursor cursorCourses = db.rawQuery("SELECT * FROM " + CATEGORY_TABLE_NAME + " WHERE name=?", new String[]{name});
-        // create order
+        // create category
         CategoryModel cat = null;
 
         // move cursor to first position
@@ -188,6 +189,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         // get database
         SQLiteDatabase db = this.getWritableDatabase();
 
+        // remove category from habits
+        ArrayList<HabitModel> habitModelArrayList = readAllHabitsInCategory(name);
+        for(int i=0; i<habitModelArrayList.size(); i++) {
+            habitModelArrayList.get(i).setCategoryName("");
+            updateHabit(habitModelArrayList.get(i), habitModelArrayList.get(i).getName());
+        }
+
         // delete customer and close database
         db.delete(CATEGORY_TABLE_NAME, "name=?", new String[]{name});
         db.close();
@@ -222,7 +230,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    // update category
+    // update habit
     public void updateHabit(HabitModel habit, String origName) {
         // get database
         SQLiteDatabase db = this.getWritableDatabase();
@@ -254,11 +262,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         // create cursor
         Cursor cursorCourses = db.rawQuery("SELECT * FROM " + HABIT_TABLE_NAME + " WHERE name=?", new String[]{name});
-        // create order
+        // create habit
         HabitModel habit = null;
 
-            // move cursor to first position
-            if (cursorCourses.moveToFirst()) {
+        // move cursor to first position
+        if (cursorCourses.moveToFirst()) {
             habit = new HabitModel(cursorCourses.getString(1), cursorCourses.getString(2), cursorCourses.getString(3), cursorCourses.getString(4), cursorCourses.getString(5), cursorCourses.getString(6), cursorCourses.getInt(7), cursorCourses.getString(8), cursorCourses.getString(9), cursorCourses.getInt(10), cursorCourses.getInt(11) > 0, cursorCourses.getInt(12), cursorCourses.getInt(13));
         }
         // closing cursor
@@ -308,13 +316,100 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return habitModelArrayList;
     }
 
-    // delete rating
+    // delete habit
     public void deleteHabit(String name) {
         // get database
         SQLiteDatabase db = this.getWritableDatabase();
 
+        // delete goal
+        deleteGoal(name);
+
         // delete customer and close database
         db.delete(HABIT_TABLE_NAME, "name=?", new String[]{name});
+        db.close();
+    }
+
+    // ############################################### GOALS ###########################################################
+    // add new goal
+    public void addGoal(GoalModel goal) {
+        // writing data in the database
+        SQLiteDatabase db = this.getWritableDatabase();
+        // variable for content values
+        ContentValues values = new ContentValues();
+
+        // passing all values
+        values.put(NAME_COL, goal.getHabit());
+        values.put(NEEDED_COL, goal.getNeeded());
+        values.put(SUCCESSES_COL, goal.getSuccesses());
+
+        // passing content values
+        db.insert(GOAL_TABLE_NAME, null, values);
+        // closing the database
+        db.close();
+    }
+
+    // update goal
+    public void updateGoal(GoalModel goal) {
+        // get database
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        // passing all values
+        values.put(NAME_COL, goal.getHabit());
+        values.put(NEEDED_COL, goal.getNeeded());
+        values.put(SUCCESSES_COL, goal.getSuccesses());
+
+        // update and close database
+        db.update(GOAL_TABLE_NAME, values, "name=?", new String[]{String.valueOf(goal.getHabit())});
+        db.close();
+    }
+
+    // read a goal
+    public GoalModel readGoalByHabit(String habit) {
+        // create database
+        SQLiteDatabase db = this.getReadableDatabase();
+        // create cursor
+        Cursor cursorCourses = db.rawQuery("SELECT * FROM " + GOAL_TABLE_NAME + " WHERE name=?", new String[]{habit});
+        // create goal
+        GoalModel goal = null;
+
+        // move cursor to first position
+        if (cursorCourses.moveToFirst()) {
+            goal = new GoalModel(cursorCourses.getString(1), cursorCourses.getInt(2), cursorCourses.getInt(3));
+        }
+        // closing cursor
+        cursorCourses.close();
+        return goal;
+    }
+
+    // read all goals
+    public ArrayList<GoalModel> readAllGoals() {
+        // create database
+        SQLiteDatabase db = this.getReadableDatabase();
+        // create cursor
+        Cursor cursorCourses = db.rawQuery("SELECT * FROM " + GOAL_TABLE_NAME, null);
+        // create array list
+        ArrayList<GoalModel> goalModelArrayList = new ArrayList<>();
+
+        // move cursor to first position
+        if (cursorCourses.moveToFirst()) {
+            do {
+                // add data to the arraylist
+                goalModelArrayList.add(new GoalModel(cursorCourses.getString(1), cursorCourses.getInt(2), cursorCourses.getInt(3)));
+            } while (cursorCourses.moveToNext());
+        }
+        // closing cursor
+        cursorCourses.close();
+        return goalModelArrayList;
+    }
+
+    // delete goal
+    public void deleteGoal(String name) {
+        // get database
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // delete customer and close database
+        db.delete(GOAL_TABLE_NAME, "name=?", new String[]{name});
         db.close();
     }
 

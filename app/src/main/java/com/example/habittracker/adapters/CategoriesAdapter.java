@@ -64,7 +64,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
 
     @Override
     public int getItemCount() {
-        // number of orders
+        // number of categories
         return categoriesArrayList.size();
     }
 

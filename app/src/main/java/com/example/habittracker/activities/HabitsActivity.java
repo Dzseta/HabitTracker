@@ -9,10 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.habittracker.R;
-import com.example.habittracker.adapters.CategoriesAdapter;
 import com.example.habittracker.adapters.DatabaseHandler;
 import com.example.habittracker.adapters.HabitsAdapter;
-import com.example.habittracker.models.CategoryModel;
 import com.example.habittracker.models.HabitModel;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,7 +26,7 @@ public class HabitsActivity extends AppCompatActivity {
     public View hamburgerMenu;
     private ImageView habitsIW;
     private TextView habitsTW;
-    private Button createButton;
+    private ImageView createButton;
     private DatabaseHandler dbHandler;
     private HabitsAdapter habitsAdapter;
     private RecyclerView habitsRecyclerView;
@@ -62,7 +60,7 @@ public class HabitsActivity extends AppCompatActivity {
         habitsRecyclerView.setAdapter(habitsAdapter);
 
         createButton.setOnClickListener(view -> {
-            HabitModel test = new HabitModel("test5", "example", "Example habit", "yesno", "no", "weekly", 3, "2024-3-29", null, 4, false, 0, 0);
+            HabitModel test = new HabitModel("test8", "example3", "Example desc", "yesno", "no", "weekly", 3, "2024-4-03", null, 4, false, 0, 0);
             HabitModel prev = dbHandler.readHabitByName(test.getName());
             if(prev == null) {
                 dbHandler.addHabit(test);

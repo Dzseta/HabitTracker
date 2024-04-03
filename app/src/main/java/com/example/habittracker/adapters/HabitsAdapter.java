@@ -1,14 +1,20 @@
 package com.example.habittracker.adapters;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.habittracker.R;
+import com.example.habittracker.models.CategoryModel;
 import com.example.habittracker.models.HabitModel;
 
 import java.util.ArrayList;
@@ -38,21 +44,38 @@ public class HabitsAdapter extends RecyclerView.Adapter<HabitsAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull HabitsAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         // setting data to recycler view item
-
+        HabitModel model = habitsArrayList.get(position);
+        CategoryModel cat = dbHandler.readCategoryByName(model.getCategoryName());
+        if(cat == null) cat = new CategoryModel("icon_categories", "No category", Integer.toString(Color.parseColor("#ffffff")));
+        holder.iconImageView.setImageResource(context.getResources().getIdentifier(cat.getIcon(), "drawable", context.getPackageName()));
+        holder.iconImageView.setBackgroundTintList(ColorStateList.valueOf(Integer.parseInt(cat.getColor())));
+        holder.nameTextView.setText(model.getName());
+        holder.descriptionTextView.setText(model.getDescription());
     }
 
     @Override
     public int getItemCount() {
-        // number of orders
+        // number of habits
         return habitsArrayList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        // TextViews
+        private TextView nameTextView;
+        private TextView descriptionTextView;
+        // Cardview
+        private CardView habitCardView;
+        // ImageView
+        private ImageView iconImageView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            nameTextView = itemView.findViewById(R.id.nameTextView);
+            descriptionTextView = itemView.findViewById(R.id.descriptionTextView);
+            iconImageView = itemView.findViewById(R.id.iconImageView);
+            habitCardView = itemView.findViewById(R.id.habitCardView);
         }
     }
 }

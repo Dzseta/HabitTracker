@@ -7,6 +7,7 @@
     tools:context=".activities.GoalsActivity">
 
     <LinearLayout
+        android:id="@+id/topbarLinearLayout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:orientation="horizontal"
@@ -33,6 +34,25 @@
             android:textSize="30sp" />
     </LinearLayout>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/goalsRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="130dp"
+        app:layout_constraintTop_toBottomOf="@+id/topbarLinearLayout" />
+
+    <ImageButton
+        android:id="@+id/createButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/entry_background"
+        android:scaleType="fitCenter"
+        android:src="@drawable/icon_add"
+        app:layout_constraintBottom_toTopOf="@+id/include3"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <include
         layout="@layout/hamburger_menu"
         android:layout_width="wrap_content"
@@ -42,6 +62,7 @@
         app:layout_constraintTop_toTopOf="@+id/linearLayout2" />
 
     <include
+        android:id="@+id/include3"
         layout="@layout/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

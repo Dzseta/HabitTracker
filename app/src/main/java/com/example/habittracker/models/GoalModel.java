@@ -3,21 +3,21 @@ package com.example.habittracker.models;
 public class GoalModel {
 
     // variables
-    private HabitModel habit;
+    private String habit;
     private int needed;
     private int successes;
 
-    public GoalModel(HabitModel habit, int needed, int successes) {
+    public GoalModel(String habit, int needed, int successes) {
         this.habit = habit;
         this.needed = needed;
         this.successes = successes;
     }
 
-    public HabitModel getHabit() {
+    public String getHabit() {
         return habit;
     }
 
-    public void setHabit(HabitModel habit) {
+    public void setHabit(String habit) {
         this.habit = habit;
     }
 
