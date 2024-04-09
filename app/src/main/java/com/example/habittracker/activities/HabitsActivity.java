@@ -60,7 +60,7 @@ public class HabitsActivity extends AppCompatActivity {
         habitsRecyclerView.setAdapter(habitsAdapter);
 
         createButton.setOnClickListener(view -> {
-            HabitModel test = new HabitModel("test8", "example3", "Example desc", "yesno", "no", "weekly", 3, "2024-4-03", null, 4, false, 0, 0);
+            HabitModel test = new HabitModel("testCat2", "exampleHab2", "Example desc 2", "yesno", "no", "weekly", 3, "2024-04-03", "2099-01-01", 2, false, 0, 0);
             HabitModel prev = dbHandler.readHabitByName(test.getName());
             if(prev == null) {
                 dbHandler.addHabit(test);

@@ -3,7 +3,10 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="orange">#FFC107</color>
+    <color name="yellow">#ECCA66</color>
     <color name="dark_gray">#191919</color>
-    <color name="medium_gray">#272727</color>
+    <color name="medium_gray">#303030</color>
     <color name="light_gray">#DDDDDD</color>
+    <color name="green">#4CAF50</color>
+    <color name="red">#FF2919</color>
 </resources>

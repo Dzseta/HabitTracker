@@ -24,4 +24,8 @@
     <string name="toolbar_goals">CÉLOK</string>
     <string name="toolbar_stats">ELEMZÉS</string>
     <string name="hamburger_rating">APP ÉRTÉKELÉSE</string>
+    <string name="category_name">Név</string>
+    <string name="category_icon">Ikon</string>
+    <string name="category_color">Szín</string>
+    <string name="button_create">Létrehozás</string>
 </resources>

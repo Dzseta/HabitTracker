@@ -2,6 +2,7 @@ package com.example.habittracker.adapters;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -24,6 +26,7 @@ import androidx.core.widget.ImageViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.habittracker.R;
+import com.example.habittracker.activities.CategoriesActivity;
 import com.example.habittracker.models.CategoryModel;
 
 import java.util.ArrayList;
@@ -52,6 +55,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
         return new ViewHolder(view);
     }
 
+    @SuppressLint("RecyclerView")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         // setting data to recycler view item
@@ -60,6 +64,17 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
         holder.iconImageView.setBackgroundTintList(ColorStateList.valueOf(Integer.parseInt(model.getColor())));
         holder.nameTextView.setText(model.getName());
         holder.entriesTextView.setText(dbHandler.readAllHabitsInCategory(model.getName()).size() + " entries");
+        holder.editButton.setOnClickListener(v -> {
+            Toast.makeText(v.getContext(), "EDIT CLICKED", Toast.LENGTH_SHORT).show();
+            if (context instanceof CategoriesActivity) {
+                ((CategoriesActivity)context).showBottomSheet(v);
+            }
+        });
+        holder.deleteButton.setOnClickListener(v -> {
+            dbHandler.deleteCategory(model.getName());
+            categoriesArrayList.remove(position);
+            notifyDataSetChanged();
+        });
     }
 
     @Override
@@ -76,6 +91,9 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
         private CardView categoryCardView;
         // ImageView
         private ImageView iconImageView;
+        // ImageButtons
+        private ImageButton editButton;
+        private ImageButton deleteButton;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -83,6 +101,8 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
             entriesTextView = itemView.findViewById(R.id.entriesTextView);
             iconImageView = itemView.findViewById(R.id.iconImageView);
             categoryCardView = itemView.findViewById(R.id.categoryCardView);
+            editButton = itemView.findViewById(R.id.editButton);
+            deleteButton = itemView.findViewById(R.id.deleteButton);
         }
     }
 }

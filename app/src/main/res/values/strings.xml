@@ -13,6 +13,7 @@
     <string name="button_delete">Delete</string>
     <string name="button_signin">Sign in</string>
     <string name="button_logout">Log out</string>
+    <string name="button_create">Create</string>
 
     <!-- Toolbar -->
     <string name="toolbar_today">TODAY</string>
@@ -40,4 +41,9 @@
     <!-- Profile -->
     <string name="title_profile">Profile</string>
     <string name="profile_logout">Logout</string>
+
+    <!-- New Category -->
+    <string name="category_name">Name</string>
+    <string name="category_icon">Icon</string>
+    <string name="category_color">Color</string>
 </resources>

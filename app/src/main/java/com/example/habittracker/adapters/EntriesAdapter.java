@@ -6,8 +6,8 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,22 +16,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.habittracker.R;
 import com.example.habittracker.models.CategoryModel;
-import com.example.habittracker.models.GoalModel;
+import com.example.habittracker.models.EntryModel;
 import com.example.habittracker.models.HabitModel;
 
 import java.util.ArrayList;
 
-public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> {
+public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHolder> {
 
     // variables
-    private ArrayList<GoalModel> goalsArrayList;
+    private ArrayList<EntryModel> entriesArrayList;
     private Context context;
     // databasehandler
     private DatabaseHandler dbHandler;
 
     // constructor
-    public GoalsAdapter(ArrayList<GoalModel> goalsArrayList, Context context) {
-        this.goalsArrayList = goalsArrayList;
+    public EntriesAdapter(ArrayList<EntryModel> entriesArrayList, Context context) {
+        this.entriesArrayList = entriesArrayList;
         this.context = context;
         // databasehandler
         dbHandler = new DatabaseHandler(context);
@@ -41,50 +41,47 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // inflating layoutfile for recycler view items
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.goal_card, parent, false);
-        return new ViewHolder(view);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.entry_card, parent, false);
+        return new EntriesAdapter.ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         // setting data to recycler view item
-        GoalModel model = goalsArrayList.get(position);
+        EntryModel model = entriesArrayList.get(position);
         HabitModel habit = dbHandler.readHabitByName(model.getHabit());
-        CategoryModel cat = null;
-        if(habit == null) cat = dbHandler.readCategoryByName("");
-        else cat = dbHandler.readCategoryByName(habit.getCategoryName());
+        CategoryModel cat = dbHandler.readCategoryByName(habit.getCategoryName());
         if(cat == null) cat = new CategoryModel("icon_categories", "No category", Integer.toString(Color.parseColor("#ffffff")));
         holder.iconImageView.setImageResource(context.getResources().getIdentifier(cat.getIcon(), "drawable", context.getPackageName()));
         holder.iconImageView.setBackgroundTintList(ColorStateList.valueOf(Integer.parseInt(cat.getColor())));
         holder.nameTextView.setText(model.getHabit());
-        holder.streakTextView.setText(model.getSuccesses() + " / " + model.getNeeded());
-        holder.progressBar.setProgress((int) Math.floor(1.0 * model.getSuccesses() / model.getNeeded() * 100));
+        holder.descriptionTextView.setText(habit.getDescription());
     }
 
     @Override
     public int getItemCount() {
-        // number of goals
-        return goalsArrayList.size();
+        // number of habits
+        return entriesArrayList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         // TextViews
         private TextView nameTextView;
-        private TextView streakTextView;
+        private TextView descriptionTextView;
         // Cardview
-        private CardView goalCardView;
+        private CardView entryCardView;
         // ImageView
         private ImageView iconImageView;
-        // progressBar
-        private ProgressBar progressBar;
+        // Checkbox
+        private CheckBox checkBox;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             nameTextView = itemView.findViewById(R.id.nameTextView);
-            streakTextView = itemView.findViewById(R.id.streakTextView);
+            descriptionTextView = itemView.findViewById(R.id.descriptionTextView);
             iconImageView = itemView.findViewById(R.id.iconImageView);
-            goalCardView = itemView.findViewById(R.id.goalCardView);
-            progressBar = itemView.findViewById(R.id.progressBar);
+            entryCardView = itemView.findViewById(R.id.entryCardView);
+            checkBox = itemView.findViewById(R.id.checkBox);
         }
     }
 }

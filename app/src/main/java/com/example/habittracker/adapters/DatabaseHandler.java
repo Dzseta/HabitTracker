@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.habittracker.models.CategoryModel;
+import com.example.habittracker.models.EntryModel;
 import com.example.habittracker.models.GoalModel;
 import com.example.habittracker.models.HabitModel;
 import com.example.habittracker.models.RatingModel;
@@ -21,7 +22,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     // database name
     private static final String DB_NAME = "habitsdb";
     // database version
-    private static final int DB_VERSION = 3;
+    private static final int DB_VERSION = 10;
     // id column
     private static final String ID_COL = "id";
     // name column
@@ -67,6 +68,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String NEEDED_COL = "needed";
     // successes column
     private static final String SUCCESSES_COL = "successes";
+    // entry table
+    // table name
+    private static final String ENTRY_TABLE_NAME = "entries";
+    // date column
+    private static final String DATE_COL = "date";
+    // data column
+    private static final String DATA_COL = "data";
 
     // constructor for database handler
     public DatabaseHandler(Context context) {
@@ -104,10 +112,17 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + NAME_COL + " TEXT UNIQUE,"
                 + NEEDED_COL + " TEXT,"
                 + SUCCESSES_COL + " TEXT)";
+        // create entries table
+        String queryEntries = "CREATE TABLE " + ENTRY_TABLE_NAME + " ("
+                + ID_COL + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + NAME_COL + " TEXT,"
+                + DATE_COL + " TEXT,"
+                + DATA_COL + " TEXT)";
         // execute sql query
         db.execSQL(queryCategories);
         db.execSQL(queryHabits);
         db.execSQL(queryGoals);
+        db.execSQL(queryEntries);
     }
 
     // ############################################### CATEGORIES ###########################################################
@@ -413,6 +428,132 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.close();
     }
 
+    // ############################################### ENTRIES ###########################################################
+    // add new entry
+    public void addEntry(EntryModel entry) {
+        // writing data in the database
+        SQLiteDatabase db = this.getWritableDatabase();
+        // variable for content values
+        ContentValues values = new ContentValues();
+
+        // passing all values
+        values.put(NAME_COL, entry.getHabit());
+        values.put(DATE_COL, entry.getDate());
+        values.put(DATA_COL, entry.getData());
+
+        // passing content values
+        db.insert(ENTRY_TABLE_NAME, null, values);
+        // closing the database
+        db.close();
+    }
+
+    // update entry
+    public void updateEntry(EntryModel entry) {
+        // get database
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        // passing all values
+        values.put(NAME_COL, entry.getHabit());
+        values.put(DATE_COL, entry.getDate());
+        values.put(DATA_COL, entry.getData());
+
+        // update and close database
+        db.update(ENTRY_TABLE_NAME, values, "name=? and date=?", new String[]{entry.getHabit(), entry.getDate()});
+        db.close();
+    }
+
+    // read an entry by habit and date
+    public EntryModel readEntryByHabitAndDate(String habit, String date) {
+        // create database
+        SQLiteDatabase db = this.getReadableDatabase();
+        // create cursor
+        Cursor cursorCourses = db.rawQuery("SELECT * FROM " + ENTRY_TABLE_NAME + " WHERE name=? and date=?", new String[]{habit, date});
+        // create entry
+        EntryModel entry = null;
+
+        // move cursor to first position
+        if (cursorCourses.moveToFirst()) {
+            entry = new EntryModel(cursorCourses.getString(1), cursorCourses.getString(2), cursorCourses.getString(3));
+        }
+        // closing cursor
+        cursorCourses.close();
+        return entry;
+    }
+
+    // read all entries
+    public ArrayList<EntryModel> readAllEntries() {
+        // create database
+        SQLiteDatabase db = this.getReadableDatabase();
+        // create cursor
+        Cursor cursorCourses = db.rawQuery("SELECT * FROM " + ENTRY_TABLE_NAME, null);
+        // create array list
+        ArrayList<EntryModel> entryModelArrayList = new ArrayList<>();
+
+        // move cursor to first position
+        if (cursorCourses.moveToFirst()) {
+            do {
+                // add data to the arraylist
+                entryModelArrayList.add(new EntryModel(cursorCourses.getString(1), cursorCourses.getString(2), cursorCourses.getString(3)));
+            } while (cursorCourses.moveToNext());
+        }
+        // closing cursor
+        cursorCourses.close();
+        return entryModelArrayList;
+    }
+
+    // read all entries by habit
+    public ArrayList<EntryModel> readAllEntriesByHabit(String name) {
+        // create database
+        SQLiteDatabase db = this.getReadableDatabase();
+        // create cursor
+        Cursor cursorCourses = db.rawQuery("SELECT * FROM " + ENTRY_TABLE_NAME + " WHERE name=?", new String[]{name});
+        // create array list
+        ArrayList<EntryModel> entryModelArrayList = new ArrayList<>();
+
+        // move cursor to first position
+        if (cursorCourses.moveToFirst()) {
+            do {
+                // add data to the arraylist
+                entryModelArrayList.add(new EntryModel(cursorCourses.getString(1), cursorCourses.getString(2), cursorCourses.getString(3)));
+            } while (cursorCourses.moveToNext());
+        }
+        // closing cursor
+        cursorCourses.close();
+        return entryModelArrayList;
+    }
+
+    // read all entries by date
+    public ArrayList<EntryModel> readAllEntriesByDate(String date) {
+        // create database
+        SQLiteDatabase db = this.getReadableDatabase();
+        // create cursor
+        Cursor cursorCourses = db.rawQuery("SELECT * FROM " + ENTRY_TABLE_NAME + " WHERE date=?", new String[]{date});
+        // create array list
+        ArrayList<EntryModel> entryModelArrayList = new ArrayList<>();
+
+        // move cursor to first position
+        if (cursorCourses.moveToFirst()) {
+            do {
+                // add data to the arraylist
+                entryModelArrayList.add(new EntryModel(cursorCourses.getString(1), cursorCourses.getString(2), cursorCourses.getString(3)));
+            } while (cursorCourses.moveToNext());
+        }
+        // closing cursor
+        cursorCourses.close();
+        return entryModelArrayList;
+    }
+
+    // delete goal
+    public void deleteEntry(String name, String date) {
+        // get database
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // delete customer and close database
+        db.delete(GOAL_TABLE_NAME, "name=? and date=?", new String[]{name, date});
+        db.close();
+    }
+
     // ############################################### ONUPGRADE ###########################################################
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -420,6 +561,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + CATEGORY_TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + HABIT_TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + GOAL_TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + ENTRY_TABLE_NAME);
         onCreate(db);
     }
 }

@@ -2,6 +2,7 @@ package com.example.habittracker.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,11 +18,13 @@ import android.widget.TextView;
 import com.example.habittracker.R;
 import com.example.habittracker.adapters.CategoriesAdapter;
 import com.example.habittracker.adapters.DatabaseHandler;
+import com.example.habittracker.fragments.NewCategoryFragment;
 import com.example.habittracker.models.CategoryModel;
+import com.example.habittracker.models.HabitModel;
 
 import java.util.ArrayList;
 
-public class CategoriesActivity extends AppCompatActivity {
+public class CategoriesActivity extends AppCompatActivity implements NewCategoryFragment.ItemClickListener {
 
     public View hamburgerMenu;
     private ImageView categoriesIW;
@@ -57,19 +60,44 @@ public class CategoriesActivity extends AppCompatActivity {
         categoriesRecyclerView.setLayoutManager(linearLayoutManager);
         // setting adapter to recycler view
         categoriesRecyclerView.setAdapter(categoriesAdapter);
-
+        // create button onClickListener
         createButton.setOnClickListener(view -> {
-            CategoryModel test = new CategoryModel("icon_profile", "test15", Integer.toString(Color.parseColor("#DDA0DD")));
-            CategoryModel prev = dbHandler.readCategoryByName(test.getName());
-            if(prev == null) {
-                dbHandler.addCategory(test);
-                categoriesArrayList.add(test);
-                categoriesAdapter.notifyDataSetChanged();
-            }
+            // open new category sheet
+            NewCategoryFragment newCategoryFragment = NewCategoryFragment.newInstance();
+            newCategoryFragment.show(getSupportFragmentManager(), NewCategoryFragment.TAG);
         });
     }
 
     // ############################### ONCLICKS ######################################
+    // show the new category fragment
+    public void showBottomSheet(View view) {
+        NewCategoryFragment addPhotoBottomDialogFragment = NewCategoryFragment.newInstance();
+        addPhotoBottomDialogFragment.show(getSupportFragmentManager(), NewCategoryFragment.TAG);
+    }
+
+    // choose icon
+    @Override
+    public String onChooseIcon() {
+        return "";
+    }
+
+    // choose color
+    @Override
+    public String onChooseColor() {
+        return "";
+    }
+
+    // create the new category
+    @Override
+    public void onCreateCategory(CategoryModel cat) {
+        CategoryModel prev = dbHandler.readCategoryByName(cat.getName());
+        if(prev == null) {
+            dbHandler.addCategory(cat);
+            categoriesArrayList.add(cat);
+            categoriesAdapter.notifyDataSetChanged();
+        }
+    }
+
     // open and close the hamburger menu
     public void openCloseHamburgerMenu(View view) {
         if (hamburgerMenu.getVisibility() == View.VISIBLE) {

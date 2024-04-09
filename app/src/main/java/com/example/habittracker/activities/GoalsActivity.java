@@ -61,7 +61,7 @@ public class GoalsActivity extends AppCompatActivity {
         goalsRecyclerView.setAdapter(goalsAdapter);
 
         createButton.setOnClickListener(view -> {
-            GoalModel test = new GoalModel("example2", 7, 2);
+            GoalModel test = new GoalModel("exampleHab2", 30, 5);
             GoalModel prev = dbHandler.readGoalByHabit(test.getHabit());
             if(prev == null) {
                 dbHandler.addGoal(test);
