@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -36,6 +37,7 @@ public class RatingActivity extends AppCompatActivity {
     public View hamburgerMenu;
     private ImageView ratingIW;
     private TextView ratingTW;
+    Button sendButton;
     RatingBar ratingbar;
     EditText opinionText;
     RatingModel rating;
@@ -60,6 +62,8 @@ public class RatingActivity extends AppCompatActivity {
         opinionText = findViewById(R.id.opinionMultiLine);
         // rating
         rating = null;
+        // send button
+        sendButton = findViewById(R.id.sendRatingButton);
 
         // get previous rating
         db.collection("ratings")
@@ -74,7 +78,7 @@ public class RatingActivity extends AppCompatActivity {
                                 docref = document.getReference();
                                 ratingbar.setRating(rating.getStars());
                                 opinionText.setText(rating.getOpinion());
-                                System.out.println(task.getResult().size());
+                                sendButton.setClickable(true);
                             }
                         } else {
                             Toast.makeText(RatingActivity.this, "Nem sikerült elérni a szervert", Toast.LENGTH_LONG).show();
