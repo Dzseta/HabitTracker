@@ -14,6 +14,7 @@
     <string name="button_signin">Sign in</string>
     <string name="button_logout">Log out</string>
     <string name="button_create">Create</string>
+    <string name="button_ok" translatable="false">OK</string>
 
     <!-- Toolbar -->
     <string name="toolbar_today">TODAY</string>
@@ -42,8 +43,15 @@
     <string name="title_profile">Profile</string>
     <string name="profile_logout">Logout</string>
 
-    <!-- New Category -->
+    <!-- Categories -->
     <string name="category_name">Name</string>
     <string name="category_icon">Icon</string>
     <string name="category_color">Color</string>
+    <string name="category_delete_dialog">Are you sure?</string>
+
+    <!-- Goals -->
+    <string name="goal_habit">Habit</string>
+    <string name="goal_days">Days</string>
+    <string name="goal_days_in_row">Days in a row</string>
+
 </resources>

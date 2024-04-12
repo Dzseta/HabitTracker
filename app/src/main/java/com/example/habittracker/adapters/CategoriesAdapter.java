@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.transition.AutoTransition;
 import android.transition.TransitionManager;
@@ -21,12 +22,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.widget.ImageViewCompat;
+import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.habittracker.R;
 import com.example.habittracker.activities.CategoriesActivity;
+import com.example.habittracker.dialogs.CategoryDeleteDialog;
 import com.example.habittracker.models.CategoryModel;
 
 import java.util.ArrayList;
@@ -61,16 +65,17 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
         // setting data to recycler view item
         CategoryModel model = categoriesArrayList.get(position);
         holder.iconImageView.setImageResource(context.getResources().getIdentifier(model.getIcon(), "drawable", context.getPackageName()));
-        holder.iconImageView.setBackgroundTintList(ColorStateList.valueOf(Integer.parseInt(model.getColor())));
+        holder.iconImageView.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(model.getColor())));
         holder.nameTextView.setText(model.getName());
         holder.entriesTextView.setText(dbHandler.readAllHabitsInCategory(model.getName()).size() + " entries");
         holder.editButton.setOnClickListener(v -> {
-            Toast.makeText(v.getContext(), "EDIT CLICKED", Toast.LENGTH_SHORT).show();
             if (context instanceof CategoriesActivity) {
                 ((CategoriesActivity)context).showBottomSheet(v);
             }
         });
         holder.deleteButton.setOnClickListener(v -> {
+            //DialogFragment deleteDialog = new CategoryDeleteDialog();
+            //deleteDialog.show(((AppCompatActivity)context).getSupportFragmentManager(), "catDeleteDialog");
             dbHandler.deleteCategory(model.getName());
             categoriesArrayList.remove(position);
             notifyDataSetChanged();

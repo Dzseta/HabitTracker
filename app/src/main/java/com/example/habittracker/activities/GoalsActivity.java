@@ -17,12 +17,14 @@ import com.example.habittracker.R;
 import com.example.habittracker.adapters.CategoriesAdapter;
 import com.example.habittracker.adapters.DatabaseHandler;
 import com.example.habittracker.adapters.GoalsAdapter;
+import com.example.habittracker.fragments.NewCategoryFragment;
+import com.example.habittracker.fragments.NewGoalFragment;
 import com.example.habittracker.models.CategoryModel;
 import com.example.habittracker.models.GoalModel;
 
 import java.util.ArrayList;
 
-public class GoalsActivity extends AppCompatActivity {
+public class GoalsActivity extends AppCompatActivity implements NewGoalFragment.ItemClickListener {
 
     private View hamburgerMenu;
     private ImageView goalsIW;
@@ -32,6 +34,7 @@ public class GoalsActivity extends AppCompatActivity {
     private GoalsAdapter goalsAdapter;
     private RecyclerView goalsRecyclerView;
     private ArrayList<GoalModel> goalsArrayList;
+    private NewGoalFragment newGoalFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,15 +62,11 @@ public class GoalsActivity extends AppCompatActivity {
         goalsRecyclerView.setLayoutManager(linearLayoutManager);
         // setting adapter to recycler view
         goalsRecyclerView.setAdapter(goalsAdapter);
-
+        // onCLickListener for add button
         createButton.setOnClickListener(view -> {
-            GoalModel test = new GoalModel("exampleHab2", 30, 5);
-            GoalModel prev = dbHandler.readGoalByHabit(test.getHabit());
-            if(prev == null) {
-                dbHandler.addGoal(test);
-                goalsArrayList.add(test);
-                goalsAdapter.notifyDataSetChanged();
-            }
+            // open new goal sheet
+            newGoalFragment = NewGoalFragment.newInstance();
+            newGoalFragment.show(getSupportFragmentManager(), NewGoalFragment.TAG);
         });
     }
 

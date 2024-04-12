@@ -18,6 +18,8 @@ import android.widget.TextView;
 import com.example.habittracker.R;
 import com.example.habittracker.adapters.CategoriesAdapter;
 import com.example.habittracker.adapters.DatabaseHandler;
+import com.example.habittracker.dialogs.CategoryColorsDialog;
+import com.example.habittracker.dialogs.CategoryIconsDialog;
 import com.example.habittracker.fragments.NewCategoryFragment;
 import com.example.habittracker.models.CategoryModel;
 import com.example.habittracker.models.HabitModel;
@@ -34,6 +36,7 @@ public class CategoriesActivity extends AppCompatActivity implements NewCategory
     private CategoriesAdapter categoriesAdapter;
     private RecyclerView categoriesRecyclerView;
     private ArrayList<CategoryModel> categoriesArrayList;
+    private NewCategoryFragment newCategoryFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +66,7 @@ public class CategoriesActivity extends AppCompatActivity implements NewCategory
         // create button onClickListener
         createButton.setOnClickListener(view -> {
             // open new category sheet
-            NewCategoryFragment newCategoryFragment = NewCategoryFragment.newInstance();
+            newCategoryFragment = NewCategoryFragment.newInstance();
             newCategoryFragment.show(getSupportFragmentManager(), NewCategoryFragment.TAG);
         });
     }
@@ -71,20 +74,30 @@ public class CategoriesActivity extends AppCompatActivity implements NewCategory
     // ############################### ONCLICKS ######################################
     // show the new category fragment
     public void showBottomSheet(View view) {
-        NewCategoryFragment addPhotoBottomDialogFragment = NewCategoryFragment.newInstance();
-        addPhotoBottomDialogFragment.show(getSupportFragmentManager(), NewCategoryFragment.TAG);
+        NewCategoryFragment newCategoryFragment = NewCategoryFragment.newInstance();
+        newCategoryFragment.show(getSupportFragmentManager(), NewCategoryFragment.TAG);
     }
 
     // choose icon
     @Override
-    public String onChooseIcon() {
-        return "";
+    public void onChooseIcon() {
+        CategoryIconsDialog iconsDialog = new CategoryIconsDialog(this);
+        iconsDialog.show();
+    }
+
+    public void setIcon(String icon){
+        newCategoryFragment.setIcon(icon);
     }
 
     // choose color
     @Override
-    public String onChooseColor() {
-        return "";
+    public void onChooseColor() {
+        CategoryColorsDialog colorsDialog = new CategoryColorsDialog(this);
+        colorsDialog.show();
+    }
+
+    public void setColor(String color){
+        newCategoryFragment.setColor(color);
     }
 
     // create the new category

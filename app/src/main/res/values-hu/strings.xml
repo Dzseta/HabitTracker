@@ -28,4 +28,8 @@
     <string name="category_icon">Ikon</string>
     <string name="category_color">Szín</string>
     <string name="button_create">Létrehozás</string>
+    <string name="category_delete_dialog">Biztosan törli?</string>
+    <string name="goal_habit">Szokás</string>
+    <string name="goal_days">Nap</string>
+    <string name="goal_days_in_row">Sikeres sorozat</string>
 </resources>

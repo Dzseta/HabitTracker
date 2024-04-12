@@ -3,6 +3,7 @@ package com.example.habittracker.fragments;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -30,7 +31,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 public class NewCategoryFragment extends BottomSheetDialogFragment {
 
     public static final String TAG = "NewCategoryFragment";
-    private ItemClickListener mListener;
+    private ItemClickListener listener;
+    ImageView iconImageView;
     TextView iconTextView;
     TextView colorTextView;
     Button createButton;
@@ -54,32 +56,29 @@ public class NewCategoryFragment extends BottomSheetDialogFragment {
         // set dim
         dialog.getWindow().setDimAmount(0.4f);
         // set onShowListener
-        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-            @Override
-            public void onShow(DialogInterface dialogInterface) {
-                // make background transparent (in the corners)
-                FrameLayout bottomSheet = dialog.findViewById(com.google.android.material.R.id.design_bottom_sheet);
-                bottomSheet.setBackgroundResource(android.R.color.transparent);
+        dialog.setOnShowListener(dialogInterface -> {
+            // make background transparent (in the corners)
+            FrameLayout bottomSheet = dialog.findViewById(com.google.android.material.R.id.design_bottom_sheet);
+            bottomSheet.setBackgroundResource(android.R.color.transparent);
 
-                icon = "icon_categories";
-                color = Integer.toString(Color.parseColor("#FFFFFF"));
-                nameEditText = dialog.findViewById(R.id.editTextText);
-                iconTextView = dialog.findViewById(R.id.iconTextView);
-                iconTextView.setOnClickListener(view -> {
-                    icon = mListener.onChooseIcon();
-                });
-                colorTextView = dialog.findViewById(R.id.colorTextView);
-                colorTextView.setOnClickListener(view -> {
-                    color = mListener.onChooseColor();
-                });
-                createButton = dialog.findViewById(R.id.createButton);
-                createButton.setOnClickListener(view -> {
-                    CategoryModel cat = new CategoryModel(icon, nameEditText.getText().toString(), color);
-                    mListener.onCreateCategory(cat);
-                    dismiss();
-
-                });
-            }
+            icon = "icon_categories";
+            color = Integer.toString(Color.parseColor("#FFFFFF"));
+            iconImageView = dialog.findViewById(R.id.iconImageView);
+            nameEditText = dialog.findViewById(R.id.editTextText);
+            iconTextView = dialog.findViewById(R.id.iconTextView);
+            iconTextView.setOnClickListener(view -> {
+                listener.onChooseIcon();
+            });
+            colorTextView = dialog.findViewById(R.id.colorTextView);
+            colorTextView.setOnClickListener(view -> {
+                listener.onChooseColor();
+            });
+            createButton = dialog.findViewById(R.id.createButton);
+            createButton.setOnClickListener(view -> {
+                CategoryModel cat = new CategoryModel(icon, nameEditText.getText().toString(), color);
+                listener.onCreateCategory(cat);
+                dismiss();
+            });
         });
         return dialog;
     }
@@ -88,20 +87,30 @@ public class NewCategoryFragment extends BottomSheetDialogFragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof ItemClickListener) {
-            mListener = (ItemClickListener) context;
+            listener = (ItemClickListener) context;
         } else {
-            throw new RuntimeException(context.toString() + " must implement ItemClickListener");
+            throw new RuntimeException(context + " must implement ItemClickListener");
         }
     }
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
+        listener = null;
+    }
+
+    public void setColor(String color){
+        this.color = color;
+        iconImageView.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(color)));
+    }
+
+    public void setIcon(String icon){
+        this.icon = icon;
+        iconImageView.setImageResource(getResources().getIdentifier(icon, "drawable", getContext().getPackageName()));
     }
 
     public interface ItemClickListener {
         void onCreateCategory(CategoryModel cat);
-        String onChooseIcon();
-        String onChooseColor();
+        void onChooseIcon();
+        void onChooseColor();
     }
 }
