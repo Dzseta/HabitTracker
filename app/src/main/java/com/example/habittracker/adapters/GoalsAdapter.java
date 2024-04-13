@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -15,11 +16,18 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.habittracker.R;
+import com.example.habittracker.activities.CategoriesActivity;
+import com.example.habittracker.activities.GoalsActivity;
 import com.example.habittracker.models.CategoryModel;
+import com.example.habittracker.models.EntryModel;
 import com.example.habittracker.models.GoalModel;
 import com.example.habittracker.models.HabitModel;
+import com.example.habittracker.views.SwipeRevealLayout;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> {
 
@@ -55,10 +63,51 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
         else cat = dbHandler.readCategoryByName(habit.getCategoryName());
         if(cat == null) cat = new CategoryModel("icon_categories", "No category", Integer.toString(Color.parseColor("#ffffff")));
         holder.iconImageView.setImageResource(context.getResources().getIdentifier(cat.getIcon(), "drawable", context.getPackageName()));
-        holder.iconImageView.setBackgroundTintList(ColorStateList.valueOf(Integer.parseInt(cat.getColor())));
+        holder.iconImageView.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(cat.getColor())));
         holder.nameTextView.setText(model.getHabit());
-        holder.streakTextView.setText(model.getSuccesses() + " / " + model.getNeeded());
-        holder.progressBar.setProgress((int) Math.floor(1.0 * model.getSuccesses() / model.getNeeded() * 100));
+        // get successes
+        ArrayList<EntryModel> entries = dbHandler.readAllEntriesByHabit(model.getHabit());
+        if(model.isFinished()) {
+            holder.streakTextView.setText(model.getNeeded() + " / " + model.getNeeded());
+            holder.progressBar.setProgress(100);
+        } else if (entries.size() == 0) {
+            holder.streakTextView.setText(0 + " / " + model.getNeeded());
+            holder.progressBar.setProgress(0);
+        } else {
+            int streak = 0;
+            LocalDate now = LocalDate.now();
+            Collections.sort(entries, new Comparator<EntryModel>() {
+                public int compare(EntryModel first, EntryModel second) {
+                    return second.getDate().compareTo(first.getDate());
+                }
+            });
+            if(!entries.get(0).getDate().equals(now)) {
+                now.minusDays(1);
+            }
+            for(int i=0; i<entries.size(); i++) {
+                LocalDate entryDate = LocalDate.parse(entries.get(i).getDate());
+                if(entryDate.isEqual(now) && entries.get(i).getData().equals("true")) {
+                    now = now.minusDays(1);
+                    streak++;
+                } else {
+                    break;
+                }
+            }
+            holder.streakTextView.setText(streak + " / " + model.getNeeded());
+            holder.progressBar.setProgress((int) Math.floor(1.0 * streak / model.getNeeded() * 100));
+        }
+
+        holder.editButton.setOnClickListener(v -> {
+            if (context instanceof GoalsActivity) {
+                ((GoalsActivity)context).showBottomSheet(v);
+            }
+        });
+        holder.deleteButton.setOnClickListener(v -> {
+            dbHandler.deleteGoal(model.getHabit());
+            goalsArrayList.remove(position);
+            holder.goalSwipeRevealLayout.close(true);
+            notifyDataSetChanged();
+        });
     }
 
     @Override
@@ -77,6 +126,11 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
         private ImageView iconImageView;
         // progressBar
         private ProgressBar progressBar;
+        // ImageButtons
+        private ImageButton editButton;
+        private ImageButton deleteButton;
+        // SwipeRevealLayout
+        private SwipeRevealLayout goalSwipeRevealLayout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -85,6 +139,9 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
             iconImageView = itemView.findViewById(R.id.iconImageView);
             goalCardView = itemView.findViewById(R.id.goalCardView);
             progressBar = itemView.findViewById(R.id.progressBar);
+            goalSwipeRevealLayout = itemView.findViewById(R.id.goalSwipeRevealLayout);
+            editButton = itemView.findViewById(R.id.editButton);
+            deleteButton = itemView.findViewById(R.id.deleteButton);
         }
     }
 }

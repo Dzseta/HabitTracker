@@ -53,9 +53,18 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHold
         CategoryModel cat = dbHandler.readCategoryByName(habit.getCategoryName());
         if(cat == null) cat = new CategoryModel("icon_categories", "No category", Integer.toString(Color.parseColor("#ffffff")));
         holder.iconImageView.setImageResource(context.getResources().getIdentifier(cat.getIcon(), "drawable", context.getPackageName()));
-        holder.iconImageView.setBackgroundTintList(ColorStateList.valueOf(Integer.parseInt(cat.getColor())));
+        holder.iconImageView.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(cat.getColor())));
         holder.nameTextView.setText(model.getHabit());
         holder.descriptionTextView.setText(habit.getDescription());
+        if(model.getData().equals("true")) holder.checkBox.setChecked(true);
+        holder.checkBox.setOnClickListener(view -> {
+            if(holder.checkBox.isChecked()) {
+                model.setData("true");
+            } else {
+                model.setData("false");
+            }
+            dbHandler.updateEntry(model);
+        });
     }
 
     @Override

@@ -22,7 +22,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     // database name
     private static final String DB_NAME = "habitsdb";
     // database version
-    private static final int DB_VERSION = 13;
+    private static final int DB_VERSION = 16;
     // id column
     private static final String ID_COL = "id";
     // name column
@@ -67,7 +67,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     // needed successes column
     private static final String NEEDED_COL = "needed";
     // successes column
-    private static final String SUCCESSES_COL = "successes";
+    private static final String FINISHED_COL = "finished";
     // entry table
     // table name
     private static final String ENTRY_TABLE_NAME = "entries";
@@ -111,7 +111,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + ID_COL + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + NAME_COL + " TEXT UNIQUE,"
                 + NEEDED_COL + " TEXT,"
-                + SUCCESSES_COL + " TEXT)";
+                + FINISHED_COL + " BOOLEAN)";
         // create entries table
         String queryEntries = "CREATE TABLE " + ENTRY_TABLE_NAME + " ("
                 + ID_COL + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -355,7 +355,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         // passing all values
         values.put(NAME_COL, goal.getHabit());
         values.put(NEEDED_COL, goal.getNeeded());
-        values.put(SUCCESSES_COL, goal.getSuccesses());
+        values.put(FINISHED_COL, goal.isFinished());
 
         // passing content values
         db.insert(GOAL_TABLE_NAME, null, values);
@@ -372,7 +372,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         // passing all values
         values.put(NAME_COL, goal.getHabit());
         values.put(NEEDED_COL, goal.getNeeded());
-        values.put(SUCCESSES_COL, goal.getSuccesses());
+        values.put(FINISHED_COL, goal.isFinished());
 
         // update and close database
         db.update(GOAL_TABLE_NAME, values, "name=?", new String[]{String.valueOf(goal.getHabit())});
@@ -390,7 +390,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         // move cursor to first position
         if (cursorCourses.moveToFirst()) {
-            goal = new GoalModel(cursorCourses.getString(1), cursorCourses.getInt(2), cursorCourses.getInt(3));
+            goal = new GoalModel(cursorCourses.getString(1), cursorCourses.getInt(2), cursorCourses.getInt(3) > 0);
         }
         // closing cursor
         cursorCourses.close();
@@ -410,7 +410,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         if (cursorCourses.moveToFirst()) {
             do {
                 // add data to the arraylist
-                goalModelArrayList.add(new GoalModel(cursorCourses.getString(1), cursorCourses.getInt(2), cursorCourses.getInt(3)));
+                goalModelArrayList.add(new GoalModel(cursorCourses.getString(1), cursorCourses.getInt(2), cursorCourses.getInt(3) > 0));
             } while (cursorCourses.moveToNext());
         }
         // closing cursor
@@ -550,7 +550,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         // delete customer and close database
-        db.delete(GOAL_TABLE_NAME, "name=? and date=?", new String[]{name, date});
+        db.delete(ENTRY_TABLE_NAME, "name=? and date=?", new String[]{name, date});
         db.close();
     }
 

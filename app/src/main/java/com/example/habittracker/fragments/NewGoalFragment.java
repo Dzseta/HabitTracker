@@ -18,8 +18,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.habittracker.R;
-import com.example.habittracker.activities.GoalsActivity;
 import com.example.habittracker.adapters.DatabaseHandler;
+import com.example.habittracker.models.CategoryModel;
 import com.example.habittracker.models.GoalModel;
 import com.example.habittracker.models.HabitModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -100,9 +100,13 @@ public class NewGoalFragment extends BottomSheetDialogFragment {
 
             createButton = dialog.findViewById(R.id.createButton);
             createButton.setOnClickListener(view -> {
-                GoalModel goal = new GoalModel(habitNames[position], Integer.parseInt(daysEditText.getText().toString()), 0);
-                dbHandler.addGoal(goal);
-                dismiss();
+                GoalModel prev = dbHandler.readGoalByHabit(habitNames[position]);
+                if(daysEditText.getText().length()>0 && prev == null) {
+                    GoalModel goal = new GoalModel(habitNames[position], Integer.parseInt(daysEditText.getText().toString()), false);
+                    dbHandler.addGoal(goal);
+                    listener.notifyChange(goal);
+                    dismiss();
+                }
             });
         });
         return dialog;
@@ -125,5 +129,6 @@ public class NewGoalFragment extends BottomSheetDialogFragment {
     }
 
     public interface ItemClickListener {
+        void notifyChange(GoalModel goal);
     }
 }

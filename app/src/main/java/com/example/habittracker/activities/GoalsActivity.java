@@ -71,6 +71,17 @@ public class GoalsActivity extends AppCompatActivity implements NewGoalFragment.
     }
 
     // ############################### ONCLICKS ##########################################
+    // show the new category fragment
+    public void showBottomSheet(View view) {
+        NewGoalFragment newGoalFragment = NewGoalFragment.newInstance();
+        newGoalFragment.show(getSupportFragmentManager(), NewGoalFragment.TAG);
+    }
+
+    public void notifyChange(GoalModel goal) {
+        goalsArrayList.add(goal);
+        goalsAdapter.notifyDataSetChanged();
+    }
+
     // open and close the hamburger menu
     public void openCloseHamburgerMenu(View view) {
         if (hamburgerMenu.getVisibility() == View.VISIBLE) {

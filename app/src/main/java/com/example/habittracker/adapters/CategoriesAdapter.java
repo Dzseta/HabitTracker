@@ -32,6 +32,7 @@ import com.example.habittracker.R;
 import com.example.habittracker.activities.CategoriesActivity;
 import com.example.habittracker.dialogs.CategoryDeleteDialog;
 import com.example.habittracker.models.CategoryModel;
+import com.example.habittracker.views.SwipeRevealLayout;
 
 import java.util.ArrayList;
 
@@ -59,7 +60,6 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
         return new ViewHolder(view);
     }
 
-    @SuppressLint("RecyclerView")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         // setting data to recycler view item
@@ -78,6 +78,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
             //deleteDialog.show(((AppCompatActivity)context).getSupportFragmentManager(), "catDeleteDialog");
             dbHandler.deleteCategory(model.getName());
             categoriesArrayList.remove(position);
+            holder.categorySwipeRevealLayout.close(true);
             notifyDataSetChanged();
         });
     }
@@ -99,9 +100,12 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
         // ImageButtons
         private ImageButton editButton;
         private ImageButton deleteButton;
+        // SwipeRevealLayout
+        private SwipeRevealLayout categorySwipeRevealLayout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            categorySwipeRevealLayout = itemView.findViewById(R.id.categorySwipeRevealLayout);
             nameTextView = itemView.findViewById(R.id.nameTextView);
             entriesTextView = itemView.findViewById(R.id.entriesTextView);
             iconImageView = itemView.findViewById(R.id.iconImageView);

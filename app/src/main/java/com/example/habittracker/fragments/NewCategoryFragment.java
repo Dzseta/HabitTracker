@@ -62,7 +62,7 @@ public class NewCategoryFragment extends BottomSheetDialogFragment {
             bottomSheet.setBackgroundResource(android.R.color.transparent);
 
             icon = "icon_categories";
-            color = Integer.toString(Color.parseColor("#FFFFFF"));
+            color = "#FFFFFF";
             iconImageView = dialog.findViewById(R.id.iconImageView);
             nameEditText = dialog.findViewById(R.id.editTextText);
             iconTextView = dialog.findViewById(R.id.iconTextView);

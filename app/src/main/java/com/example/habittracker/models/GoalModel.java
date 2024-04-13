@@ -5,12 +5,12 @@ public class GoalModel {
     // variables
     private String habit;
     private int needed;
-    private int successes;
+    private boolean finished;
 
-    public GoalModel(String habit, int needed, int successes) {
+    public GoalModel(String habit, int needed, boolean finished) {
         this.habit = habit;
         this.needed = needed;
-        this.successes = successes;
+        this.finished = finished;
     }
 
     public String getHabit() {
@@ -29,11 +29,11 @@ public class GoalModel {
         this.needed = needed;
     }
 
-    public int getSuccesses() {
-        return successes;
+    public boolean isFinished() {
+        return finished;
     }
 
-    public void setSuccesses(int successes) {
-        this.successes = successes;
+    public void setFinished(boolean finished) {
+        this.finished = finished;
     }
 }
