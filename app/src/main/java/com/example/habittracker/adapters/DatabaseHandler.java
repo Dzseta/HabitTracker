@@ -199,7 +199,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return categoryModelArrayList;
     }
 
-    // delete rating
+    // delete category
     public void deleteCategory(String name) {
         // get database
         SQLiteDatabase db = this.getWritableDatabase();
@@ -431,6 +431,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     // ############################################### ENTRIES ###########################################################
     // add new entry
     public void addEntry(EntryModel entry) {
+        if(readEntryByHabitAndDate(entry.getHabit(), entry.getDate()) != null) return;
+
         // writing data in the database
         SQLiteDatabase db = this.getWritableDatabase();
         // variable for content values
@@ -544,12 +546,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return entryModelArrayList;
     }
 
-    // delete goal
+    // delete entry
     public void deleteEntry(String name, String date) {
         // get database
         SQLiteDatabase db = this.getWritableDatabase();
 
-        // delete customer and close database
+        // delete entry and close database
         db.delete(ENTRY_TABLE_NAME, "name=? and date=?", new String[]{name, date});
         db.close();
     }

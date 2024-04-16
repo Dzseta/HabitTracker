@@ -14,12 +14,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.habittracker.R;
-import com.example.habittracker.adapters.CategoriesAdapter;
 import com.example.habittracker.adapters.DatabaseHandler;
 import com.example.habittracker.adapters.GoalsAdapter;
-import com.example.habittracker.fragments.NewCategoryFragment;
 import com.example.habittracker.fragments.NewGoalFragment;
-import com.example.habittracker.models.CategoryModel;
 import com.example.habittracker.models.GoalModel;
 
 import java.util.ArrayList;
@@ -66,19 +63,33 @@ public class GoalsActivity extends AppCompatActivity implements NewGoalFragment.
         createButton.setOnClickListener(view -> {
             // open new goal sheet
             newGoalFragment = NewGoalFragment.newInstance();
+            Bundle bundle = new Bundle();
+            bundle.putString("mode", "new");
+            newGoalFragment.setArguments(bundle);
             newGoalFragment.show(getSupportFragmentManager(), NewGoalFragment.TAG);
         });
     }
 
     // ############################### ONCLICKS ##########################################
     // show the new category fragment
-    public void showBottomSheet(View view) {
+    public void showBottomSheet(View view, String habit) {
         NewGoalFragment newGoalFragment = NewGoalFragment.newInstance();
+        Bundle bundle = new Bundle();
+        bundle.putString("mode", "edit");
+        bundle.putString("origHabit", habit);
+        newGoalFragment.setArguments(bundle);
         newGoalFragment.show(getSupportFragmentManager(), NewGoalFragment.TAG);
     }
 
     public void notifyChange(GoalModel goal) {
+        for(int i=0; i<goalsArrayList.size(); i++) {
+            if(goalsArrayList.get(i).getHabit().equals(goal.getHabit())) {
+                goalsArrayList.remove(i);
+                break;
+            }
+        }
         goalsArrayList.add(goal);
+
         goalsAdapter.notifyDataSetChanged();
     }
 

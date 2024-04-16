@@ -25,12 +25,15 @@ import com.example.habittracker.models.HabitModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class NewGoalFragment extends BottomSheetDialogFragment {
 
     public static final String TAG = "NewGoalFragment";
     private NewGoalFragment.ItemClickListener listener;
-    ImageView iconImageView;
+    // mode and orig habit
+    String mode;
+    String origHabit;
     Button createButton;
     EditText daysEditText;
     // spinner
@@ -53,6 +56,8 @@ public class NewGoalFragment extends BottomSheetDialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        mode = getArguments().getString("mode");
+        if(mode.equals("edit")) origHabit = getArguments().getString("origHabit");
         return inflater.inflate(R.layout.fragment_new_goal, container, false);
     }
 
@@ -67,8 +72,6 @@ public class NewGoalFragment extends BottomSheetDialogFragment {
             FrameLayout bottomSheet = dialog.findViewById(com.google.android.material.R.id.design_bottom_sheet);
             bottomSheet.setBackgroundResource(android.R.color.transparent);
 
-            // get iconImageView
-            iconImageView = dialog.findViewById(R.id.iconImageView);
             // get editText
             daysEditText = dialog.findViewById(R.id.daysEditText);
 
@@ -98,12 +101,30 @@ public class NewGoalFragment extends BottomSheetDialogFragment {
                         }
                     });
 
+            if(mode.equals("edit")) {
+                GoalModel origGoal = dbHandler.readGoalByHabit(origHabit);
+                daysEditText.setText(Integer.toString(origGoal.getNeeded()));
+                for(int i=0; i<habitNames.length; i++) {
+                    if(habitNames[i].equals(origHabit)){
+                        position = i;
+                        habitSpinner.setSelection(position);
+                        habitSpinner.setEnabled(false);
+                        break;
+                    }
+                }
+            }
+
             createButton = dialog.findViewById(R.id.createButton);
             createButton.setOnClickListener(view -> {
                 GoalModel prev = dbHandler.readGoalByHabit(habitNames[position]);
-                if(daysEditText.getText().length()>0 && prev == null) {
+                if(daysEditText.getText().length()>0 && mode.equals("new") && prev == null) {
                     GoalModel goal = new GoalModel(habitNames[position], Integer.parseInt(daysEditText.getText().toString()), false);
                     dbHandler.addGoal(goal);
+                    listener.notifyChange(goal);
+                    dismiss();
+                } else if (daysEditText.getText().length()>0 && mode.equals("edit")) {
+                    GoalModel goal = new GoalModel(origHabit, Integer.parseInt(daysEditText.getText().toString()), false);
+                    dbHandler.updateGoal(goal);
                     listener.notifyChange(goal);
                     dismiss();
                 }

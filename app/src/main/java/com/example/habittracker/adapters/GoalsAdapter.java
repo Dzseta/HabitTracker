@@ -76,13 +76,12 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
         } else {
             int streak = 0;
             LocalDate now = LocalDate.now();
-            Collections.sort(entries, new Comparator<EntryModel>() {
-                public int compare(EntryModel first, EntryModel second) {
-                    return second.getDate().compareTo(first.getDate());
-                }
-            });
-            if(!entries.get(0).getDate().equals(now)) {
-                now.minusDays(1);
+            Collections.sort(entries, (first, second) -> second.getDate().compareTo(first.getDate()));
+            if(!(entries.get(0).getDate().equals(now.toString()))) {
+                now = now.minusDays(1);
+            } else if (!entries.get(0).getData().equals("true")) {
+                now = now.minusDays(1);
+                entries.remove(0);
             }
             for(int i=0; i<entries.size(); i++) {
                 LocalDate entryDate = LocalDate.parse(entries.get(i).getDate());
@@ -93,13 +92,19 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
                     break;
                 }
             }
+            if(streak >= model.getNeeded()) {
+                holder.streakTextView.setText(model.getNeeded() + " / " + model.getNeeded());
+                holder.progressBar.setProgress(100);
+                model.setFinished(true);
+                dbHandler.updateGoal(model);
+            }
             holder.streakTextView.setText(streak + " / " + model.getNeeded());
             holder.progressBar.setProgress((int) Math.floor(1.0 * streak / model.getNeeded() * 100));
         }
 
         holder.editButton.setOnClickListener(v -> {
             if (context instanceof GoalsActivity) {
-                ((GoalsActivity)context).showBottomSheet(v);
+                ((GoalsActivity)context).showBottomSheet(v, model.getHabit());
             }
         });
         holder.deleteButton.setOnClickListener(v -> {
