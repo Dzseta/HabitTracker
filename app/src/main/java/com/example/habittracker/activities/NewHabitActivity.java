@@ -88,6 +88,7 @@ public class NewHabitActivity extends AppCompatActivity {
             habitName = getIntent().getStringExtra("habit");
             origHabit = dbHandler.readHabitByName(habitName);
             // TODO
+            // set base data
         }
     }
 }
