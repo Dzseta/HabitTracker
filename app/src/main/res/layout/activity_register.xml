@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Regisztráció"
+        android:text="@string/button_register"
         android:textSize="50sp"
         android:layout_margin="20dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -39,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="E-mail" />
+                android:text="@string/email" />
 
             <EditText
                 android:id="@+id/editTextTextEmailAddress"
@@ -61,7 +61,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Jelszó" />
+                android:text="@string/password" />
 
             <EditText
                 android:id="@+id/editTextTextPassword"
@@ -80,7 +80,7 @@
             android:onClick="register"
             android:layout_gravity="center"
             android:layout_marginTop="50dp"
-            android:text="Regisztráció" />
+            android:text="@string/button_register" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

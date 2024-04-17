@@ -34,7 +34,9 @@ public class NewGoalFragment extends BottomSheetDialogFragment {
     // mode and orig habit
     String mode;
     String origHabit;
+    // buttons
     Button createButton;
+    // edittexts
     EditText daysEditText;
     // spinner
     Spinner habitSpinner;

@@ -22,6 +22,7 @@ import com.example.habittracker.dialogs.CategoryColorsDialog;
 import com.example.habittracker.dialogs.CategoryIconsDialog;
 import com.example.habittracker.fragments.NewCategoryFragment;
 import com.example.habittracker.models.CategoryModel;
+import com.example.habittracker.models.GoalModel;
 import com.example.habittracker.models.HabitModel;
 
 import java.util.ArrayList;
@@ -67,14 +68,21 @@ public class CategoriesActivity extends AppCompatActivity implements NewCategory
         createButton.setOnClickListener(view -> {
             // open new category sheet
             newCategoryFragment = NewCategoryFragment.newInstance();
+            Bundle bundle = new Bundle();
+            bundle.putString("mode", "new");
+            newCategoryFragment.setArguments(bundle);
             newCategoryFragment.show(getSupportFragmentManager(), NewCategoryFragment.TAG);
         });
     }
 
     // ############################### ONCLICKS ######################################
     // show the new category fragment
-    public void showBottomSheet(View view) {
-        NewCategoryFragment newCategoryFragment = NewCategoryFragment.newInstance();
+    public void showBottomSheet(View view, String name) {
+        newCategoryFragment = NewCategoryFragment.newInstance();
+        Bundle bundle = new Bundle();
+        bundle.putString("mode", "edit");
+        bundle.putString("origName", name);
+        newCategoryFragment.setArguments(bundle);
         newCategoryFragment.show(getSupportFragmentManager(), NewCategoryFragment.TAG);
     }
 
@@ -109,6 +117,20 @@ public class CategoriesActivity extends AppCompatActivity implements NewCategory
             categoriesArrayList.add(cat);
             categoriesAdapter.notifyDataSetChanged();
         }
+    }
+
+    // create the new category
+    @Override
+    public void onEditCategory(CategoryModel cat, String origName) {
+        for(int i=0; i<categoriesArrayList.size(); i++) {
+            if(categoriesArrayList.get(i).getName().equals(origName)) {
+                categoriesArrayList.remove(i);
+                break;
+            }
+        }
+        dbHandler.updateCategory(cat, origName);
+        categoriesArrayList.add(cat);
+        categoriesAdapter.notifyDataSetChanged();
     }
 
     // open and close the hamburger menu

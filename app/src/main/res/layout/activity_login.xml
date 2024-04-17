@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_margin="20dp"
-        android:text="Bejelentkezés"
+        android:text="@string/title_login"
         android:textSize="50sp"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="20dp" />
@@ -38,7 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="E-mail" />
+                android:text="@string/email" />
 
             <EditText
                 android:id="@+id/editTextTextEmailAddress"
@@ -60,7 +60,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Jelszó" />
+                android:text="@string/password" />
 
             <EditText
                 android:id="@+id/editTextTextPassword"
@@ -79,7 +79,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="50dp"
             android:onClick="login"
-            android:text="Belépés" />
+            android:text="@string/button_signin" />
 
         <Button
             android:id="@+id/registerButton"
@@ -87,7 +87,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:onClick="openActivity"
-            android:text="Regisztráció" />
+            android:text="@string/button_register" />
 
         <TextView
             android:id="@+id/textView4"
@@ -98,7 +98,7 @@
             android:textColor="@color/light_gray"
             android:textSize="16dp"
             android:layout_margin="10dp"
-            android:text="Elfelejtett jelszó" />
+            android:text="@string/forgotten_password" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

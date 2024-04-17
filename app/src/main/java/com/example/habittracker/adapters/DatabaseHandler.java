@@ -140,8 +140,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         // passing content values
         db.insert(CATEGORY_TABLE_NAME, null, values);
-        // closing the database
-        db.close();
     }
 
     // update category
@@ -155,9 +153,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(NAME_COL, cat.getName());
         values.put(COLOR_COL, cat.getColor());
 
-        // update and close database
+        // update database
         db.update(CATEGORY_TABLE_NAME, values, "name=?", new String[]{String.valueOf(origName)});
-        db.close();
     }
 
     // read a category
@@ -211,9 +208,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             updateHabit(habitModelArrayList.get(i), habitModelArrayList.get(i).getName());
         }
 
-        // delete customer and close database
+        // delete category
         db.delete(CATEGORY_TABLE_NAME, "name=?", new String[]{name});
-        db.close();
     }
 
     // ############################################### HABITS ###########################################################
@@ -241,8 +237,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         // passing content values
         db.insert(HABIT_TABLE_NAME, null, values);
-        // closing the database
-        db.close();
     }
 
     // update habit
@@ -266,9 +260,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(REMINDERHOUR_COL, habit.getReminderHour());
         values.put(REMINDERMINUTE_COL, habit.getReminderMinute());
 
-        // update and close database
+        // update database
         db.update(HABIT_TABLE_NAME, values, "name=?", new String[]{String.valueOf(origName)});
-        db.close();
     }
 
     // read a habit
@@ -338,10 +331,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         // delete goal
         deleteGoal(name);
+        // delete entries
+        deleteEntriesByHabit(name);
 
-        // delete customer and close database
+        // delete customer
         db.delete(HABIT_TABLE_NAME, "name=?", new String[]{name});
-        db.close();
     }
 
     // ############################################### GOALS ###########################################################
@@ -359,8 +353,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         // passing content values
         db.insert(GOAL_TABLE_NAME, null, values);
-        // closing the database
-        db.close();
     }
 
     // update goal
@@ -374,9 +366,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(NEEDED_COL, goal.getNeeded());
         values.put(FINISHED_COL, goal.isFinished());
 
-        // update and close database
+        // update database
         db.update(GOAL_TABLE_NAME, values, "name=?", new String[]{String.valueOf(goal.getHabit())});
-        db.close();
     }
 
     // read a goal
@@ -423,9 +414,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         // get database
         SQLiteDatabase db = this.getWritableDatabase();
 
-        // delete customer and close database
+        // delete goal
         db.delete(GOAL_TABLE_NAME, "name=?", new String[]{name});
-        db.close();
     }
 
     // ############################################### ENTRIES ###########################################################
@@ -445,8 +435,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         // passing content values
         db.insert(ENTRY_TABLE_NAME, null, values);
-        // closing the database
-        db.close();
     }
 
     // update entry
@@ -460,9 +448,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(DATE_COL, entry.getDate());
         values.put(DATA_COL, entry.getData());
 
-        // update and close database
+        // update database
         db.update(ENTRY_TABLE_NAME, values, "name=? and date=?", new String[]{entry.getHabit(), entry.getDate()});
-        db.close();
     }
 
     // read an entry by habit and date
@@ -551,9 +538,17 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         // get database
         SQLiteDatabase db = this.getWritableDatabase();
 
-        // delete entry and close database
+        // delete entry
         db.delete(ENTRY_TABLE_NAME, "name=? and date=?", new String[]{name, date});
-        db.close();
+    }
+
+    // delete entries
+    public void deleteEntriesByHabit(String name) {
+        // get database
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // delete entry
+        db.delete(ENTRY_TABLE_NAME, "name=?", new String[]{name});
     }
 
     // ############################################### ONUPGRADE ###########################################################

@@ -1,8 +1,12 @@
 package com.example.habittracker.adapters;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.habittracker.R;
 import com.example.habittracker.activities.CategoriesActivity;
+import com.example.habittracker.activities.NewHabitActivity;
 import com.example.habittracker.models.CategoryModel;
 import com.example.habittracker.models.HabitModel;
 import com.example.habittracker.views.SwipeRevealLayout;
@@ -52,7 +57,7 @@ public class HabitsAdapter extends RecyclerView.Adapter<HabitsAdapter.ViewHolder
         // setting data to recycler view item
         HabitModel model = habitsArrayList.get(position);
         CategoryModel cat = dbHandler.readCategoryByName(model.getCategoryName());
-        if(cat == null) cat = new CategoryModel("icon_categories", "No category", Integer.toString(Color.parseColor("#ffffff")));
+        if(cat == null) cat = new CategoryModel("icon_categories", "No category","#ffffff");
         holder.iconImageView.setImageResource(context.getResources().getIdentifier(cat.getIcon(), "drawable", context.getPackageName()));
         holder.iconImageView.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(cat.getColor())));
         holder.nameTextView.setText(model.getName());
@@ -63,7 +68,11 @@ public class HabitsAdapter extends RecyclerView.Adapter<HabitsAdapter.ViewHolder
         if(endDate.isAfter(infinity)) holder.dateTextView.setText(model.getStartDate() + " -");
         else holder.dateTextView.setText(model.getStartDate() + " - " + model.getEndDate());
         holder.editButton.setOnClickListener(v -> {
-            // TODO
+            Intent i = new Intent();
+            i.putExtra("mode", "edit");
+            i.putExtra("habit", model.getName());
+            i.setClass(context, NewHabitActivity.class);
+            startActivity(context, i, new Bundle());
         });
         holder.deleteButton.setOnClickListener(v -> {
             dbHandler.deleteHabit(model.getName());

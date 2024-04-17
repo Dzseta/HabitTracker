@@ -60,34 +60,10 @@ public class HabitsActivity extends AppCompatActivity {
         habitsRecyclerView.setAdapter(habitsAdapter);
 
         createButton.setOnClickListener(view -> {
-            HabitModel test = new HabitModel("test", "no more", "Example habits for u", "yesno", "no", "weekly", 3, "2024-04-03", "2099-01-01", 2, false, 0, 0);
-            HabitModel prev = dbHandler.readHabitByName(test.getName());
-            if(prev == null) {
-                dbHandler.addHabit(test);
-                habitsArrayList.add(test);
-                habitsAdapter.notifyDataSetChanged();
-            }
-            test = new HabitModel("asd", "Asdhabit", "it's asd my dude", "yesno", "no", "weekly", 3, "2024-04-12", "2024-04-20", 3, false, 0, 0);
-            prev = dbHandler.readHabitByName(test.getName());
-            if(prev == null) {
-                dbHandler.addHabit(test);
-                habitsArrayList.add(test);
-                habitsAdapter.notifyDataSetChanged();
-            }
-            test = new HabitModel("ftest", "health", "your health", "yesno", "no", "weekly", 3, "2024-04-13", "2099-01-01", 1, false, 0, 0);
-            prev = dbHandler.readHabitByName(test.getName());
-            if(prev == null) {
-                dbHandler.addHabit(test);
-                habitsArrayList.add(test);
-                habitsAdapter.notifyDataSetChanged();
-            }
-            test = new HabitModel("test", "I donno", "No idea, mate", "yesno", "no", "weekly", 3, "2024-04-13", "2024-04-15", 2, false, 0, 0);
-            prev = dbHandler.readHabitByName(test.getName());
-            if(prev == null) {
-                dbHandler.addHabit(test);
-                habitsArrayList.add(test);
-                habitsAdapter.notifyDataSetChanged();
-            }
+            Intent i = new Intent();
+            i.putExtra("mode", "new");
+            i.setClass(this, NewHabitActivity.class);
+            startActivity(i);
         });
     }
 

@@ -1,10 +1,8 @@
 <resources>
     <string name="app_name">Habit Tracker</string>
-    <string name="title_activity_habits" translatable="false">HabitsActivity</string>
     <string name="title_home" translatable="false">Home</string>
     <string name="title_dashboard" translatable="false">Dashboard</string>
     <string name="title_notifications" translatable="false">Notifications</string>
-    <string name="title_activity_profile" translatable="false">ProfileActivity</string>
 
     <!-- Buttons -->
     <string name="button_send">Send</string>
@@ -13,8 +11,15 @@
     <string name="button_delete">Delete</string>
     <string name="button_signin">Sign in</string>
     <string name="button_logout">Log out</string>
+    <string name="button_register">Register</string>
     <string name="button_create">Create</string>
     <string name="button_ok" translatable="false">OK</string>
+
+    <!-- Login -->
+    <string name="title_login">Login</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="forgotten_password">Forgotten password</string>
 
     <!-- Toolbar -->
     <string name="toolbar_today">TODAY</string>
@@ -44,14 +49,45 @@
     <string name="profile_logout">Logout</string>
 
     <!-- Categories -->
+    <string name="title_categories">Categories</string>
     <string name="category_name">Name</string>
     <string name="category_icon">Icon</string>
     <string name="category_color">Color</string>
     <string name="category_delete_dialog">Are you sure?</string>
 
+    <!-- Habits -->
+    <string name="title_habits">Habits</string>
+
     <!-- Goals -->
+    <string name="title_goals">Goals</string>
     <string name="goal_habit">Habit</string>
     <string name="goal_days">Days</string>
     <string name="goal_days_in_row">Days in a row</string>
+
+    <!-- Backup -->
+    <string name="title_backup">Backup</string>
+
+    <!-- Today -->
+    <string name="title_today">Today</string>
+
+    <!-- Calendar -->
+    <string name="title_calendar">Calendar</string>
+
+    <!-- Statistics -->
+    <string name="title_statistics">Statistics</string>
+
+    <!-- New Habit -->
+    <string name="title_new_habit">New habit</string>
+    <string name="new_habit_category">Category</string>
+    <string name="new_habit_habit_name">Habit name</string>
+    <string name="new_habit_description">Description</string>
+    <string name="new_habit_type">Type</string>
+    <string name="new_habit_type_yesno">Yes / No</string>
+    <string name="new_habit_type_number">Number</string>
+    <string name="new_habit_type_timer">Timer</string>
+    <string name="new_habit_start_date">Start date</string>
+    <string name="new_habit_end_date">End date</string>
+    <string name="new_habit_priority">Priority</string>
+    <string name="new_habit_reminder_time">Reminder time</string>
 
 </resources>

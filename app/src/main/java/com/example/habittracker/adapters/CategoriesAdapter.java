@@ -70,7 +70,8 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
         holder.entriesTextView.setText(dbHandler.readAllHabitsInCategory(model.getName()).size() + " entries");
         holder.editButton.setOnClickListener(v -> {
             if (context instanceof CategoriesActivity) {
-                ((CategoriesActivity)context).showBottomSheet(v);
+                ((CategoriesActivity)context).showBottomSheet(v, model.getName());
+                holder.categorySwipeRevealLayout.close(true);
             }
         });
         holder.deleteButton.setOnClickListener(v -> {

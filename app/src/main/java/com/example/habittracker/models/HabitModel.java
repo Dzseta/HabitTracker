@@ -9,7 +9,7 @@ public class HabitModel {
     private String categoryName;
     private String name;
     private String description;
-    private String type;    // yesNo, number, timer, checklist
+    private String type;    // yesNo, number, timer
     private String typeData;
     private String repeatType; // every x days, x times a week/month/year, m/t/w/th/f/s/su
     private int repeatNumber;

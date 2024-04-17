@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.example.habittracker.R;
 import com.example.habittracker.adapters.DatabaseHandler;
 import com.example.habittracker.models.CategoryModel;
+import com.example.habittracker.models.GoalModel;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -39,6 +40,11 @@ public class NewCategoryFragment extends BottomSheetDialogFragment {
     EditText nameEditText;
     String icon;
     String color;
+    // mode and orig name
+    String mode;
+    String origName;
+    // database handler
+    DatabaseHandler dbHandler;
 
     public static NewCategoryFragment newInstance() {
         return new NewCategoryFragment();
@@ -47,6 +53,8 @@ public class NewCategoryFragment extends BottomSheetDialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        mode = getArguments().getString("mode");
+        if(mode.equals("edit")) origName = getArguments().getString("origName");
         return inflater.inflate(R.layout.fragment_new_category, container, false);
     }
 
@@ -63,9 +71,16 @@ public class NewCategoryFragment extends BottomSheetDialogFragment {
 
             icon = "icon_categories";
             color = "#FFFFFF";
+            dbHandler = new DatabaseHandler(getContext());
             iconImageView = dialog.findViewById(R.id.iconImageView);
             nameEditText = dialog.findViewById(R.id.editTextText);
             iconTextView = dialog.findViewById(R.id.iconTextView);
+            if(mode.equals("edit")) {
+                CategoryModel origCat = dbHandler.readCategoryByName(origName);
+                nameEditText.setText(origCat.getName());
+                setColor(origCat.getColor());
+                setIcon(origCat.getIcon());
+            }
             iconTextView.setOnClickListener(view -> {
                 listener.onChooseIcon();
             });
@@ -76,8 +91,13 @@ public class NewCategoryFragment extends BottomSheetDialogFragment {
             createButton = dialog.findViewById(R.id.createButton);
             createButton.setOnClickListener(view -> {
                 CategoryModel cat = new CategoryModel(icon, nameEditText.getText().toString(), color);
-                listener.onCreateCategory(cat);
-                dismiss();
+                if(mode.equals("new")) {
+                    listener.onCreateCategory(cat);
+                    dismiss();
+                } else if (mode.equals("edit")) {
+                    listener.onEditCategory(cat, origName);
+                    dismiss();
+                }
             });
         });
         return dialog;
@@ -110,6 +130,7 @@ public class NewCategoryFragment extends BottomSheetDialogFragment {
 
     public interface ItemClickListener {
         void onCreateCategory(CategoryModel cat);
+        void onEditCategory(CategoryModel cat, String origName);
         void onChooseIcon();
         void onChooseColor();
     }

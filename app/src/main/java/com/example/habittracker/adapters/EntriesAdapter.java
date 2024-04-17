@@ -51,7 +51,7 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHold
         EntryModel model = entriesArrayList.get(position);
         HabitModel habit = dbHandler.readHabitByName(model.getHabit());
         CategoryModel cat = dbHandler.readCategoryByName(habit.getCategoryName());
-        if(cat == null) cat = new CategoryModel("icon_categories", "No category", Integer.toString(Color.parseColor("#ffffff")));
+        if(cat == null) cat = new CategoryModel("icon_categories", "No category", "#ffffff");
         holder.iconImageView.setImageResource(context.getResources().getIdentifier(cat.getIcon(), "drawable", context.getPackageName()));
         holder.iconImageView.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(cat.getColor())));
         holder.nameTextView.setText(model.getHabit());

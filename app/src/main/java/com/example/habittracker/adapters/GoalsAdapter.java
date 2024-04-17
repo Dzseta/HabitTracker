@@ -61,7 +61,7 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
         CategoryModel cat = null;
         if(habit == null) cat = dbHandler.readCategoryByName("");
         else cat = dbHandler.readCategoryByName(habit.getCategoryName());
-        if(cat == null) cat = new CategoryModel("icon_categories", "No category", Integer.toString(Color.parseColor("#ffffff")));
+        if(cat == null) cat = new CategoryModel("icon_categories", "No category", "#ffffff");
         holder.iconImageView.setImageResource(context.getResources().getIdentifier(cat.getIcon(), "drawable", context.getPackageName()));
         holder.iconImageView.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(cat.getColor())));
         holder.nameTextView.setText(model.getHabit());
@@ -105,6 +105,7 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
         holder.editButton.setOnClickListener(v -> {
             if (context instanceof GoalsActivity) {
                 ((GoalsActivity)context).showBottomSheet(v, model.getHabit());
+                holder.goalSwipeRevealLayout.close(true);
             }
         });
         holder.deleteButton.setOnClickListener(v -> {
