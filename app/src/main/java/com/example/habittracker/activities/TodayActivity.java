@@ -57,8 +57,9 @@ public class TodayActivity extends AppCompatActivity {
         // create missing entries
         for(int i=0; i<habitArrayList.size(); i++) {
             LocalDate startDate = LocalDate.parse(habitArrayList.get(i).getStartDate());
-            LocalDate endDate = LocalDate.parse(habitArrayList.get(i).getEndDate());
-            if(startDate.isBefore(now.plusDays(1)) && endDate.isAfter(now.plusDays(1))) {
+            LocalDate endDate = null;
+            if(habitArrayList.get(i).getEndDate().equals("")) endDate = LocalDate.parse(habitArrayList.get(i).getEndDate());
+            if(startDate.isBefore(now.plusDays(1)) && (endDate == null || endDate.isAfter(now.plusDays(1)))) {
                 if(dbHandler.readEntryByHabitAndDate(habitArrayList.get(i).getName(), now.toString()) == null) {
                     EntryModel entry = new EntryModel(habitArrayList.get(i).getName(), now.toString(), "");
                     dbHandler.addEntry(entry);

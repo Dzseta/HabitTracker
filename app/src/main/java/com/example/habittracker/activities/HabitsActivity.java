@@ -40,7 +40,7 @@ public class HabitsActivity extends AppCompatActivity {
 
         // hamburger menu
         hamburgerMenu = findViewById(R.id.hamburgerMenu);
-        habitsIW= findViewById(R.id.habitsImageView);
+        habitsIW = findViewById(R.id.habitsImageView);
         habitsIW.setColorFilter(ContextCompat.getColor(this, R.color.light_gray));
         habitsTW = findViewById(R.id.habitsTextView);
         habitsTW.setTextColor(ContextCompat.getColor(this, R.color.light_gray));
@@ -48,6 +48,7 @@ public class HabitsActivity extends AppCompatActivity {
         createButton = findViewById(R.id.createButton);
         // database handler
         dbHandler = new DatabaseHandler(HabitsActivity.this);
+        dbHandler.deleteHabit("tttzzzjdkgnh");
         // get habits
         habitsArrayList = dbHandler.readAllHabits();
         // passing list to adapter

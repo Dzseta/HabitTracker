@@ -76,21 +76,18 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
         // turn on or off reminder
-        reminderSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    reminderSwitch.setChecked(true);
-                    reminderTimeLinearLayout.setVisibility(View.VISIBLE);
-                    reminder = true;
-                } else {
-                    reminderSwitch.setChecked(false);
-                    reminderTimeLinearLayout.setVisibility(View.INVISIBLE);
-                    reminder = false;
-                }
-                editor.putBoolean("reminder", reminder);
-                editor.commit();
+        reminderSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                reminderSwitch.setChecked(true);
+                reminderTimeLinearLayout.setVisibility(View.VISIBLE);
+                reminder = true;
+            } else {
+                reminderSwitch.setChecked(false);
+                reminderTimeLinearLayout.setVisibility(View.INVISIBLE);
+                reminder = false;
             }
+            editor.putBoolean("reminder", reminder);
+            editor.commit();
         });
     }
 
