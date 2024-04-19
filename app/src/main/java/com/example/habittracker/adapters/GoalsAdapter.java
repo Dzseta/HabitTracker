@@ -58,7 +58,7 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
         // setting data to recycler view item
         GoalModel model = goalsArrayList.get(position);
         HabitModel habit = dbHandler.readHabitByName(model.getHabit());
-        CategoryModel cat = null;
+        CategoryModel cat;
         if(habit == null) cat = dbHandler.readCategoryByName("");
         else cat = dbHandler.readCategoryByName(habit.getCategoryName());
         if(cat == null) cat = new CategoryModel("icon_categories", "No category", "#ffffff");
@@ -74,24 +74,7 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
             holder.streakTextView.setText(0 + " / " + model.getNeeded());
             holder.progressBar.setProgress(0);
         } else {
-            int streak = 0;
-            LocalDate now = LocalDate.now();
-            Collections.sort(entries, (first, second) -> second.getDate().compareTo(first.getDate()));
-            if(!(entries.get(0).getDate().equals(now.toString()))) {
-                now = now.minusDays(1);
-            } else if (!entries.get(0).getData().equals("true")) {
-                now = now.minusDays(1);
-                entries.remove(0);
-            }
-            for(int i=0; i<entries.size(); i++) {
-                LocalDate entryDate = LocalDate.parse(entries.get(i).getDate());
-                if(entryDate.isEqual(now) && entries.get(i).getData().equals("true")) {
-                    now = now.minusDays(1);
-                    streak++;
-                } else {
-                    break;
-                }
-            }
+            int streak = model.streak(entries);
             if(streak >= model.getNeeded()) {
                 holder.streakTextView.setText(model.getNeeded() + " / " + model.getNeeded());
                 holder.progressBar.setProgress(100);

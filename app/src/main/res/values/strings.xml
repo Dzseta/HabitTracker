@@ -15,6 +15,22 @@
     <string name="button_create">Create</string>
     <string name="button_ok" translatable="false">OK</string>
 
+    <!-- Sort -->
+    <string name="sort_AZ">A-z</string>
+    <string name="sort_ZA">Z-a</string>
+    <string name="sort_entries_I">Entries increasing</string>
+    <string name="sort_entries_D">Entries decreasing</string>
+    <string name="sort_priority_I">Priority increasing</string>
+    <string name="sort_priority_D">Priority decreasing</string>
+    <string name="sort_category_AZ">Category A-z</string>
+    <string name="sort_category_ZA">Category z-A</string>
+    <string name="sort_habit_AZ">Habit A-z</string>
+    <string name="sort_habit_ZA">Habit z-A</string>
+    <string name="sort_needed_i">Length increasing</string>
+    <string name="sort_needed_d">Length decreasing</string>
+    <string name="sort_progress_i">Progress increasing</string>
+    <string name="sort_progress_d">Progress decreasing</string>
+
     <!-- Login -->
     <string name="title_login">Login</string>
     <string name="email">Email</string>
@@ -54,6 +70,7 @@
     <string name="category_icon">Icon</string>
     <string name="category_color">Color</string>
     <string name="category_delete_dialog">Are you sure?</string>
+    <string name="category_entries">entries</string>
 
     <!-- Habits -->
     <string name="title_habits">Habits</string>

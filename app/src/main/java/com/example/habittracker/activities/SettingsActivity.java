@@ -1,24 +1,19 @@
 package com.example.habittracker.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Switch;
-import android.widget.TextClock;
 import android.widget.TextView;
-import android.widget.TimePicker;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.example.habittracker.R;
-
-import java.util.Calendar;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -91,23 +86,20 @@ public class SettingsActivity extends AppCompatActivity {
         });
     }
 
-    // ############################## ONCLICKS ########################################
+
+    // ######################################### ONCLICKS ######################################################################
     // select time for reminder
     public void selectTime(View v) {
         // initialize Time Picker Dialog
         TimePickerDialog timePickerDialog = new TimePickerDialog(SettingsActivity.this, R.style.TimePickerTheme,
-                new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker view, int hour,
-                                          int minute) {
-                        // set time in textView
-                        if(minute<10) timeTextView.setText(hour + ":0" + minute);
-                        else timeTextView.setText(hour + ":" + minute);
-                        // save time
-                        editor.putInt("hour", hour);
-                        editor.putInt("minute", minute);
-                        editor.commit();
-                    }
+                (view, hour, minute) -> {
+                    // set time in textView
+                    if(minute<10) timeTextView.setText(hour + ":0" + minute);
+                    else timeTextView.setText(hour + ":" + minute);
+                    // save time
+                    editor.putInt("hour", hour);
+                    editor.putInt("minute", minute);
+                    editor.commit();
                 }, hour, minute, true);
         timePickerDialog.show();
     }

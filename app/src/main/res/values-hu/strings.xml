@@ -56,4 +56,19 @@
     <string name="new_habit_end_date">Befejező dátum</string>
     <string name="new_habit_priority">Prioritás</string>
     <string name="new_habit_reminder_time">Emlékeztető ideje</string>
+    <string name="category_entries">bejegyzés</string>
+    <string name="sort_AZ">A-z</string>
+    <string name="sort_ZA">Z-a</string>
+    <string name="sort_entries_I">Bejegyzések szerint növekvő</string>
+    <string name="sort_entries_D">Bejegyzések szerint csökkenő</string>
+    <string name="sort_priority_I">Prioritás szerint növekvő</string>
+    <string name="sort_priority_D">Prioritás szerint csökkentő</string>
+    <string name="sort_category_AZ">Kategória szerint A-z</string>
+    <string name="sort_category_ZA">Kategória szerint z-A</string>
+    <string name="sort_habit_AZ">Szokás szerint A-z</string>
+    <string name="sort_habit_ZA">Szokás szerint z-A</string>
+    <string name="sort_needed_i">Hossz szerint növekvő</string>
+    <string name="sort_needed_d">Hossz szerint csökkenő</string>
+    <string name="sort_progress_i">Haladás szerint növekvő</string>
+    <string name="sort_progress_d">Haladás szerint csökkenő</string>
 </resources>

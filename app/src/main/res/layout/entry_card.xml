@@ -3,17 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/entryCardView"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="5dp"
-    android:layout_margin="5dp"
-    app:cardElevation="0dp"
-    app:cardBackgroundColor="@android:color/transparent" >
+    android:layout_height="60dp"
+    android:layout_gravity="center_vertical"
+    android:layout_marginBottom="10dp"
+    android:background="@color/dark_gray" >
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/dark_gray"
-        android:layout_margin="10dp"
+        android:layout_height="60dp"
+        android:paddingLeft="25dp"
+        android:paddingRight="20dp"
+        android:background="?attr/colorSecondary"
+        android:paddingTop="5dp"
         android:orientation="horizontal">
 
         <ImageView
@@ -37,7 +38,7 @@
                 android:id="@+id/nameTextView"
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
-                android:layout_marginBottom="5dp"
+                android:layout_marginBottom="2dp"
                 android:text="TextView"
                 android:textSize="20dp"
                 android:textStyle="bold" />
@@ -45,9 +46,9 @@
             <TextView
                 android:id="@+id/descriptionTextView"
                 android:layout_width="match_parent"
-                android:layout_height="20dp"
+                android:layout_height="23dp"
+                android:gravity="center_vertical"
                 android:text="TextView"
-                android:layout_marginBottom="5dp"
                 android:textSize="16dp" />
         </LinearLayout>
 
@@ -57,6 +58,8 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:buttonTint="?attr/colorPrimary"
+            android:scaleX="2"
+            android:scaleY="2"
             android:layout_weight="0" />
 
     </LinearLayout>

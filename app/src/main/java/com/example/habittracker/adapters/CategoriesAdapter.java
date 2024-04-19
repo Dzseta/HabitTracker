@@ -67,7 +67,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
         holder.iconImageView.setImageResource(context.getResources().getIdentifier(model.getIcon(), "drawable", context.getPackageName()));
         holder.iconImageView.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(model.getColor())));
         holder.nameTextView.setText(model.getName());
-        holder.entriesTextView.setText(dbHandler.readAllHabitsInCategory(model.getName()).size() + " entries");
+        holder.entriesTextView.setText(dbHandler.readAllHabitsInCategory(model.getName()).size() + " " + context.getResources().getString(R.string.category_entries));
         holder.editButton.setOnClickListener(v -> {
             if (context instanceof CategoriesActivity) {
                 ((CategoriesActivity)context).showBottomSheet(v, model.getName());

@@ -9,17 +9,23 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.habittracker.R;
 import com.example.habittracker.adapters.DatabaseHandler;
 import com.example.habittracker.adapters.GoalsAdapter;
 import com.example.habittracker.fragments.NewGoalFragment;
+import com.example.habittracker.models.CategoryModel;
 import com.example.habittracker.models.GoalModel;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class GoalsActivity extends AppCompatActivity implements NewGoalFragment.ItemClickListener {
 
@@ -32,6 +38,12 @@ public class GoalsActivity extends AppCompatActivity implements NewGoalFragment.
     private RecyclerView goalsRecyclerView;
     private ArrayList<GoalModel> goalsArrayList;
     private NewGoalFragment newGoalFragment;
+    // spinner
+    Spinner sortSpinner;
+    // array adapter
+    ArrayAdapter<String> adapter;
+    // sort's position
+    int position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +63,7 @@ public class GoalsActivity extends AppCompatActivity implements NewGoalFragment.
         dbHandler = new DatabaseHandler(GoalsActivity.this);
         // get goals
         goalsArrayList = dbHandler.readAllGoals();
+        goalsArrayList = sortProgressDecreasing(goalsArrayList);
         // passing list to adapter
         goalsAdapter = new GoalsAdapter(goalsArrayList, GoalsActivity.this);
         goalsRecyclerView = findViewById(R.id.goalsRecyclerView);
@@ -68,6 +81,91 @@ public class GoalsActivity extends AppCompatActivity implements NewGoalFragment.
             newGoalFragment.setArguments(bundle);
             newGoalFragment.show(getSupportFragmentManager(), NewGoalFragment.TAG);
         });
+        // get the spinner from the xml
+        sortSpinner = findViewById(R.id.sortSpinner);
+        String[] sortOptions = {getResources().getString(R.string.sort_progress_d), getResources().getString(R.string.sort_progress_i), getResources().getString(R.string.sort_needed_d), getResources().getString(R.string.sort_needed_i), getResources().getString(R.string.sort_AZ), getResources().getString(R.string.sort_ZA), getResources().getString(R.string.sort_category_AZ), getResources().getString(R.string.sort_category_ZA)};
+        // create an adapter
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, sortOptions);
+        // default position is 0
+        position = 0;
+        // set the spinner adapter
+        sortSpinner.setAdapter(adapter);
+        sortSpinner.setOnItemSelectedListener(
+                new AdapterView.OnItemSelectedListener() {
+                    public void onItemSelected(AdapterView<?> parent, View view, int position2, long id) {
+                        position = sortSpinner.getSelectedItemPosition();
+                        switch(position) {
+                            case 0:
+                                goalsArrayList = sortProgressDecreasing(goalsArrayList);
+                                break;
+                            case 1:
+                                goalsArrayList = sortProgressIncreasing(goalsArrayList);
+                                break;
+                            case 2:
+                                goalsArrayList = sortNeededDecreasing(goalsArrayList);
+                                break;
+                            case 3:
+                                goalsArrayList = sortNeededIncreasing(goalsArrayList);
+                                break;
+                            case 4:
+                                goalsArrayList = sortNameAZ(goalsArrayList);
+                                break;
+                            case 5:
+                                goalsArrayList = sortNameZA(goalsArrayList);
+                                break;
+                            case 6:
+                                goalsArrayList = sortCategoryAZ(goalsArrayList);
+                                break;
+                            case 7:
+                                goalsArrayList = sortCategoryZA(goalsArrayList);
+                                break;
+                        }
+                        goalsAdapter.notifyDataSetChanged();
+                    }
+                    public void onNothingSelected(AdapterView<?> parent) {
+                        position = 0;
+                    }
+                });
+    }
+
+    ArrayList<GoalModel> sortNameAZ(ArrayList<GoalModel> goalsArrayList){
+        Collections.sort(goalsArrayList, Comparator.comparing(GoalModel::getHabit));
+        return goalsArrayList;
+    }
+
+    ArrayList<GoalModel> sortNameZA(ArrayList<GoalModel> goalsArrayList){
+        Collections.sort(goalsArrayList, (first, second) -> second.getHabit().compareTo(first.getHabit()));
+        return goalsArrayList;
+    }
+
+    ArrayList<GoalModel> sortNeededIncreasing(ArrayList<GoalModel> goalsArrayList){
+        Collections.sort(goalsArrayList, Comparator.comparing(GoalModel::getNeeded));
+        return goalsArrayList;
+    }
+
+    ArrayList<GoalModel> sortNeededDecreasing(ArrayList<GoalModel> goalsArrayList){
+        Collections.reverse(sortNeededIncreasing(goalsArrayList));
+        return goalsArrayList;
+    }
+
+    ArrayList<GoalModel> sortCategoryAZ(ArrayList<GoalModel> goalsArrayList){
+        Collections.sort(goalsArrayList, (first, second) -> dbHandler.readHabitByName(first.getHabit()).getCategoryName().compareTo(dbHandler.readHabitByName(second.getHabit()).getCategoryName()));
+        return goalsArrayList;
+    }
+
+    ArrayList<GoalModel> sortCategoryZA(ArrayList<GoalModel> goalsArrayList){
+        Collections.sort(goalsArrayList, (first, second) -> dbHandler.readHabitByName(second.getHabit()).getCategoryName().compareTo(dbHandler.readHabitByName(first.getHabit()).getCategoryName()));
+        return goalsArrayList;
+    }
+
+    ArrayList<GoalModel> sortProgressIncreasing(ArrayList<GoalModel> goalsArrayList){
+        Collections.sort(goalsArrayList, (first, second) -> Double.compare(1.0 * first.streak(dbHandler.readAllEntriesByHabit(first.getHabit())) / first.getNeeded() * 100, 1.0 * second.streak(dbHandler.readAllEntriesByHabit(second.getHabit())) / second.getNeeded() * 100));
+        return goalsArrayList;
+    }
+
+    ArrayList<GoalModel> sortProgressDecreasing(ArrayList<GoalModel> goalsArrayList){
+        Collections.sort(goalsArrayList, (first, second) -> Double.compare(1.0 * second.streak(dbHandler.readAllEntriesByHabit(second.getHabit())) / second.getNeeded() * 100, 1.0 * first.streak(dbHandler.readAllEntriesByHabit(first.getHabit())) / first.getNeeded() * 100));
+        return goalsArrayList;
     }
 
     // ############################### ONCLICKS ##########################################

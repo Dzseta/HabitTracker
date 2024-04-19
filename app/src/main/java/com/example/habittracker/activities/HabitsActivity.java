@@ -4,13 +4,17 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.habittracker.R;
 import com.example.habittracker.adapters.DatabaseHandler;
 import com.example.habittracker.adapters.HabitsAdapter;
+import com.example.habittracker.models.EntryModel;
 import com.example.habittracker.models.HabitModel;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +23,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 
 public class HabitsActivity extends AppCompatActivity {
@@ -31,7 +37,12 @@ public class HabitsActivity extends AppCompatActivity {
     private HabitsAdapter habitsAdapter;
     private RecyclerView habitsRecyclerView;
     private ArrayList<HabitModel> habitsArrayList;
-
+    // spinner
+    Spinner sortSpinner;
+    // array adapter
+    ArrayAdapter<String> adapter;
+    // sort's position
+    int position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +62,8 @@ public class HabitsActivity extends AppCompatActivity {
         dbHandler.deleteHabit("tttzzzjdkgnh");
         // get habits
         habitsArrayList = dbHandler.readAllHabits();
+        habitsArrayList = sortPriorityDecreasing(habitsArrayList);
+        habitsArrayList = sortCategoryAZ(habitsArrayList);
         // passing list to adapter
         habitsAdapter = new HabitsAdapter(habitsArrayList, HabitsActivity.this);
         habitsRecyclerView = findViewById(R.id.habitsRecyclerView);
@@ -66,6 +79,78 @@ public class HabitsActivity extends AppCompatActivity {
             i.setClass(this, NewHabitActivity.class);
             startActivity(i);
         });
+
+        // get the spinner from the xml
+        sortSpinner = findViewById(R.id.sortSpinner);
+        String[] sortOptions = {getResources().getString(R.string.sort_category_AZ), getResources().getString(R.string.sort_category_ZA), getResources().getString(R.string.sort_priority_D), getResources().getString(R.string.sort_priority_I), getResources().getString(R.string.sort_AZ), getResources().getString(R.string.sort_ZA)};
+        // create an adapter
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, sortOptions);
+        // default position is 0
+        position = 0;
+        // set the spinner adapter
+        sortSpinner.setAdapter(adapter);
+        sortSpinner.setOnItemSelectedListener(
+                new AdapterView.OnItemSelectedListener() {
+                    public void onItemSelected(AdapterView<?> parent, View view, int position2, long id) {
+                        position = sortSpinner.getSelectedItemPosition();
+                        switch(position) {
+                            case 0:
+                                habitsArrayList = sortPriorityDecreasing(habitsArrayList);
+                                habitsArrayList = sortCategoryAZ(habitsArrayList);
+                                break;
+                            case 1:
+                                habitsArrayList = sortPriorityDecreasing(habitsArrayList);
+                                habitsArrayList = sortCategoryZA(habitsArrayList);
+                                break;
+                            case 2:
+                                habitsArrayList = sortPriorityDecreasing(habitsArrayList);
+                                break;
+                            case 3:
+                                habitsArrayList = sortPriorityIncreasing(habitsArrayList);
+                                break;
+                            case 4:
+                                habitsArrayList = sortNameAZ(habitsArrayList);
+                                break;
+                            case 5:
+                                habitsArrayList = sortNameZA(habitsArrayList);
+                                break;
+                        }
+                        habitsAdapter.notifyDataSetChanged();
+                    }
+                    public void onNothingSelected(AdapterView<?> parent) {
+                        position = 0;
+                    }
+                });
+    }
+
+    ArrayList<HabitModel> sortCategoryAZ(ArrayList<HabitModel> habitsArrayList){
+        Collections.sort(habitsArrayList, Comparator.comparing(HabitModel::getCategoryName));
+        return habitsArrayList;
+    }
+
+    ArrayList<HabitModel> sortCategoryZA(ArrayList<HabitModel> habitsArrayList){
+        Collections.sort(habitsArrayList, (first, second) -> second.getCategoryName().compareTo(first.getCategoryName()));
+        return habitsArrayList;
+    }
+
+    ArrayList<HabitModel> sortPriorityDecreasing(ArrayList<HabitModel> habitsArrayList){
+        Collections.sort(habitsArrayList, Comparator.comparingInt(HabitModel::getPriority));
+        return habitsArrayList;
+    }
+
+    ArrayList<HabitModel> sortPriorityIncreasing(ArrayList<HabitModel> habitsArrayList){
+        Collections.sort(habitsArrayList, (first, second) -> Integer.compare(second.getPriority(), first.getPriority()));
+        return habitsArrayList;
+    }
+
+    ArrayList<HabitModel> sortNameAZ(ArrayList<HabitModel> habitsArrayList){
+        Collections.sort(habitsArrayList, Comparator.comparing(HabitModel::getName));
+        return habitsArrayList;
+    }
+
+    ArrayList<HabitModel> sortNameZA(ArrayList<HabitModel> habitsArrayList){
+        Collections.sort(habitsArrayList, (first, second) -> second.getName().compareTo(first.getName()));
+        return habitsArrayList;
     }
 
     // ############################################ ONCLICKS #####################################################

@@ -6,11 +6,20 @@ public class CategoryModel {
     private String icon;
     private String name;
     private String color;
+    private int entries;
 
     public CategoryModel(String icon, String name, String color) {
         this.icon = icon;
         this.name = name;
         this.color = color;
+        entries = 0;
+    }
+
+    public CategoryModel(String icon, String name, String color, int entries) {
+        this.icon = icon;
+        this.name = name;
+        this.color = color;
+        this.entries = entries;
     }
 
     public String getIcon() {
@@ -35,5 +44,13 @@ public class CategoryModel {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public int getEntries() {
+        return entries;
+    }
+
+    public void setEntries(int entries) {
+        this.entries = entries;
     }
 }

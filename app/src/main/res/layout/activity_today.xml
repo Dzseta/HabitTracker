@@ -33,7 +33,71 @@
             android:layout_gravity="center"
             android:text="@string/title_today"
             android:textSize="30sp" />
+    </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/datepickerLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="50dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+
+        <ImageView
+            android:id="@+id/leftImageButton"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:background="@android:color/transparent"
+            android:src="@drawable/icon_arrow_left"
+            app:tint="?attr/colorPrimary" />
+
+        <TextView
+            android:id="@+id/dateTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="20dp"
+            android:text="TextView" />
+
+        <ImageView
+            android:id="@+id/rightImageButton"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:background="@android:color/transparent"
+            android:src="@drawable/icon_arrow_right"
+            app:tint="?attr/colorPrimary" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/sortLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/datepickerLinearLayout"
+        tools:layout_editor_absoluteX="20dp">
+
+        <Spinner
+            android:id="@+id/sortSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="20dp"
+            android:layout_weight="1"
+            android:background="@drawable/edittext_background" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_weight="0"
+            android:src="@drawable/icon_sort"
+            app:tint="?attr/colorPrimary" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -43,7 +107,7 @@
         android:paddingTop="20dp"
         android:paddingBottom="130dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+        app:layout_constraintTop_toBottomOf="@+id/sortLinearLayout" />
 
     <include
         layout="@layout/hamburger_menu"

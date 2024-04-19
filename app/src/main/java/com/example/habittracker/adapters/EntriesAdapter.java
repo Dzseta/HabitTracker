@@ -57,6 +57,7 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHold
         holder.nameTextView.setText(model.getHabit());
         holder.descriptionTextView.setText(habit.getDescription());
         if(model.getData().equals("true")) holder.checkBox.setChecked(true);
+        else holder.checkBox.setChecked(false);
         holder.checkBox.setOnClickListener(view -> {
             if(holder.checkBox.isChecked()) {
                 model.setData("true");

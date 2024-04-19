@@ -63,9 +63,7 @@ public class HabitsAdapter extends RecyclerView.Adapter<HabitsAdapter.ViewHolder
         holder.nameTextView.setText(model.getName());
         holder.descriptionTextView.setText(model.getDescription());
 
-        LocalDate endDate = LocalDate.parse(model.getEndDate());
-        LocalDate infinity = LocalDate.parse("2098-12-12");
-        if(endDate.isAfter(infinity)) holder.dateTextView.setText(model.getStartDate() + " -");
+        if(model.getEndDate().equals("")) holder.dateTextView.setText(model.getStartDate() + " -");
         else holder.dateTextView.setText(model.getStartDate() + " - " + model.getEndDate());
         holder.editButton.setOnClickListener(v -> {
             Intent i = new Intent();

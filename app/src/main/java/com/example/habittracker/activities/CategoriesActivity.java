@@ -10,9 +10,12 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.habittracker.R;
@@ -25,7 +28,15 @@ import com.example.habittracker.models.CategoryModel;
 import com.example.habittracker.models.GoalModel;
 import com.example.habittracker.models.HabitModel;
 
+import org.checkerframework.checker.units.qual.A;
+
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 public class CategoriesActivity extends AppCompatActivity implements NewCategoryFragment.ItemClickListener {
 
@@ -38,6 +49,12 @@ public class CategoriesActivity extends AppCompatActivity implements NewCategory
     private RecyclerView categoriesRecyclerView;
     private ArrayList<CategoryModel> categoriesArrayList;
     private NewCategoryFragment newCategoryFragment;
+    // spinner
+    Spinner sortSpinner;
+    // array adapter
+    ArrayAdapter<String> adapter;
+    // sort's position
+    int position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +72,8 @@ public class CategoriesActivity extends AppCompatActivity implements NewCategory
         // database handler
         dbHandler = new DatabaseHandler(CategoriesActivity.this);
         // get categories
-        categoriesArrayList = dbHandler.readAllCategories();
+        categoriesArrayList = setEntries(dbHandler.readAllCategories());
+        categoriesArrayList = sortEntriesDecreasing(categoriesArrayList);
         // passing list to adapter
         categoriesAdapter = new CategoriesAdapter(categoriesArrayList, CategoriesActivity.this);
         categoriesRecyclerView = findViewById(R.id.categoryRecyclerView);
@@ -73,6 +91,67 @@ public class CategoriesActivity extends AppCompatActivity implements NewCategory
             newCategoryFragment.setArguments(bundle);
             newCategoryFragment.show(getSupportFragmentManager(), NewCategoryFragment.TAG);
         });
+        // get the spinner from the xml
+        sortSpinner = findViewById(R.id.sortSpinner);
+        String[] sortOptions = {getResources().getString(R.string.sort_entries_D), getResources().getString(R.string.sort_entries_I), getResources().getString(R.string.sort_AZ), getResources().getString(R.string.sort_ZA)};
+        // create an adapter
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, sortOptions);
+        // default position is 0
+        position = 0;
+        // set the spinner adapter
+        sortSpinner.setAdapter(adapter);
+        sortSpinner.setOnItemSelectedListener(
+                new AdapterView.OnItemSelectedListener() {
+                    public void onItemSelected(AdapterView<?> parent, View view, int position2, long id) {
+                        position = sortSpinner.getSelectedItemPosition();
+                        switch(position) {
+                            case 0:
+                                categoriesArrayList = sortEntriesDecreasing(categoriesArrayList);
+                                break;
+                            case 1:
+                                categoriesArrayList = sortEntriesIncreasing(categoriesArrayList);
+                                break;
+                            case 2:
+                                categoriesArrayList = sortNameAZ(categoriesArrayList);
+                                break;
+                            case 3:
+                                categoriesArrayList = sortNameZA(categoriesArrayList);
+                                break;
+                        }
+                        categoriesAdapter.notifyDataSetChanged();
+                    }
+
+                    public void onNothingSelected(AdapterView<?> parent) {
+                        position = 0;
+                    }
+                });
+    }
+
+    ArrayList<CategoryModel> sortNameAZ(ArrayList<CategoryModel> categoriesArrayList){
+        Collections.sort(categoriesArrayList, Comparator.comparing(CategoryModel::getName));
+        return categoriesArrayList;
+    }
+
+    ArrayList<CategoryModel> sortNameZA(ArrayList<CategoryModel> categoriesArrayList){
+        Collections.sort(categoriesArrayList, (first, second) -> second.getName().compareTo(first.getName()));
+        return categoriesArrayList;
+    }
+
+    ArrayList<CategoryModel> sortEntriesIncreasing(ArrayList<CategoryModel> categoriesArrayList){
+        Collections.sort(categoriesArrayList, Comparator.comparing(CategoryModel::getEntries));
+        return categoriesArrayList;
+    }
+
+    ArrayList<CategoryModel> sortEntriesDecreasing(ArrayList<CategoryModel> categoriesArrayList){
+        Collections.reverse(sortEntriesIncreasing(categoriesArrayList));
+        return categoriesArrayList;
+    }
+
+    ArrayList<CategoryModel> setEntries(ArrayList<CategoryModel> categoriesArrayList) {
+        for(int i=0; i<categoriesArrayList.size(); i++) {
+            categoriesArrayList.get(i).setEntries(dbHandler.readAllHabitsInCategory(categoriesArrayList.get(i).getName()).size());
+        }
+        return categoriesArrayList;
     }
 
     // ############################### ONCLICKS ######################################
