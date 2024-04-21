@@ -13,6 +13,7 @@
     <string name="button_logout">Log out</string>
     <string name="button_register">Register</string>
     <string name="button_create">Create</string>
+    <string name="button_change">Change</string>
     <string name="button_ok" translatable="false">OK</string>
 
     <!-- Sort -->
@@ -37,6 +38,9 @@
     <string name="password">Password</string>
     <string name="forgotten_password">Forgotten password</string>
 
+    <!-- Login -->
+    <string name="title_reset_password">Reset password</string>
+
     <!-- Toolbar -->
     <string name="toolbar_today">TODAY</string>
     <string name="toolbar_calendar">CALENDAR</string>
@@ -59,6 +63,8 @@
     <string name="title_settings">Settings</string>
     <string name="settings_reminder">Reminder</string>
     <string name="settings_time">Time</string>
+    <string name="settings_language">Language</string>
+    <string name="settings_theme">Theme</string>
 
     <!-- Profile -->
     <string name="title_profile">Profile</string>
@@ -106,5 +112,14 @@
     <string name="new_habit_end_date">End date</string>
     <string name="new_habit_priority">Priority</string>
     <string name="new_habit_reminder_time">Reminder time</string>
+
+    <!-- Profile -->
+    <string name="profile_change_email">Change email</string>
+    <string name="profile_old_email">Email</string>
+    <string name="profile_new_email">New email</string>
+    <string name="profile_change_password">Change password</string>
+    <string name="profile_password">Password</string>
+    <string name="profile_current_password">Current password</string>
+    <string name="profile_new_password">New password</string>
 
 </resources>

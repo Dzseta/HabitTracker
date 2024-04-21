@@ -71,4 +71,15 @@
     <string name="sort_needed_d">Hossz szerint csökkenő</string>
     <string name="sort_progress_i">Haladás szerint növekvő</string>
     <string name="sort_progress_d">Haladás szerint csökkenő</string>
+    <string name="title_reset_password">Jelszó helyreállítása</string>
+    <string name="profile_change_email">E-mail megváltoztatása</string>
+    <string name="profile_old_email">E-mail cím</string>
+    <string name="profile_new_email">Új e-mail cím</string>
+    <string name="profile_password">Jelszó</string>
+    <string name="profile_new_password">Új jelszó</string>
+    <string name="button_change">Megváltoztat</string>
+    <string name="profile_change_password">Jelszó megváltoztatása</string>
+    <string name="profile_current_password">Jelenlegi jelszó</string>
+    <string name="settings_language">Nyelv</string>
+    <string name="settings_theme">Theme</string>
 </resources>

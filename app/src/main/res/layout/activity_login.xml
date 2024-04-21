@@ -30,7 +30,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
             android:orientation="horizontal">
 
             <TextView
@@ -43,16 +44,19 @@
             <EditText
                 android:id="@+id/editTextTextEmailAddress"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:layout_weight="1"
                 android:ems="10"
                 android:hint="pelda@email.hu"
+                android:background="@drawable/edittext_background"
+
                 android:inputType="textEmailAddress" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
             android:orientation="horizontal">
 
             <TextView
@@ -65,10 +69,11 @@
             <EditText
                 android:id="@+id/editTextTextPassword"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:layout_weight="1"
                 android:ems="10"
                 android:hint="jelszo123"
+                android:background="@drawable/edittext_background"
                 android:inputType="textPassword" />
         </LinearLayout>
 
@@ -90,7 +95,7 @@
             android:text="@string/button_register" />
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/resetPasswordButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="openActivity"

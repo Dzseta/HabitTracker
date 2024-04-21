@@ -70,6 +70,7 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
         if(model.isFinished()) {
             holder.streakTextView.setText(model.getNeeded() + " / " + model.getNeeded());
             holder.progressBar.setProgress(100);
+            holder.progressBar.setProgressTintList(ColorStateList.valueOf(context.getColor(R.color.green)));
         } else if (entries.size() == 0) {
             holder.streakTextView.setText(0 + " / " + model.getNeeded());
             holder.progressBar.setProgress(0);
@@ -78,6 +79,7 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
             if(streak >= model.getNeeded()) {
                 holder.streakTextView.setText(model.getNeeded() + " / " + model.getNeeded());
                 holder.progressBar.setProgress(100);
+                holder.progressBar.setProgressTintList(ColorStateList.valueOf(context.getColor(R.color.green)));
                 model.setFinished(true);
                 dbHandler.updateGoal(model);
             }

@@ -2,22 +2,22 @@ package com.example.habittracker.models;
 
 public class RatingModel {
 
-    private String email;
+    private String uid;
     private float stars;
     private String opinion;
 
-    public RatingModel(String email, float stars, String opinion) {
-        this.email = email;
+    public RatingModel(String uid, float stars, String opinion) {
+        this.uid = uid;
         this.stars = stars;
         this.opinion = opinion;
     }
 
-    public String getEmail() {
-        return email;
+    public String getUid() {
+        return uid;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUid(String email) {
+        this.uid = email;
     }
 
     public float getStars() {

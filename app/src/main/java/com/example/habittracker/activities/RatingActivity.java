@@ -41,7 +41,7 @@ public class RatingActivity extends AppCompatActivity {
     RatingBar ratingbar;
     EditText opinionText;
     RatingModel rating;
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    FirebaseFirestore db;
     DocumentReference docref;
 
     @Override
@@ -49,6 +49,7 @@ public class RatingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rating);
 
+        db = FirebaseFirestore.getInstance();
         // hamburger menu
         hamburgerMenu = findViewById(R.id.hamburgerMenu);
         ratingIW= findViewById(R.id.ratingImageView);
@@ -67,29 +68,25 @@ public class RatingActivity extends AppCompatActivity {
 
         // get previous rating
         db.collection("ratings")
-                .whereEqualTo("email", FirebaseAuth.getInstance().getCurrentUser().getEmail())
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                rating = new RatingModel(document.getData().get("email").toString(), parseFloat(document.getData().get("stars").toString()), document.getData().get("opinion").toString());
-                                docref = document.getReference();
-                                ratingbar.setRating(rating.getStars());
-                                opinionText.setText(rating.getOpinion());
-                                sendButton.setClickable(true);
-                            }
-                        } else {
-                            Toast.makeText(RatingActivity.this, "Nem sikerült elérni a szervert", Toast.LENGTH_LONG).show();
+                .whereEqualTo("email", FirebaseAuth.getInstance().getCurrentUser().getUid()).get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            rating = new RatingModel(document.getData().get("uid").toString(), parseFloat(document.getData().get("stars").toString()), document.getData().get("opinion").toString());
+                            docref = document.getReference();
+                            ratingbar.setRating(rating.getStars());
+                            opinionText.setText(rating.getOpinion());
+                            sendButton.setClickable(true);
                         }
+                    } else {
+                        Toast.makeText(RatingActivity.this, "Nem sikerült elérni a szervert", Toast.LENGTH_LONG).show();
                     }
                 });
     }
 
     public void sendRating(View view) {
         // Create a new rating
-        rating = new RatingModel(FirebaseAuth.getInstance().getCurrentUser().getEmail(), ratingbar.getRating(), opinionText.getText().toString());
+        rating = new RatingModel(FirebaseAuth.getInstance().getCurrentUser().getUid(), ratingbar.getRating(), opinionText.getText().toString());
 
         if (docref == null) {
             // Add a new document with a generated ID

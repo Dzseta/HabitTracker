@@ -78,7 +78,12 @@ public class LoginActivity extends AppCompatActivity {
                 i.setClass(this, RegisterActivity.class);
                 startActivity(i);
                 break;
+            case R.id.resetPasswordButton:
+                i.setClass(this, ResetPasswordActivity.class);
+                startActivity(i);
+                break;
             default: break;
         }
     }
+
 }

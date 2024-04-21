@@ -1,28 +1,42 @@
 package com.example.habittracker.activities;
 
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
+import androidx.core.os.LocaleListCompat;
 
 import com.example.habittracker.R;
+
+import java.util.Locale;
 
 public class SettingsActivity extends AppCompatActivity {
 
     public View hamburgerMenu;
     private ImageView settingsIW;
+    private ImageView hunImageView;
+    private ImageView engImageView;
+    private ImageView redImageView;
     private TextView settingsTW;
     private LinearLayout reminderTimeLinearLayout;
     private TextView timeTextView;
     private Switch reminderSwitch;
+    private TimePicker reminderTimePicker;
     // sharedprefs
     private static String PREF_NAME = "optionsSharedPrefs";
     SharedPreferences prefs;
@@ -40,9 +54,14 @@ public class SettingsActivity extends AppCompatActivity {
 
         // time TextView
         timeTextView = findViewById(R.id.timeTextView);
+        // flag imageviews
+        hunImageView = findViewById(R.id.hunImageView);
+        engImageView = findViewById(R.id.engImageView);
+        // theme imageviews
+        redImageView = findViewById(R.id.redImageView);
         // hamburger menu
         hamburgerMenu = findViewById(R.id.hamburgerMenu);
-        settingsIW= findViewById(R.id.settingsImageView);
+        settingsIW = findViewById(R.id.settingsImageView);
         settingsIW.setColorFilter(ContextCompat.getColor(this, R.color.light_gray));
         settingsTW = findViewById(R.id.settingsTextView);
         settingsTW.setTextColor(ContextCompat.getColor(this, R.color.light_gray));
@@ -50,6 +69,9 @@ public class SettingsActivity extends AppCompatActivity {
         reminderTimeLinearLayout = findViewById(R.id.reminderTimeLinearLayout);
         // reminder switch
         reminderSwitch = findViewById(R.id.reminderSwitch);
+        // reminder time picker
+        reminderTimePicker = findViewById(R.id.reminderTimePicker);
+        reminderTimePicker.setIs24HourView(true);
         // sharedPrefs
         prefs = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
         editor = prefs.edit();
@@ -57,14 +79,14 @@ public class SettingsActivity extends AppCompatActivity {
         // hour, minute
         hour = prefs.getInt("hour", 0);
         minute = prefs.getInt("minute", 0);
-        if(minute<10) timeTextView.setText(hour + ":0" + minute);
-        else timeTextView.setText(hour + ":" + minute);
+        reminderTimePicker.setHour(hour);
+        reminderTimePicker.setMinute(minute);
 
         // reminder
         reminder = prefs.getBoolean("reminder", false);
         if(!reminder) {
             reminderSwitch.setChecked(false);
-            reminderTimeLinearLayout.setVisibility(View.INVISIBLE);
+            reminderTimeLinearLayout.setVisibility(View.GONE);
         } else {
             reminderSwitch.setChecked(true);
             reminderTimeLinearLayout.setVisibility(View.VISIBLE);
@@ -78,36 +100,46 @@ public class SettingsActivity extends AppCompatActivity {
                 reminder = true;
             } else {
                 reminderSwitch.setChecked(false);
-                reminderTimeLinearLayout.setVisibility(View.INVISIBLE);
+                reminderTimeLinearLayout.setVisibility(View.GONE);
                 reminder = false;
             }
             editor.putBoolean("reminder", reminder);
             editor.commit();
         });
+
+        reminderTimePicker.setOnTimeChangedListener((timePicker, h, m) -> {
+            hour = h;
+            minute = m;
+            // save time
+            editor.putInt("hour", hour);
+            editor.putInt("minute", minute);
+            editor.commit();
+        });
+
+        hunImageView.setOnClickListener(view -> changeLanguage("hu"));
+        engImageView.setOnClickListener(view -> changeLanguage("en"));
+
+        redImageView.setOnClickListener(view -> changeTheme());
     }
 
 
     // ######################################### ONCLICKS ######################################################################
-    // select time for reminder
-    public void selectTime(View v) {
-        // initialize Time Picker Dialog
-        TimePickerDialog timePickerDialog = new TimePickerDialog(SettingsActivity.this, R.style.TimePickerTheme,
-                (view, hour, minute) -> {
-                    // set time in textView
-                    if(minute<10) timeTextView.setText(hour + ":0" + minute);
-                    else timeTextView.setText(hour + ":" + minute);
-                    // save time
-                    editor.putInt("hour", hour);
-                    editor.putInt("minute", minute);
-                    editor.commit();
-                }, hour, minute, true);
-        timePickerDialog.show();
+    // choose theme
+    public void changeTheme() {
+        // TODO - sharedpreffel
+        setTheme(R.style.Theme_HabitTracker_Red);
+    }
+
+    // choose language
+    public void changeLanguage(String lang) {
+        LocaleListCompat appLocale = LocaleListCompat.forLanguageTags(lang);
+        AppCompatDelegate.setApplicationLocales(appLocale);
     }
 
     // open and close the hamburger menu
     public void openCloseHamburgerMenu(View view) {
         if (hamburgerMenu.getVisibility() == View.VISIBLE) {
-            hamburgerMenu.setVisibility(View.INVISIBLE);
+            hamburgerMenu.setVisibility(View.GONE);
         } else {
             hamburgerMenu.setVisibility(View.VISIBLE);
         }
