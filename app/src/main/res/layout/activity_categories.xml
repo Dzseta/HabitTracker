@@ -23,6 +23,7 @@
             android:layout_height="30dp"
             android:layout_margin="10dp"
             android:layout_weight="0"
+            app:tint="?attr/colorPrimary"
             android:onClick="openCloseHamburgerMenu"
             android:src="@drawable/hamburger_menu" />
 

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -37,10 +38,20 @@ public class ProfileActivity extends AppCompatActivity {
     private EditText passwordEditText;
     private EditText oldPasswordEditText;
     private EditText newPasswordEditText;
+    // sharedprefs
+    private static String PREF_NAME = "optionsSharedPrefs";
+    SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // sharedPrefs
+        prefs = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
+        String color = prefs.getString("color", "y");
+        if(color.equals("r")) setTheme(R.style.Theme_HabitTracker_Red);
+        else if(color.equals("g")) setTheme(R.style.Theme_HabitTracker_Green);
+        else if(color.equals("b")) setTheme(R.style.Theme_HabitTracker_Blue);
+        else setTheme(R.style.Theme_HabitTracker);
         setContentView(R.layout.activity_profile);
 
         // Initialize Firebase Auth

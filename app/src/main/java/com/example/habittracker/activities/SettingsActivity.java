@@ -31,7 +31,10 @@ public class SettingsActivity extends AppCompatActivity {
     private ImageView settingsIW;
     private ImageView hunImageView;
     private ImageView engImageView;
+    private ImageView yellowImageView;
     private ImageView redImageView;
+    private ImageView greenImageView;
+    private ImageView blueImageView;
     private TextView settingsTW;
     private LinearLayout reminderTimeLinearLayout;
     private TextView timeTextView;
@@ -50,6 +53,14 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // sharedPrefs
+        prefs = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
+        editor = prefs.edit();
+        String color = prefs.getString("color", "y");
+        if(color.equals("r")) setTheme(R.style.Theme_HabitTracker_Red);
+        else if(color.equals("g")) setTheme(R.style.Theme_HabitTracker_Green);
+        else if(color.equals("b")) setTheme(R.style.Theme_HabitTracker_Blue);
+        else setTheme(R.style.Theme_HabitTracker);
         setContentView(R.layout.activity_settings);
 
         // time TextView
@@ -58,7 +69,10 @@ public class SettingsActivity extends AppCompatActivity {
         hunImageView = findViewById(R.id.hunImageView);
         engImageView = findViewById(R.id.engImageView);
         // theme imageviews
+        yellowImageView = findViewById(R.id.yellowImageView);
         redImageView = findViewById(R.id.redImageView);
+        greenImageView = findViewById(R.id.greenImageView);
+        blueImageView = findViewById(R.id.blueImageView);
         // hamburger menu
         hamburgerMenu = findViewById(R.id.hamburgerMenu);
         settingsIW = findViewById(R.id.settingsImageView);
@@ -72,9 +86,6 @@ public class SettingsActivity extends AppCompatActivity {
         // reminder time picker
         reminderTimePicker = findViewById(R.id.reminderTimePicker);
         reminderTimePicker.setIs24HourView(true);
-        // sharedPrefs
-        prefs = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
-        editor = prefs.edit();
 
         // hour, minute
         hour = prefs.getInt("hour", 0);
@@ -119,15 +130,19 @@ public class SettingsActivity extends AppCompatActivity {
         hunImageView.setOnClickListener(view -> changeLanguage("hu"));
         engImageView.setOnClickListener(view -> changeLanguage("en"));
 
-        redImageView.setOnClickListener(view -> changeTheme());
+        yellowImageView.setOnClickListener(view -> changeTheme("y"));
+        redImageView.setOnClickListener(view -> changeTheme("r"));
+        greenImageView.setOnClickListener(view -> changeTheme("g"));
+        blueImageView.setOnClickListener(view -> changeTheme("b"));
     }
 
 
     // ######################################### ONCLICKS ######################################################################
     // choose theme
-    public void changeTheme() {
-        // TODO - sharedpreffel
-        setTheme(R.style.Theme_HabitTracker_Red);
+    public void changeTheme(String color) {
+        editor.putString("color", color);
+        editor.commit();
+        this.recreate();
     }
 
     // choose language

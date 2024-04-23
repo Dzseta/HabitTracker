@@ -5,8 +5,14 @@
     <color name="orange">#FFC107</color>
     <color name="yellow">#ECCA66</color>
     <color name="dark_gray">#191919</color>
-    <color name="medium_gray">#303030</color>
+    <color name="medium_gray">#2B2B2B</color>
     <color name="light_gray">#DDDDDD</color>
     <color name="green">#4CAF50</color>
     <color name="red">#FD2C1C</color>
+    <color name="dark_blue">#2196F3</color>
+    <color name="light_blue">#00BCD4</color>
+    <color name="dark_green">#4CAF50</color>
+    <color name="light_green">#8BC34A</color>
+    <color name="dark_red">#F44336</color>
+    <color name="light_red">#F44336</color>
 </resources>

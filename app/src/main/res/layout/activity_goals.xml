@@ -23,6 +23,7 @@
             android:layout_height="30dp"
             android:layout_margin="10dp"
             android:layout_weight="0"
+            app:tint="?attr/colorPrimary"
             android:onClick="openCloseHamburgerMenu"
             android:src="@drawable/hamburger_menu" />
 
@@ -35,6 +36,15 @@
             android:textSize="30sp" />
     </LinearLayout>
 
+    <View
+        android:id="@+id/separatorView"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginVertical="10dp"
+        android:background="@color/medium_gray"
+        app:layout_constraintTop_toBottomOf="@+id/topbarLinearLayout" />
+
     <LinearLayout
         android:id="@+id/sortLinearLayout"
         android:layout_width="match_parent"
@@ -42,7 +52,7 @@
         android:orientation="horizontal"
         android:layout_marginTop="10dp"
         android:layout_marginHorizontal="20dp"
-        app:layout_constraintTop_toBottomOf="@+id/topbarLinearLayout">
+        app:layout_constraintTop_toBottomOf="@+id/separatorView">
 
         <Spinner
             android:id="@+id/sortSpinner"
@@ -62,13 +72,23 @@
             app:tint="?attr/colorPrimary" />
     </LinearLayout>
 
+    <View
+        android:id="@+id/separatorView2"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginVertical="10dp"
+        android:background="@color/medium_gray"
+        app:layout_constraintTop_toBottomOf="@+id/sortLinearLayout" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/goalsRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="20dp"
         android:paddingBottom="130dp"
-        app:layout_constraintTop_toBottomOf="@+id/sortLinearLayout" />
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/separatorView2" />
 
     <ImageButton
         android:id="@+id/createButton"

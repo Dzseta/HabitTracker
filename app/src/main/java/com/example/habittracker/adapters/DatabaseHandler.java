@@ -7,12 +7,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.habittracker.models.CategoryModel;
+import com.example.habittracker.models.DayentryModel;
 import com.example.habittracker.models.EntryModel;
 import com.example.habittracker.models.GoalModel;
 import com.example.habittracker.models.HabitModel;
 import com.example.habittracker.models.RatingModel;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -22,7 +24,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     // database name
     private static final String DB_NAME = "habitsdb";
     // database version
-    private static final int DB_VERSION = 16;
+    private static final int DB_VERSION = 18;
     // id column
     private static final String ID_COL = "id";
     // name column
@@ -75,6 +77,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String DATE_COL = "date";
     // data column
     private static final String DATA_COL = "data";
+    // comment column
+    private static final String COMMENT_COL = "comment";
+    // dayentry table
+    // table name
+    private static final String DAYENTRY_TABLE_NAME = "dayentries";
+    // data column
+    private static final String MOOD_COL = "mood";
 
     // constructor for database handler
     public DatabaseHandler(Context context) {
@@ -117,12 +126,20 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + ID_COL + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + NAME_COL + " TEXT,"
                 + DATE_COL + " TEXT,"
-                + DATA_COL + " TEXT)";
+                + DATA_COL + " TEXT,"
+                + COMMENT_COL + " TEXT)";
+        // create dayentries table
+        String queryDayentries = "CREATE TABLE " + DAYENTRY_TABLE_NAME + " ("
+                + ID_COL + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + DATE_COL + " TEXT,"
+                + MOOD_COL + " INTEGER,"
+                + COMMENT_COL + " TEXT)";
         // execute sql query
         db.execSQL(queryCategories);
         db.execSQL(queryHabits);
         db.execSQL(queryGoals);
         db.execSQL(queryEntries);
+        db.execSQL(queryDayentries);
     }
 
     // ############################################### CATEGORIES ###########################################################
@@ -432,6 +449,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(NAME_COL, entry.getHabit());
         values.put(DATE_COL, entry.getDate());
         values.put(DATA_COL, entry.getData());
+        values.put(COMMENT_COL, entry.getComment());
 
         // passing content values
         db.insert(ENTRY_TABLE_NAME, null, values);
@@ -447,6 +465,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(NAME_COL, entry.getHabit());
         values.put(DATE_COL, entry.getDate());
         values.put(DATA_COL, entry.getData());
+        values.put(COMMENT_COL, entry.getComment());
 
         // update database
         db.update(ENTRY_TABLE_NAME, values, "name=? and date=?", new String[]{entry.getHabit(), entry.getDate()});
@@ -463,7 +482,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         // move cursor to first position
         if (cursorCourses.moveToFirst()) {
-            entry = new EntryModel(cursorCourses.getString(1), cursorCourses.getString(2), cursorCourses.getString(3));
+            entry = new EntryModel(cursorCourses.getString(1), cursorCourses.getString(2), cursorCourses.getString(3), cursorCourses.getString(4));
         }
         // closing cursor
         cursorCourses.close();
@@ -483,7 +502,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         if (cursorCourses.moveToFirst()) {
             do {
                 // add data to the arraylist
-                entryModelArrayList.add(new EntryModel(cursorCourses.getString(1), cursorCourses.getString(2), cursorCourses.getString(3)));
+                entryModelArrayList.add(new EntryModel(cursorCourses.getString(1), cursorCourses.getString(2), cursorCourses.getString(3), cursorCourses.getString(4)));
             } while (cursorCourses.moveToNext());
         }
         // closing cursor
@@ -504,7 +523,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         if (cursorCourses.moveToFirst()) {
             do {
                 // add data to the arraylist
-                entryModelArrayList.add(new EntryModel(cursorCourses.getString(1), cursorCourses.getString(2), cursorCourses.getString(3)));
+                entryModelArrayList.add(new EntryModel(cursorCourses.getString(1), cursorCourses.getString(2), cursorCourses.getString(3), cursorCourses.getString(4)));
             } while (cursorCourses.moveToNext());
         }
         // closing cursor
@@ -525,7 +544,32 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         if (cursorCourses.moveToFirst()) {
             do {
                 // add data to the arraylist
-                entryModelArrayList.add(new EntryModel(cursorCourses.getString(1), cursorCourses.getString(2), cursorCourses.getString(3)));
+                entryModelArrayList.add(new EntryModel(cursorCourses.getString(1), cursorCourses.getString(2), cursorCourses.getString(3), cursorCourses.getString(4)));
+            } while (cursorCourses.moveToNext());
+        }
+        // closing cursor
+        cursorCourses.close();
+        return entryModelArrayList;
+    }
+
+    // get all entries by habit in a date range
+    public ArrayList<EntryModel> readAllEntriesByHabitInRange(String name, String start, String end) {
+        // create database
+        SQLiteDatabase db = this.getReadableDatabase();
+        // create cursor
+        Cursor cursorCourses = db.rawQuery("SELECT * FROM " + ENTRY_TABLE_NAME, null);
+        // create array list
+        ArrayList<EntryModel> entryModelArrayList = new ArrayList<>();
+        // dates
+        LocalDate startDate = LocalDate.parse(start).minusDays(1);
+        LocalDate endDate = LocalDate.parse(end).plusDays(1);
+
+        // move cursor to first position
+        if (cursorCourses.moveToFirst()) {
+            do {
+                // add data to the arraylist
+                LocalDate entryDate = LocalDate.parse(cursorCourses.getString(2));
+                if(entryDate.isAfter(startDate) && entryDate.isBefore(endDate)) entryModelArrayList.add(new EntryModel(cursorCourses.getString(1), cursorCourses.getString(2), cursorCourses.getString(3), cursorCourses.getString(4)));
             } while (cursorCourses.moveToNext());
         }
         // closing cursor
@@ -551,6 +595,113 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.delete(ENTRY_TABLE_NAME, "name=?", new String[]{name});
     }
 
+    // ############################################### DAYENTRIES ###########################################################
+    // add new dayentry
+    public void addDayentry(DayentryModel dayentry) {
+        if(readDayentryByDate(dayentry.getDate()) != null) return;
+
+        // writing data in the database
+        SQLiteDatabase db = this.getWritableDatabase();
+        // variable for content values
+        ContentValues values = new ContentValues();
+
+        // passing all values
+        values.put(DATE_COL, dayentry.getDate());
+        values.put(MOOD_COL, dayentry.getMood());
+        values.put(COMMENT_COL, dayentry.getComment());
+
+        // passing content values
+        db.insert(DAYENTRY_TABLE_NAME, null, values);
+    }
+
+    // update dayentry
+    public void updateDayentry(DayentryModel dayentry) {
+        // get database
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        // passing all values
+        values.put(DATE_COL, dayentry.getDate());
+        values.put(MOOD_COL, dayentry.getMood());
+        values.put(COMMENT_COL, dayentry.getComment());
+
+        // update database
+        db.update(DAYENTRY_TABLE_NAME, values, "date=?", new String[]{dayentry.getDate()});
+    }
+
+    // read a dayentry by date
+    public DayentryModel readDayentryByDate(String date) {
+        // create database
+        SQLiteDatabase db = this.getReadableDatabase();
+        // create cursor
+        Cursor cursorCourses = db.rawQuery("SELECT * FROM " + DAYENTRY_TABLE_NAME + " WHERE date=?", new String[]{date});
+        // create entry
+        DayentryModel dayentry = null;
+
+        // move cursor to first position
+        if (cursorCourses.moveToFirst()) {
+            dayentry = new DayentryModel(cursorCourses.getString(1), cursorCourses.getInt(2), cursorCourses.getString(3));
+        }
+        // closing cursor
+        cursorCourses.close();
+        return dayentry;
+    }
+
+    // read all dayentries
+    public ArrayList<DayentryModel> readAllDayentries() {
+        // create database
+        SQLiteDatabase db = this.getReadableDatabase();
+        // create cursor
+        Cursor cursorCourses = db.rawQuery("SELECT * FROM " + DAYENTRY_TABLE_NAME, null);
+        // create array list
+        ArrayList<DayentryModel> dayentryModelArrayList = new ArrayList<>();
+
+        // move cursor to first position
+        if (cursorCourses.moveToFirst()) {
+            do {
+                // add data to the arraylist
+                dayentryModelArrayList.add(new DayentryModel(cursorCourses.getString(1), cursorCourses.getInt(2), cursorCourses.getString(3)));
+            } while (cursorCourses.moveToNext());
+        }
+        // closing cursor
+        cursorCourses.close();
+        return dayentryModelArrayList;
+    }
+
+    // read all dayentries in range
+    public ArrayList<DayentryModel> readAllDayentriesInRange(String start, String end) {
+        // create database
+        SQLiteDatabase db = this.getReadableDatabase();
+        // create cursor
+        Cursor cursorCourses = db.rawQuery("SELECT * FROM " + DAYENTRY_TABLE_NAME, null);
+        // create array list
+        ArrayList<DayentryModel> dayentryModelArrayList = new ArrayList<>();
+        // dates
+        LocalDate startDate = LocalDate.parse(start).minusDays(1);
+        LocalDate endDate = LocalDate.parse(end).plusDays(1);
+
+        // move cursor to first position
+        if (cursorCourses.moveToFirst()) {
+            do {
+                // add data to the arraylist
+                LocalDate dayentryDate = LocalDate.parse(cursorCourses.getString(1));
+                if(dayentryDate.isAfter(startDate) && dayentryDate.isBefore(endDate)) dayentryModelArrayList.add(new DayentryModel(cursorCourses.getString(1), cursorCourses.getInt(2), cursorCourses.getString(3)));
+             } while (cursorCourses.moveToNext());
+        }
+        // closing cursor
+        cursorCourses.close();
+        return dayentryModelArrayList;
+    }
+
+    // delete dayentry
+    public void deleteDayentry(String date) {
+        // get database
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // delete entry
+        db.delete(DAYENTRY_TABLE_NAME, "date=?", new String[]{date});
+    }
+
     // ############################################### ONUPGRADE ###########################################################
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -559,6 +710,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + HABIT_TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + GOAL_TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + ENTRY_TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + DAYENTRY_TABLE_NAME);
         onCreate(db);
     }
 }

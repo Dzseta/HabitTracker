@@ -92,9 +92,12 @@
 
     <!-- Today -->
     <string name="title_today">Today</string>
+    <string name="today_mood">Mood</string>
+    <string name="today_comment">Comment</string>
 
     <!-- Calendar -->
     <string name="title_calendar">Calendar</string>
+    <string name="calendar_comments">Comments</string>
 
     <!-- Statistics -->
     <string name="title_statistics">Statistics</string>

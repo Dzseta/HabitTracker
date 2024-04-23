@@ -28,11 +28,11 @@ import androidx.core.widget.ImageViewCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.chauthai.swipereveallayout.SwipeRevealLayout;
 import com.example.habittracker.R;
 import com.example.habittracker.activities.CategoriesActivity;
 import com.example.habittracker.dialogs.CategoryDeleteDialog;
 import com.example.habittracker.models.CategoryModel;
-import com.example.habittracker.views.SwipeRevealLayout;
 
 import java.util.ArrayList;
 

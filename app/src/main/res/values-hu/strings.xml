@@ -34,6 +34,8 @@
     <string name="goal_days_in_row">Sikeres sorozat</string>
     <string name="title_categories">Kategóriák</string>
     <string name="title_backup">Biztonsági mentés</string>
+    <string name="today_mood">Hangulat</string>
+    <string name="today_comment">Megjegyzés</string>
     <string name="title_calendar">Naptár</string>
     <string name="title_goals">Célok</string>
     <string name="title_habits">Szokások</string>
@@ -82,4 +84,5 @@
     <string name="profile_current_password">Jelenlegi jelszó</string>
     <string name="settings_language">Nyelv</string>
     <string name="settings_theme">Theme</string>
+    <string name="calendar_comments">Megjegyzések</string>
 </resources>

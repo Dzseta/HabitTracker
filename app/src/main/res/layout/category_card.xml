@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.example.habittracker.views.SwipeRevealLayout
+<com.chauthai.swipereveallayout.SwipeRevealLayout
     android:id="@+id/categorySwipeRevealLayout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -10,7 +10,7 @@
     android:layout_marginBottom="10dp"
     android:background="@color/dark_gray"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:dragFromEdge="right">
+    app:dragEdge="right">
 
     <FrameLayout
         android:layout_width="wrap_content"
@@ -101,4 +101,4 @@
         </androidx.cardview.widget.CardView>
 
     </FrameLayout>
-</com.example.habittracker.views.SwipeRevealLayout>
+</com.chauthai.swipereveallayout.SwipeRevealLayout>

@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -43,10 +44,20 @@ public class RatingActivity extends AppCompatActivity {
     RatingModel rating;
     FirebaseFirestore db;
     DocumentReference docref;
+    // sharedprefs
+    private static String PREF_NAME = "optionsSharedPrefs";
+    SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // sharedPrefs
+        prefs = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
+        String color = prefs.getString("color", "y");
+        if(color.equals("r")) setTheme(R.style.Theme_HabitTracker_Red);
+        else if(color.equals("g")) setTheme(R.style.Theme_HabitTracker_Green);
+        else if(color.equals("b")) setTheme(R.style.Theme_HabitTracker_Blue);
+        else setTheme(R.style.Theme_HabitTracker);
         setContentView(R.layout.activity_rating);
 
         db = FirebaseFirestore.getInstance();

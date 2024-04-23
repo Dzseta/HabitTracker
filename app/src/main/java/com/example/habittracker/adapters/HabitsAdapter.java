@@ -18,12 +18,12 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.chauthai.swipereveallayout.SwipeRevealLayout;
 import com.example.habittracker.R;
 import com.example.habittracker.activities.CategoriesActivity;
 import com.example.habittracker.activities.NewHabitActivity;
 import com.example.habittracker.models.CategoryModel;
 import com.example.habittracker.models.HabitModel;
-import com.example.habittracker.views.SwipeRevealLayout;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

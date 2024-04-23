@@ -6,10 +6,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -17,6 +22,8 @@ import android.widget.TextView;
 import com.example.habittracker.R;
 import com.example.habittracker.adapters.DatabaseHandler;
 import com.example.habittracker.adapters.EntriesAdapter;
+import com.example.habittracker.fragments.DayEntryFragment;
+import com.example.habittracker.fragments.NewGoalFragment;
 import com.example.habittracker.models.EntryModel;
 import com.example.habittracker.models.GoalModel;
 import com.example.habittracker.models.HabitModel;
@@ -26,7 +33,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-public class TodayActivity extends AppCompatActivity {
+public class TodayActivity extends AppCompatActivity implements DayEntryFragment.ItemClickListener{
 
     private View hamburgerMenu;
     private ImageView todayIW;
@@ -34,11 +41,13 @@ public class TodayActivity extends AppCompatActivity {
     private ImageView rightImageButton;
     private TextView todayTW;
     private TextView dateTextView;
+    private ImageButton createButton;
     private DatabaseHandler dbHandler;
     private EntriesAdapter entriesAdapter;
     private RecyclerView entriesRecyclerView;
     private ArrayList<EntryModel> entriesArrayList;
     private ArrayList<HabitModel> habitArrayList;
+    private DayEntryFragment dayEntryFragment;
     LocalDate now;
     // spinner
     Spinner sortSpinner;
@@ -46,10 +55,20 @@ public class TodayActivity extends AppCompatActivity {
     ArrayAdapter<String> adapter;
     // sort's position
     int position;
+    // sharedprefs
+    private static String PREF_NAME = "optionsSharedPrefs";
+    SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // sharedPrefs
+        prefs = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
+        String color = prefs.getString("color", "y");
+        if(color.equals("r")) setTheme(R.style.Theme_HabitTracker_Red);
+        else if(color.equals("g")) setTheme(R.style.Theme_HabitTracker_Green);
+        else if(color.equals("b")) setTheme(R.style.Theme_HabitTracker_Blue);
+        else setTheme(R.style.Theme_HabitTracker);
         setContentView(R.layout.activity_today);
 
         // hamburger menu
@@ -59,6 +78,8 @@ public class TodayActivity extends AppCompatActivity {
         todayIW.setColorFilter(ContextCompat.getColor(this, R.color.light_gray));
         todayTW = findViewById(R.id.todayTextView);
         todayTW.setTextColor(ContextCompat.getColor(this, R.color.light_gray));
+        // button
+        createButton = findViewById(R.id.createButton);
         // date
         dateTextView = findViewById(R.id.dateTextView);
         rightImageButton = findViewById(R.id.rightImageButton);
@@ -77,17 +98,32 @@ public class TodayActivity extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(TodayActivity.this, RecyclerView.VERTICAL, false);
         entriesRecyclerView.setLayoutManager(linearLayoutManager);
         loadEntries();
+        if(dbHandler.readDayentryByDate(now.toString()) != null) notifyChange(dbHandler.readDayentryByDate(now.toString()).getMood());
 
         leftImageButton.setOnClickListener(view -> {
             now = now.minusDays(1);
             loadEntries();
+            if(dbHandler.readDayentryByDate(now.toString()) != null) notifyChange(dbHandler.readDayentryByDate(now.toString()).getMood());
+            else notifyChange(0);
         });
 
         rightImageButton.setOnClickListener(view -> {
             if(!now.isEqual(LocalDate.now())) {
                 now = now.plusDays(1);
                 loadEntries();
+                if(dbHandler.readDayentryByDate(now.toString()) != null) notifyChange(dbHandler.readDayentryByDate(now.toString()).getMood());
+                else notifyChange(0);
             }
+        });
+
+        // onCLickListener for add button
+        createButton.setOnClickListener(view -> {
+            // open new goal sheet
+            dayEntryFragment = DayEntryFragment.newInstance();
+            Bundle bundle = new Bundle();
+            bundle.putString("date", now.toString());
+            dayEntryFragment.setArguments(bundle);
+            dayEntryFragment.show(getSupportFragmentManager(), DayEntryFragment.TAG);
         });
 
         // get the spinner from the xml
@@ -205,6 +241,38 @@ public class TodayActivity extends AppCompatActivity {
     }
 
     // ############################################ ONCLICKS #####################################################
+    // change mood
+    public void notifyChange(int mood) {
+        switch (mood) {
+            case 1:
+                createButton.setImageDrawable(getResources().getDrawable(R.drawable.icon_mood_very_sad));
+                createButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.red)));
+                break;
+            case 2:
+                createButton.setImageDrawable(getResources().getDrawable(R.drawable.icon_mood_sad));
+                createButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.orange)));
+                break;
+            case 3:
+                createButton.setImageDrawable(getResources().getDrawable(R.drawable.icon_mood_neutral));
+                createButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.yellow)));
+                break;
+            case 4:
+                createButton.setImageDrawable(getResources().getDrawable(R.drawable.icon_mood_happy));
+                createButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.light_green)));
+                break;
+            case 5:
+                createButton.setImageDrawable(getResources().getDrawable(R.drawable.icon_mood_very_happy));
+                createButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.dark_green)));
+                break;
+            default:
+                createButton.setImageDrawable(getResources().getDrawable(R.drawable.icon_question));
+                TypedValue typedValue = new TypedValue();
+                getTheme().resolveAttribute(androidx.appcompat.R.attr.colorPrimary, typedValue, true);
+                int color = ContextCompat.getColor(this, typedValue.resourceId);
+                createButton.setBackgroundTintList(ColorStateList.valueOf(color));
+        }
+    }
+
     // open and close the hamburger menu
     public void openCloseHamburgerMenu(View view) {
         if (hamburgerMenu.getVisibility() == View.VISIBLE) {

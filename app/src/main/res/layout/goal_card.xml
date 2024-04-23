@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.example.habittracker.views.SwipeRevealLayout
+<com.chauthai.swipereveallayout.SwipeRevealLayout
     android:id="@+id/goalSwipeRevealLayout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -10,7 +10,7 @@
     android:layout_marginBottom="10dp"
     android:background="@color/dark_gray"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:dragFromEdge="right">
+    app:dragEdge="right">
 
     <FrameLayout
         android:layout_width="wrap_content"
@@ -44,13 +44,13 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:background="?attr/colorSecondary"
+        android:clickable="true"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        android:background="?attr/colorSecondary"
-        android:clickable="true">
+        tools:visibility="visible">
 
-        <androidx.cardview.widget.CardView
-            xmlns:android="http://schemas.android.com/apk/res/android"
+        <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/goalCardView"
             android:layout_width="match_parent"
@@ -91,9 +91,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="5dp"
+                            android:layout_weight="1"
                             android:gravity="center|left"
                             android:text="TextView"
-                            android:layout_weight="1"
                             android:textSize="20dp"
                             android:textStyle="bold" />
 
@@ -101,9 +101,9 @@
                             android:id="@+id/streakTextView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:gravity="right|center"
                             android:paddingEnd="10dp"
-                            android:layout_weight="1"
                             android:text="TextView"
                             android:textSize="26dp" />
                     </LinearLayout>
@@ -111,11 +111,11 @@
                     <ProgressBar
                         android:id="@+id/progressBar"
                         style="?android:attr/progressBarStyleHorizontal"
-                        android:progressTint="@color/red"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:progressTint="@color/red" />
                 </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
     </FrameLayout>
-</com.example.habittracker.views.SwipeRevealLayout>
+</com.chauthai.swipereveallayout.SwipeRevealLayout>

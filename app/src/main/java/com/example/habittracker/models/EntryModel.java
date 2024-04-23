@@ -6,11 +6,20 @@ public class EntryModel {
     private String habit;
     private String date;
     private String data;
+    private String comment;
 
     public EntryModel(String habit, String date, String data) {
         this.habit = habit;
         this.date = date;
         this.data = data;
+        this.comment = "";
+    }
+
+    public EntryModel(String habit, String date, String data, String comment) {
+        this.habit = habit;
+        this.date = date;
+        this.data = data;
+        this.comment = comment;
     }
 
     public String getHabit() {
@@ -35,5 +44,13 @@ public class EntryModel {
 
     public void setData(String data) {
         this.data = data;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 }
