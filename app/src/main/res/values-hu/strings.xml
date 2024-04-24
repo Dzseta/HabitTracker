@@ -39,6 +39,9 @@
     <string name="title_calendar">Naptár</string>
     <string name="title_goals">Célok</string>
     <string name="title_habits">Szokások</string>
+    <string name="sort_start_i">Kezdődátum szerint növekvő</string>
+    <string name="sort_start_d">Kezdődátum szerint csökkenő</string>
+    <string name="sort_end_i">Befejező dátum szerint növekvő</string>
     <string name="title_login">Bejelentkezés</string>
     <string name="email">E-mail</string>
     <string name="password">Jelszó</string>
@@ -85,4 +88,8 @@
     <string name="settings_language">Nyelv</string>
     <string name="settings_theme">Theme</string>
     <string name="calendar_comments">Megjegyzések</string>
+    <string name="stats_daily">Napi</string>
+    <string name="stats_wmy">Heti/havi/évi</string>
+    <string name="stats_habit">Szokások</string>
+    <string name="sort_end_d">Befejező dátum szerint csökkenő</string>
 </resources>

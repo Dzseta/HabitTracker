@@ -24,7 +24,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     // database name
     private static final String DB_NAME = "habitsdb";
     // database version
-    private static final int DB_VERSION = 18;
+    private static final int DB_VERSION = 19;
     // id column
     private static final String ID_COL = "id";
     // name column
@@ -77,6 +77,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String DATE_COL = "date";
     // data column
     private static final String DATA_COL = "data";
+    // success column
+    private static final String SUCCESS_COL = "success";
     // comment column
     private static final String COMMENT_COL = "comment";
     // dayentry table
@@ -127,6 +129,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + NAME_COL + " TEXT,"
                 + DATE_COL + " TEXT,"
                 + DATA_COL + " TEXT,"
+                + SUCCESS_COL + " INTEGER,"
                 + COMMENT_COL + " TEXT)";
         // create dayentries table
         String queryDayentries = "CREATE TABLE " + DAYENTRY_TABLE_NAME + " ("
@@ -449,6 +452,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(NAME_COL, entry.getHabit());
         values.put(DATE_COL, entry.getDate());
         values.put(DATA_COL, entry.getData());
+        values.put(SUCCESS_COL, entry.getSuccess());
         values.put(COMMENT_COL, entry.getComment());
 
         // passing content values
@@ -465,6 +469,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(NAME_COL, entry.getHabit());
         values.put(DATE_COL, entry.getDate());
         values.put(DATA_COL, entry.getData());
+        values.put(SUCCESS_COL, entry.getSuccess());
         values.put(COMMENT_COL, entry.getComment());
 
         // update database
@@ -482,7 +487,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         // move cursor to first position
         if (cursorCourses.moveToFirst()) {
-            entry = new EntryModel(cursorCourses.getString(1), cursorCourses.getString(2), cursorCourses.getString(3), cursorCourses.getString(4));
+            entry = new EntryModel(cursorCourses.getString(1), cursorCourses.getString(2), cursorCourses.getString(3), cursorCourses.getInt(4), cursorCourses.getString(5));
         }
         // closing cursor
         cursorCourses.close();
@@ -502,7 +507,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         if (cursorCourses.moveToFirst()) {
             do {
                 // add data to the arraylist
-                entryModelArrayList.add(new EntryModel(cursorCourses.getString(1), cursorCourses.getString(2), cursorCourses.getString(3), cursorCourses.getString(4)));
+                entryModelArrayList.add(new EntryModel(cursorCourses.getString(1), cursorCourses.getString(2), cursorCourses.getString(3), cursorCourses.getInt(4), cursorCourses.getString(5)));
             } while (cursorCourses.moveToNext());
         }
         // closing cursor
@@ -523,7 +528,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         if (cursorCourses.moveToFirst()) {
             do {
                 // add data to the arraylist
-                entryModelArrayList.add(new EntryModel(cursorCourses.getString(1), cursorCourses.getString(2), cursorCourses.getString(3), cursorCourses.getString(4)));
+                entryModelArrayList.add(new EntryModel(cursorCourses.getString(1), cursorCourses.getString(2), cursorCourses.getString(3), cursorCourses.getInt(4), cursorCourses.getString(5)));
             } while (cursorCourses.moveToNext());
         }
         // closing cursor
@@ -544,7 +549,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         if (cursorCourses.moveToFirst()) {
             do {
                 // add data to the arraylist
-                entryModelArrayList.add(new EntryModel(cursorCourses.getString(1), cursorCourses.getString(2), cursorCourses.getString(3), cursorCourses.getString(4)));
+                entryModelArrayList.add(new EntryModel(cursorCourses.getString(1), cursorCourses.getString(2), cursorCourses.getString(3), cursorCourses.getInt(4), cursorCourses.getString(5)));
             } while (cursorCourses.moveToNext());
         }
         // closing cursor
@@ -557,7 +562,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         // create database
         SQLiteDatabase db = this.getReadableDatabase();
         // create cursor
-        Cursor cursorCourses = db.rawQuery("SELECT * FROM " + ENTRY_TABLE_NAME, null);
+        Cursor cursorCourses = db.rawQuery("SELECT * FROM " + ENTRY_TABLE_NAME + " WHERE name=?", new String[]{name});
         // create array list
         ArrayList<EntryModel> entryModelArrayList = new ArrayList<>();
         // dates
@@ -569,7 +574,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             do {
                 // add data to the arraylist
                 LocalDate entryDate = LocalDate.parse(cursorCourses.getString(2));
-                if(entryDate.isAfter(startDate) && entryDate.isBefore(endDate)) entryModelArrayList.add(new EntryModel(cursorCourses.getString(1), cursorCourses.getString(2), cursorCourses.getString(3), cursorCourses.getString(4)));
+                if(entryDate.isAfter(startDate) && entryDate.isBefore(endDate)) entryModelArrayList.add(new EntryModel(cursorCourses.getString(1), cursorCourses.getString(2), cursorCourses.getString(3), cursorCourses.getInt(4), cursorCourses.getString(5)));
             } while (cursorCourses.moveToNext());
         }
         // closing cursor

@@ -92,7 +92,7 @@ public class HabitsActivity extends AppCompatActivity {
 
         // get the spinner from the xml
         sortSpinner = findViewById(R.id.sortSpinner);
-        String[] sortOptions = {getResources().getString(R.string.sort_category_AZ), getResources().getString(R.string.sort_category_ZA), getResources().getString(R.string.sort_priority_D), getResources().getString(R.string.sort_priority_I), getResources().getString(R.string.sort_AZ), getResources().getString(R.string.sort_ZA)};
+        String[] sortOptions = {getResources().getString(R.string.sort_category_AZ), getResources().getString(R.string.sort_category_ZA), getResources().getString(R.string.sort_priority_D), getResources().getString(R.string.sort_priority_I), getResources().getString(R.string.sort_AZ), getResources().getString(R.string.sort_ZA), getResources().getString(R.string.sort_start_i), getResources().getString(R.string.sort_start_d), getResources().getString(R.string.sort_end_i), getResources().getString(R.string.sort_end_d)};
         // create an adapter
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, sortOptions);
         // default position is 0
@@ -123,6 +123,18 @@ public class HabitsActivity extends AppCompatActivity {
                                 break;
                             case 5:
                                 habitsArrayList = sortNameZA(habitsArrayList);
+                                break;
+                            case 6:
+                                habitsArrayList = sortStartAZ(habitsArrayList);
+                                break;
+                            case 7:
+                                habitsArrayList = sortStartZA(habitsArrayList);
+                                break;
+                            case 8:
+                                habitsArrayList = sortEndAZ(habitsArrayList);
+                                break;
+                            case 9:
+                                habitsArrayList = sortEndZA(habitsArrayList);
                                 break;
                         }
                         habitsAdapter.notifyDataSetChanged();
@@ -160,6 +172,26 @@ public class HabitsActivity extends AppCompatActivity {
 
     ArrayList<HabitModel> sortNameZA(ArrayList<HabitModel> habitsArrayList){
         Collections.sort(habitsArrayList, (first, second) -> second.getName().compareTo(first.getName()));
+        return habitsArrayList;
+    }
+
+    ArrayList<HabitModel> sortStartAZ(ArrayList<HabitModel> habitsArrayList){
+        Collections.sort(habitsArrayList, Comparator.comparing(HabitModel::getStartDate));
+        return habitsArrayList;
+    }
+
+    ArrayList<HabitModel> sortStartZA(ArrayList<HabitModel> habitsArrayList){
+        Collections.sort(habitsArrayList, (first, second) -> second.getStartDate().compareTo(first.getStartDate()));
+        return habitsArrayList;
+    }
+
+    ArrayList<HabitModel> sortEndAZ(ArrayList<HabitModel> habitsArrayList){
+        Collections.sort(habitsArrayList, Comparator.comparing(HabitModel::getEndDate));
+        return habitsArrayList;
+    }
+
+    ArrayList<HabitModel> sortEndZA(ArrayList<HabitModel> habitsArrayList){
+        Collections.sort(habitsArrayList, (first, second) -> second.getEndDate().compareTo(first.getEndDate()));
         return habitsArrayList;
     }
 

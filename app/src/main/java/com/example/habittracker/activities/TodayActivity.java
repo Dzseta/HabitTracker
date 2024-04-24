@@ -92,6 +92,25 @@ public class TodayActivity extends AppCompatActivity implements DayEntryFragment
         position = 0;
         // today
         now = LocalDate.now();
+        Intent i = getIntent();
+        int y = i.getIntExtra("year", -1);
+        int m = i.getIntExtra("month", -1);
+        int d = i.getIntExtra("day", -1);
+        if(y >= 0) {
+            if(m<10) {
+                if(d<10) {
+                    now = LocalDate.parse(y + "-0" + m + "-0" + d);
+                } else {
+                    now = LocalDate.parse(y + "-0" + m + "-" + d);
+                }
+            } else {
+                if(d<10) {
+                    now = LocalDate.parse(y + "-" + m + "-0" + d);
+                } else {
+                    now = LocalDate.parse(y + "-" + m + "-" + d);
+                }
+            }
+        }
         // passing list to adapter
         entriesRecyclerView = findViewById(R.id.entriesRecyclerView);
         // setting layout manager for recycler view
@@ -176,7 +195,7 @@ public class TodayActivity extends AppCompatActivity implements DayEntryFragment
             if(!habitArrayList.get(i).getEndDate().equals("")) endDate = LocalDate.parse(habitArrayList.get(i).getEndDate()).plusDays(1);
             if(startDate.isBefore(now.plusDays(1)) && (endDate == null || endDate.isAfter(now.plusDays(1)))) {
                 if(dbHandler.readEntryByHabitAndDate(habitArrayList.get(i).getName(), now.toString()) == null) {
-                    EntryModel entry = new EntryModel(habitArrayList.get(i).getName(), now.toString(), "");
+                    EntryModel entry = new EntryModel(habitArrayList.get(i).getName(), now.toString(), "", -1);
                     dbHandler.addEntry(entry);
                 }
             }

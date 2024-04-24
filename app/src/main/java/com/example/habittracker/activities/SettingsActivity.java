@@ -4,11 +4,13 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -107,10 +109,18 @@ public class SettingsActivity extends AppCompatActivity {
         reminderSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 reminderSwitch.setChecked(true);
+                TypedValue typedValue = new TypedValue();
+                getTheme().resolveAttribute(androidx.appcompat.R.attr.colorPrimary, typedValue, true);
+                int c = ContextCompat.getColor(this, typedValue.resourceId);
+                reminderSwitch.setThumbTintList(ColorStateList.valueOf(c));
                 reminderTimeLinearLayout.setVisibility(View.VISIBLE);
                 reminder = true;
             } else {
                 reminderSwitch.setChecked(false);
+                TypedValue typedValue = new TypedValue();
+                getTheme().resolveAttribute(com.google.android.material.R.attr.colorPrimaryVariant, typedValue, true);
+                int c = ContextCompat.getColor(this, typedValue.resourceId);
+                reminderSwitch.setThumbTintList(ColorStateList.valueOf(c));
                 reminderTimeLinearLayout.setVisibility(View.GONE);
                 reminder = false;
             }

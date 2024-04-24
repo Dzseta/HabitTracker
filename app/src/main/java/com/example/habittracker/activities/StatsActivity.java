@@ -2,6 +2,7 @@ package com.example.habittracker.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.habittracker.R;
+import com.example.habittracker.adapters.StatsViewPagerAdapter;
+import com.google.android.material.tabs.TabLayout;
 
 public class StatsActivity extends AppCompatActivity {
 
@@ -20,6 +23,11 @@ public class StatsActivity extends AppCompatActivity {
     // sharedprefs
     private static String PREF_NAME = "optionsSharedPrefs";
     SharedPreferences prefs;
+    // tablayout
+    TabLayout statsTabLayout;
+    // viewpager
+    ViewPager2 statsViewPager;
+    StatsViewPagerAdapter viewPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +48,34 @@ public class StatsActivity extends AppCompatActivity {
         statsIW.setColorFilter(ContextCompat.getColor(this, R.color.light_gray));
         statsTW = findViewById(R.id.statsTextView);
         statsTW.setTextColor(ContextCompat.getColor(this, R.color.light_gray));
+
+        // tablayout
+        statsTabLayout = findViewById(R.id.tabLayout);
+        // viewpager
+        statsViewPager = findViewById(R.id.statsViewPager);
+        viewPagerAdapter = new StatsViewPagerAdapter(this);
+        statsViewPager.setAdapter(viewPagerAdapter);
+        // tab selected listener
+        statsTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                statsViewPager.setCurrentItem(tab.getPosition());
+            }
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {}
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {}
+        });
+        statsViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                statsTabLayout.getTabAt(position).select();
+            }
+        });
     }
 
+    // ############################################ ONCLICKS ###################################################
     // open and close the hamburger menu
     public void openCloseHamburgerMenu(View view) {
         if (hamburgerMenu.getVisibility() == View.VISIBLE) {

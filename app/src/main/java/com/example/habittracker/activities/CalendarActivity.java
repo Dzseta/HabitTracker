@@ -29,6 +29,7 @@ import java.util.ArrayList;
 
 import sun.bob.mcalendarview.MCalendarView;
 import sun.bob.mcalendarview.MarkStyle;
+import sun.bob.mcalendarview.listeners.OnDateClickListener;
 import sun.bob.mcalendarview.listeners.OnMonthChangeListener;
 import sun.bob.mcalendarview.vo.DateData;
 import sun.bob.mcalendarview.vo.MarkedDates;
@@ -120,6 +121,18 @@ public class CalendarActivity extends AppCompatActivity {
             }
         });
 
+        calendar.setOnDateClickListener(new OnDateClickListener() {
+            @Override
+            public void onDateClick(View view, DateData date) {
+                Intent i = new Intent();
+                i.putExtra("year", date.getYear());
+                i.putExtra("month", date.getMonth());
+                i.putExtra("day", date.getDay());
+                i.setClass(getBaseContext(), TodayActivity.class);
+                startActivity(i);
+            }
+        });
+
         // get the spinner from the xml
         habitSpinner = findViewById(R.id.habitSpinner);
         habitsArrayList = dbHandler.readAllHabits();
@@ -182,8 +195,8 @@ public class CalendarActivity extends AppCompatActivity {
             ArrayList<EntryModel> entries = dbHandler.readAllEntriesByHabitInRange(habit, startDay, endDay);
             for(int i=0; i<entries.size(); i++) {
                 LocalDate date = LocalDate.parse(entries.get(i).getDate());
-                if(entries.get(i).getData().equals("true")) calendar.markDate(new DateData(date.getYear(), date.getMonthValue(), date.getDayOfMonth()).setMarkStyle(new MarkStyle(MarkStyle.BACKGROUND, getResources().getColor(R.color.dark_green))));
-                else if(entries.get(i).getData().equals("false")) calendar.markDate(new DateData(date.getYear(), date.getMonthValue(), date.getDayOfMonth()).setMarkStyle(new MarkStyle(MarkStyle.BACKGROUND, getResources().getColor(R.color.red))));
+                if(entries.get(i).getSuccess() == 1) calendar.markDate(new DateData(date.getYear(), date.getMonthValue(), date.getDayOfMonth()).setMarkStyle(new MarkStyle(MarkStyle.BACKGROUND, getResources().getColor(R.color.dark_green))));
+                else if(entries.get(i).getSuccess() == 1) calendar.markDate(new DateData(date.getYear(), date.getMonthValue(), date.getDayOfMonth()).setMarkStyle(new MarkStyle(MarkStyle.BACKGROUND, getResources().getColor(R.color.red))));
             }
             commentsAdapter = new CommentsAdapter(false, entries, CalendarActivity.this);
             commentsRecyclerView.setAdapter(commentsAdapter);

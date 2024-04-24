@@ -40,7 +40,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginHorizontal="20dp"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
 
         <View
@@ -48,7 +47,39 @@
             android:layout_height="3dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
+            android:layout_marginHorizontal="20dp"
             android:background="@color/medium_gray" />
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/dailyTabItem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/stats_daily" />
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/wmyTabItem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/stats_wmy" />
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/habitTabItem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/stats_habit" />
+        </com.google.android.material.tabs.TabLayout>
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/statsViewPager"
+            android:layout_width="match_parent"
+            android:layout_margin="20dp"
+            android:layout_height="wrap_content" />
+
     </LinearLayout>
 
     <include

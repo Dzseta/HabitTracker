@@ -48,7 +48,7 @@ public class GoalModel {
 
         if(!(entries.get(0).getDate().equals(now.toString()))) {
             now = now.minusDays(1);
-        } else if (!entries.get(0).getData().equals("true")) {
+        } else if (entries.get(0).getSuccess() != 1) {
             now = now.minusDays(1);
             entries.remove(0);
         }
@@ -56,7 +56,7 @@ public class GoalModel {
         int streak = 0;
         for(int i=0; i<entries.size(); i++) {
             LocalDate entryDate = LocalDate.parse(entries.get(i).getDate());
-            if(entryDate.isEqual(now) && entries.get(i).getData().equals("true")) {
+            if(entryDate.isEqual(now) && entries.get(i).getSuccess() == 1) {
                 now = now.minusDays(1);
                 streak++;
             } else {

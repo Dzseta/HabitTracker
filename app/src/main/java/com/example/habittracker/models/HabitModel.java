@@ -9,10 +9,10 @@ public class HabitModel {
     private String categoryName;
     private String name;
     private String description;
-    private String type;    // yesNo, number, timer
-    private String typeData;
+    private String type;    // yesno, number, timer
+    private String typeData;  // ---, min number, min time
     private String repeatType; // every x days, x times a week/month/year, m/t/w/th/f/s/su
-    private int repeatNumber;
+    private int repeatNumber; // 0-inf, 1-7/1-31/1-365,
     private String startDate;
     private String endDate;
     private int priority;
@@ -138,5 +138,23 @@ public class HabitModel {
 
     public void setReminderMinute(int reminderMinute) {
         this.reminderMinute = reminderMinute;
+    }
+
+    public boolean evaluate(String data){
+        if(getType().equals("yesno")) {
+            if(data.equals("true")) return true;
+        } else if(getType().equals("number")) {
+            if(Integer.parseInt(data) >= Integer.parseInt(getTypeData())) return true;
+        } else if(getType().equals("time")) {
+            String[] d = data.split(":");
+            String[] t = getTypeData().split(".");
+            if(Integer.parseInt(d[0]) < Integer.parseInt(t[0])) return false;
+            else if(Integer.parseInt(d[0]) > Integer.parseInt(t[0])) return true;
+            else if(Integer.parseInt(d[1]) < Integer.parseInt(t[1])) return false;
+            else if(Integer.parseInt(d[1]) > Integer.parseInt(t[1])) return true;
+            else if(Integer.parseInt(d[2]) < Integer.parseInt(t[2])) return false;
+            else if(Integer.parseInt(d[2]) >= Integer.parseInt(t[2])) return true;
+        }
+        return false;
     }
 }

@@ -5,20 +5,23 @@ public class EntryModel {
     // variables
     private String habit;
     private String date;
-    private String data;
+    private String data; // -1 if not set, 0 if false, 1 if true
+    private int success;
     private String comment;
 
-    public EntryModel(String habit, String date, String data) {
+    public EntryModel(String habit, String date, String data, int success) {
         this.habit = habit;
         this.date = date;
         this.data = data;
+        this.success = success;
         this.comment = "";
     }
 
-    public EntryModel(String habit, String date, String data, String comment) {
+    public EntryModel(String habit, String date, String data, int success, String comment) {
         this.habit = habit;
         this.date = date;
         this.data = data;
+        this.success = success;
         this.comment = comment;
     }
 
@@ -52,5 +55,13 @@ public class EntryModel {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public int getSuccess() {
+        return success;
+    }
+
+    public void setSuccess(int success) {
+        this.success = success;
     }
 }

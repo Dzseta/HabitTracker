@@ -56,13 +56,17 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHold
         holder.iconImageView.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(cat.getColor())));
         holder.nameTextView.setText(model.getHabit());
         holder.descriptionTextView.setText(habit.getDescription());
-        if(model.getData().equals("true")) holder.checkBox.setChecked(true);
+        if(model.getSuccess() == 1) holder.checkBox.setChecked(true);
         else holder.checkBox.setChecked(false);
         holder.checkBox.setOnClickListener(view -> {
             if(holder.checkBox.isChecked()) {
                 model.setData("true");
+                if(habit.evaluate("true")) model.setSuccess(1);
+                else model.setSuccess(0);
             } else {
                 model.setData("false");
+                if(habit.evaluate("true")) model.setSuccess(1);
+                else model.setSuccess(0);
             }
             dbHandler.updateEntry(model);
         });
