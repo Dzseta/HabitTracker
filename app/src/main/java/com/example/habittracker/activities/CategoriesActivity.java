@@ -214,12 +214,11 @@ public class CategoriesActivity extends AppCompatActivity implements NewCategory
     public void onEditCategory(CategoryModel cat, String origName) {
         for(int i=0; i<categoriesArrayList.size(); i++) {
             if(categoriesArrayList.get(i).getName().equals(origName)) {
-                categoriesArrayList.remove(i);
+                categoriesArrayList.set(i, cat);
                 break;
             }
         }
         dbHandler.updateCategory(cat, origName);
-        categoriesArrayList.add(cat);
         categoriesAdapter.notifyDataSetChanged();
     }
 

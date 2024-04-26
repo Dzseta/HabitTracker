@@ -1,6 +1,7 @@
 package com.example.habittracker.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -9,6 +10,7 @@ import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -18,6 +20,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.NumberPicker;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -47,10 +50,7 @@ public class NewHabitActivity extends AppCompatActivity {
     EditText nameEditText;
     EditText descriptionEditText;
     EditText priorityEditText;
-    // TExtView
-    TextView startDateEditText;
-    TextView endDateEditText;
-    TextView reminderEditText;
+    EditText numberEditText;
     // radio
     RadioGroup typeRadioGroup;
     RadioButton yesNoRadioButton;
@@ -61,7 +61,21 @@ public class NewHabitActivity extends AppCompatActivity {
     Switch endDateSwitch;
     // button
     Button createButton;
-    // linear layouts
+    // numberpickers
+    NumberPicker hourNumberPicker;
+    NumberPicker minuteNumberPicker;
+    NumberPicker secondNumberPicker;
+    NumberPicker reminderHourNumberPicker;
+    NumberPicker reminderMinuteNumberPicker;
+    NumberPicker startYearNumberPicker;
+    NumberPicker startMonthNumberPicker;
+    NumberPicker startDayNumberPicker;
+    NumberPicker endYearNumberPicker;
+    NumberPicker endMonthNumberPicker;
+    NumberPicker endDayNumberPicker;
+    // linearlayouts
+    LinearLayout numberLinearLayout;
+    LinearLayout timeLinearLayout;
     LinearLayout endDateLinearLayout;
     LinearLayout reminderLinearLayout;
     // extras
@@ -96,10 +110,58 @@ public class NewHabitActivity extends AppCompatActivity {
 
         // database handler
         dbHandler = new DatabaseHandler(this);
+        LocalDate now = LocalDate.now();
         // time
         hour = 0;
         minute = 0;
+        // get numberpickers
+        hourNumberPicker = findViewById(R.id.hourNumberPicker);
+        hourNumberPicker.setMinValue(0);
+        hourNumberPicker.setMaxValue(99);
+        minuteNumberPicker = findViewById(R.id.minuteNumberPicker);
+        minuteNumberPicker.setMinValue(0);
+        minuteNumberPicker.setMaxValue(59);
+        secondNumberPicker = findViewById(R.id.secondNumberPicker);
+        secondNumberPicker.setMinValue(0);
+        secondNumberPicker.setMaxValue(59);
+        reminderHourNumberPicker = findViewById(R.id.reminderHourNumberPicker);
+        reminderHourNumberPicker.setMinValue(0);
+        reminderHourNumberPicker.setMaxValue(23);
+        reminderHourNumberPicker.setValue(20);
+        reminderMinuteNumberPicker = findViewById(R.id.reminderMinuteNumberPicker);
+        reminderMinuteNumberPicker.setMinValue(0);
+        reminderMinuteNumberPicker.setMaxValue(59);
+        startYearNumberPicker = findViewById(R.id.startYearNumberPicker);
+        startYearNumberPicker.setMinValue(2000);
+        startYearNumberPicker.setMaxValue(2100);
+        startYearNumberPicker.setValue(now.getYear());
+        startMonthNumberPicker = findViewById(R.id.startMonthNumberPicker);
+        startMonthNumberPicker.setMinValue(1);
+        startMonthNumberPicker.setMaxValue(12);
+        startMonthNumberPicker.setValue(now.getMonthValue());
+        startDayNumberPicker = findViewById(R.id.startDayNumberPicker);
+        startDayNumberPicker.setMinValue(1);
+        if(now.getMonthValue() == 2) startDayNumberPicker.setMaxValue(28);
+        else if(now.getMonthValue() == 4 || now.getMonthValue() == 6 || now.getMonthValue() == 9 || now.getMonthValue() == 11) startDayNumberPicker.setMaxValue(30);
+        else startDayNumberPicker.setMaxValue(31);
+        startDayNumberPicker.setValue(LocalDate.now().getDayOfMonth());
+        endYearNumberPicker = findViewById(R.id.endYearNumberPicker);
+        endYearNumberPicker.setMinValue(2000);
+        endYearNumberPicker.setMaxValue(2100);
+        endYearNumberPicker.setValue(now.plusYears(1).getYear());
+        endMonthNumberPicker = findViewById(R.id.endMonthNumberPicker);
+        endMonthNumberPicker.setMinValue(1);
+        endMonthNumberPicker.setMaxValue(12);
+        endMonthNumberPicker.setValue(now.getMonthValue());
+        endDayNumberPicker = findViewById(R.id.endDayNumberPicker);
+        endDayNumberPicker.setMinValue(1);
+        if(now.getMonthValue() == 2) endDayNumberPicker.setMaxValue(28);
+        else if(now.getMonthValue() == 4 || now.getMonthValue() == 6 || now.getMonthValue() == 9 || now.getMonthValue() == 11) endDayNumberPicker.setMaxValue(30);
+        else endDayNumberPicker.setMaxValue(31);
+        endDayNumberPicker.setValue(LocalDate.now().getDayOfMonth());
         // linear layouts
+        numberLinearLayout = findViewById(R.id.numberLinearLayout);
+        timeLinearLayout = findViewById(R.id.timeLinearLayout);
         endDateLinearLayout = findViewById(R.id.endDateLinearLayout);
         endDateLinearLayout.setVisibility(View.GONE);
         reminderLinearLayout = findViewById(R.id.reminderLinearLayout);
@@ -111,12 +173,8 @@ public class NewHabitActivity extends AppCompatActivity {
         // edittext
         nameEditText = findViewById(R.id.nameEditText);
         descriptionEditText = findViewById(R.id.descriptionEditText);
-        startDateEditText = findViewById(R.id.startDateEditText);
-        LocalDate now = LocalDate.now();
-        startDateEditText.setText(now.toString());
-        endDateEditText = findViewById(R.id.endDateEditText);
+        numberEditText = findViewById(R.id.numberEditText);
         priorityEditText = findViewById(R.id.priorityEditText);
-        reminderEditText = findViewById(R.id.reminderEditText);
         // radio
         typeRadioGroup = findViewById(R.id.typeRadioGroup);
         yesNoRadioButton = findViewById(R.id.yesNoRadioButton);
@@ -166,17 +224,67 @@ public class NewHabitActivity extends AppCompatActivity {
             origHabit = dbHandler.readHabitByName(habitName);
             nameEditText.setText(origHabit.getName());
             descriptionEditText.setText(origHabit.getDescription());
+            // set type
+            yesNoRadioButton.setClickable(false);
+            numberRadioButton.setClickable(false);
+            timeRadioButton.setClickable(false);
+            if(origHabit.getType().equals("yesno")) {
+                numberRadioButton.setButtonTintList(ColorStateList.valueOf(getResources().getColor(R.color.medium_gray)));
+                numberRadioButton.setTextColor(ColorStateList.valueOf(getResources().getColor(R.color.medium_gray)));
+                timeRadioButton.setButtonTintList(ColorStateList.valueOf(getResources().getColor(R.color.medium_gray)));
+                timeRadioButton.setTextColor(ColorStateList.valueOf(getResources().getColor(R.color.medium_gray)));
+            } else if(origHabit.getType().equals("number")) {
+                numberRadioButton.setChecked(true);
+                numberLinearLayout.setVisibility(View.VISIBLE);
+                yesNoRadioButton.setButtonTintList(ColorStateList.valueOf(getResources().getColor(R.color.medium_gray)));
+                yesNoRadioButton.setTextColor(ColorStateList.valueOf(getResources().getColor(R.color.medium_gray)));
+                timeRadioButton.setButtonTintList(ColorStateList.valueOf(getResources().getColor(R.color.medium_gray)));
+                timeRadioButton.setTextColor(ColorStateList.valueOf(getResources().getColor(R.color.medium_gray)));
+                numberEditText.setText(origHabit.getTypeData());
+            } else {
+                timeRadioButton.setChecked(true);
+                timeLinearLayout.setVisibility(View.VISIBLE);
+                numberRadioButton.setButtonTintList(ColorStateList.valueOf(getResources().getColor(R.color.medium_gray)));
+                numberRadioButton.setTextColor(ColorStateList.valueOf(getResources().getColor(R.color.medium_gray)));
+                yesNoRadioButton.setButtonTintList(ColorStateList.valueOf(getResources().getColor(R.color.medium_gray)));
+                yesNoRadioButton.setTextColor(ColorStateList.valueOf(getResources().getColor(R.color.medium_gray)));
+                String[] d = origHabit.getTypeData().split(":");
+                hourNumberPicker.setValue(Integer.parseInt(d[0]));
+                minuteNumberPicker.setValue(Integer.parseInt(d[1]));
+                secondNumberPicker.setValue(Integer.parseInt(d[2]));
+            }
+            // set end date
             if(!origHabit.getEndDate().equals("")) {
                 endDateSwitch.setChecked(true);
                 endDateLinearLayout.setVisibility(View.VISIBLE);
+                String[] e = origHabit.getEndDate().split("-");
+                endYearNumberPicker.setValue(Integer.parseInt(e[0]));
+                endMonthNumberPicker.setValue(Integer.parseInt(e[1]));
+                endDayNumberPicker.setValue(Integer.parseInt(e[2]));
+            } else {
+                TypedValue typedValue = new TypedValue();
+                getTheme().resolveAttribute(com.google.android.material.R.attr.colorPrimaryVariant, typedValue, true);
+                int c = ContextCompat.getColor(this, typedValue.resourceId);
+                endDateSwitch.setThumbTintList(ColorStateList.valueOf(c));
             }
-            startDateEditText.setText(origHabit.getStartDate());
-            endDateEditText.setText(origHabit.getEndDate());
-            if(!origHabit.isReminder()) {
+            String[] s = origHabit.getStartDate().split("-");
+            startYearNumberPicker.setValue(Integer.parseInt(s[0]));
+            startMonthNumberPicker.setValue(Integer.parseInt(s[1]));
+            startDayNumberPicker.setValue(Integer.parseInt(s[2]));
+            if(origHabit.isReminder()) {
                 reminderSwitch.setChecked(true);
                 reminderLinearLayout.setVisibility(View.VISIBLE);
+                reminderHourNumberPicker.setValue(origHabit.getReminderHour());
+                reminderMinuteNumberPicker.setValue(origHabit.getReminderMinute());
+            } else {
+                reminderSwitch.setChecked(false);
+                TypedValue typedValue = new TypedValue();
+                getTheme().resolveAttribute(com.google.android.material.R.attr.colorPrimaryVariant, typedValue, true);
+                int c = ContextCompat.getColor(this, typedValue.resourceId);
+                reminderSwitch.setThumbTintList(ColorStateList.valueOf(c));
             }
-            reminderEditText.setText(origHabit.getReminderHour() + ":" + origHabit.getReminderMinute());
+            reminderHourNumberPicker.setValue(origHabit.getReminderHour());
+            reminderMinuteNumberPicker.setValue(origHabit.getReminderMinute());
             for(int i=0; i<categoryNames.length; i++) {
                 if(categoryNames[i].equals(origHabit.getCategoryName())){
                     position = i;
@@ -184,85 +292,133 @@ public class NewHabitActivity extends AppCompatActivity {
                     break;
                 }
             }
+        } else {
+            TypedValue typedValue = new TypedValue();
+            getTheme().resolveAttribute(com.google.android.material.R.attr.colorPrimaryVariant, typedValue, true);
+            int c = ContextCompat.getColor(this, typedValue.resourceId);
+            reminderSwitch.setThumbTintList(ColorStateList.valueOf(c));
+            endDateSwitch.setThumbTintList(ColorStateList.valueOf(c));
         }
 
-        // onClickListener for start date button
-        startDateEditText.setOnClickListener(v -> {
-            final Calendar cal = Calendar.getInstance();
-            int year = cal.get(Calendar.YEAR);
-            int month = cal.get(Calendar.MONTH);
-            int day = cal.get(Calendar.DAY_OF_MONTH);
-
-            DatePickerDialog datePickerDialog = new DatePickerDialog(NewHabitActivity.this, (view, yearOfCalendar, monthOfYear, dayOfMonth) -> {
-                String date = Integer.toString(yearOfCalendar);
-                if(monthOfYear<10) date += "-0" + (monthOfYear+1);
-                else date += "-" + (monthOfYear+1);
-                if(dayOfMonth<10) date += "-0" + dayOfMonth;
-                else date += "-" + dayOfMonth;
-                startDateEditText.setText(date);
-                System.out.println(monthOfYear);
-            },
-                    year, month, day);
-            datePickerDialog.show();
+        // onValueChange
+        startMonthNumberPicker.setOnValueChangedListener((numberPicker, oldVal, newVal) -> {
+            if(newVal == 2) {
+                if(startDayNumberPicker.getValue() > 28) startDayNumberPicker.setValue(28);
+                startDayNumberPicker.setMaxValue(28);
+            }
+            else if(newVal == 4 || newVal == 6 || newVal == 9 || newVal == 11) {
+                if(startDayNumberPicker.getValue() > 30) startDayNumberPicker.setValue(30);
+                startDayNumberPicker.setMaxValue(30);
+            }
+            else startDayNumberPicker.setMaxValue(31);
         });
+        endMonthNumberPicker.setOnValueChangedListener((numberPicker, oldVal, newVal) -> {
+            if(newVal == 2) {
+                if(startDayNumberPicker.getValue() > 28) startDayNumberPicker.setValue(28);
+                endDayNumberPicker.setMaxValue(28);
+            }
+            else if(newVal == 4 || newVal == 6 || newVal == 9 || newVal == 11) {
+                if(startDayNumberPicker.getValue() > 30) startDayNumberPicker.setValue(30);
+                endDayNumberPicker.setMaxValue(30);
+            }
+            else endDayNumberPicker.setMaxValue(31);
+        });
+        // onClickListener for the radio buttons
+        typeRadioGroup.setOnCheckedChangeListener((group, checkedId) -> {
+                    RadioButton radioButton = group.findViewById(checkedId);
+                    if(radioButton.getText().equals(getResources().getString(R.string.new_habit_type_yesno))) {
+                        numberLinearLayout.setVisibility(View.GONE);
+                        timeLinearLayout.setVisibility(View.GONE);
+                    } else if (radioButton.getText().equals(getResources().getString(R.string.new_habit_type_number))) {
+                        numberLinearLayout.setVisibility(View.VISIBLE);
+                        timeLinearLayout.setVisibility(View.GONE);
+                    } else {
+                        numberLinearLayout.setVisibility(View.GONE);
+                        timeLinearLayout.setVisibility(View.VISIBLE);
+                    }
+                    System.out.println(radioButton.getText());
+                });
+
         // onCheckedChangeListener for end date
         endDateSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 endDateSwitch.setChecked(true);
-                endDateEditText.setText("2099-01-01");
                 endDateLinearLayout.setVisibility(View.VISIBLE);
+                TypedValue typedValue = new TypedValue();
+                getTheme().resolveAttribute(androidx.appcompat.R.attr.colorPrimary, typedValue, true);
+                int c = ContextCompat.getColor(this, typedValue.resourceId);
+                endDateSwitch.setThumbTintList(ColorStateList.valueOf(c));
             } else {
                 endDateSwitch.setChecked(false);
-                endDateEditText.setText("");
                 endDateLinearLayout.setVisibility(View.GONE);
+                TypedValue typedValue = new TypedValue();
+                getTheme().resolveAttribute(com.google.android.material.R.attr.colorPrimaryVariant, typedValue, true);
+                int c = ContextCompat.getColor(this, typedValue.resourceId);
+                endDateSwitch.setThumbTintList(ColorStateList.valueOf(c));
             }
-        });
-        // onClickListener for end date button
-        endDateEditText.setOnClickListener(v -> {
-            final Calendar cal = Calendar.getInstance();
-            int year = cal.get(Calendar.YEAR);
-            int month = cal.get(Calendar.MONTH);
-            int day = cal.get(Calendar.DAY_OF_MONTH);
-
-            DatePickerDialog datePickerDialog = new DatePickerDialog(NewHabitActivity.this, (view, yearOfCalendar, monthOfYear, dayOfMonth) -> {
-                String date = Integer.toString(yearOfCalendar);
-                if(monthOfYear<10) date += "-0" + (monthOfYear+1);
-                else date += "-" + (monthOfYear+1);
-                if(dayOfMonth<10) date += "-0" + dayOfMonth;
-                else date += "-" + dayOfMonth;
-                endDateEditText.setText(date);
-            },
-                    year, month, day);
-            datePickerDialog.show();
         });
         // onCheckedChangeListener for reminder
         reminderSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 reminderSwitch.setChecked(true);
-                reminderEditText.setText("00:00");
                 reminderLinearLayout.setVisibility(View.VISIBLE);
+                TypedValue typedValue = new TypedValue();
+                getTheme().resolveAttribute(com.google.android.material.R.attr.colorPrimary, typedValue, true);
+                int c = ContextCompat.getColor(this, typedValue.resourceId);
+                reminderSwitch.setThumbTintList(ColorStateList.valueOf(c));
             } else {
                 reminderSwitch.setChecked(false);
-                reminderEditText.setText("");
                 reminderLinearLayout.setVisibility(View.GONE);
+                TypedValue typedValue = new TypedValue();
+                getTheme().resolveAttribute(com.google.android.material.R.attr.colorPrimaryVariant, typedValue, true);
+                int c = ContextCompat.getColor(this, typedValue.resourceId);
+                reminderSwitch.setThumbTintList(ColorStateList.valueOf(c));
             }
-        });
-        // on click listener for reminder
-        reminderEditText.setOnClickListener(v -> {
-            TimePickerDialog timePickerDialog = new TimePickerDialog(this, R.style.TimePickerTheme,
-                    (TimePickerDialog.OnTimeSetListener) (view, hourOfDay, minuteOfHour) -> {
-                        // set time in textView
-                        if(minuteOfHour<10) reminderEditText.setText(hourOfDay + ":0" + minuteOfHour);
-                        else reminderEditText.setText(hourOfDay + ":" + minuteOfHour);
-                        // save time
-                        hour = hourOfDay;
-                        minute = minuteOfHour;
-                    }, hour, minute, true);
-            timePickerDialog.show();
         });
         // set button onClick
         createButton.setOnClickListener(view -> {
-            HabitModel habit = new HabitModel(categoryNames[position], nameEditText.getText().toString(), descriptionEditText.getText().toString(), "yesno", "", "daily", 1, startDateEditText.getText().toString(), endDateEditText.getText().toString(), Integer.parseInt(priorityEditText.getText().toString()), reminderSwitch.isActivated(), hour, minute);
+            HabitModel habit;
+            if(yesNoRadioButton.isChecked()) {
+                habit = new HabitModel(categoryNames[position], nameEditText.getText().toString(), descriptionEditText.getText().toString(), "yesno", "", "daily", 1, "", "", Integer.parseInt(priorityEditText.getText().toString()), reminderSwitch.isActivated(), 0, 0);
+            } else if(numberRadioButton.isChecked()) {
+                habit = new HabitModel(categoryNames[position], nameEditText.getText().toString(), descriptionEditText.getText().toString(), "number", numberEditText.getText().toString(), "daily", 1, "", "", Integer.parseInt(priorityEditText.getText().toString()), reminderSwitch.isActivated(), 0, 0);
+            } else {
+                habit = new HabitModel(categoryNames[position], nameEditText.getText().toString(), descriptionEditText.getText().toString(), "time", hourNumberPicker.getValue() + ":" + minuteNumberPicker.getValue() + ":" + secondNumberPicker.getValue(), "daily", 1, "", "", Integer.parseInt(priorityEditText.getText().toString()), reminderSwitch.isActivated(), 0, 0);
+            }
+            LocalDate start;
+            if(startMonthNumberPicker.getValue()<10) {
+                if(startDayNumberPicker.getValue()<10) {
+                    start = LocalDate.parse(startYearNumberPicker.getValue() + "-0" + startMonthNumberPicker.getValue() + "-0" + startDayNumberPicker.getValue());
+                } else {
+                    start = LocalDate.parse(startYearNumberPicker.getValue() + "-0" + startMonthNumberPicker.getValue() + "-" + startDayNumberPicker.getValue());
+                }
+            } else {
+                if(startDayNumberPicker.getValue()<10) {
+                    start = LocalDate.parse(startYearNumberPicker.getValue() + "-" + startMonthNumberPicker.getValue() + "-0" + startDayNumberPicker.getValue());
+                } else {
+                    start = LocalDate.parse(startYearNumberPicker.getValue() + "-" + startMonthNumberPicker.getValue() + "-" + startDayNumberPicker.getValue());
+                }
+            }
+            LocalDate end;
+            habit.setStartDate(start.toString());
+            if(endDateSwitch.isChecked()) {
+                if(endMonthNumberPicker.getValue()<10) {
+                    if(endDayNumberPicker.getValue()<10) {
+                        end = LocalDate.parse(endYearNumberPicker.getValue() + "-0" + endMonthNumberPicker.getValue() + "-0" + endDayNumberPicker.getValue());
+                    } else {
+                        end = LocalDate.parse(endYearNumberPicker.getValue() + "-0" + endMonthNumberPicker.getValue() + "-" + endDayNumberPicker.getValue());
+                    }
+                } else {
+                    if(endYearNumberPicker.getValue()<10) {
+                        end = LocalDate.parse(endYearNumberPicker.getValue() + "-" + endMonthNumberPicker.getValue() + "-0" + endDayNumberPicker.getValue());
+                    } else {
+                        end = LocalDate.parse(endYearNumberPicker.getValue() + "-" + endMonthNumberPicker.getValue() + "-" + endDayNumberPicker.getValue());
+                    }
+                }
+                habit.setEndDate(end.toString());
+            }
+            habit.setReminderHour(reminderHourNumberPicker.getValue());
+            habit.setReminderMinute(reminderMinuteNumberPicker.getValue());
             HabitModel prev = dbHandler.readHabitByName(habit.getName());
             if(mode.equals("new") && prev == null) {
                 dbHandler.addHabit(habit);

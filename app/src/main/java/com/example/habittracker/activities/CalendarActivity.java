@@ -124,12 +124,33 @@ public class CalendarActivity extends AppCompatActivity {
         calendar.setOnDateClickListener(new OnDateClickListener() {
             @Override
             public void onDateClick(View view, DateData date) {
-                Intent i = new Intent();
-                i.putExtra("year", date.getYear());
-                i.putExtra("month", date.getMonth());
-                i.putExtra("day", date.getDay());
-                i.setClass(getBaseContext(), TodayActivity.class);
-                startActivity(i);
+                LocalDate target = LocalDate.now();
+                int y = date.getYear();
+                int m = date.getMonth();
+                int d = date.getDay();
+                if(y >= 0) {
+                    if(m<10) {
+                        if(d<10) {
+                            target = LocalDate.parse(y + "-0" + m + "-0" + d);
+                        } else {
+                            target = LocalDate.parse(y + "-0" + m + "-" + d);
+                        }
+                    } else {
+                        if(d<10) {
+                            target = LocalDate.parse(y + "-" + m + "-0" + d);
+                        } else {
+                            target = LocalDate.parse(y + "-" + m + "-" + d);
+                        }
+                    }
+                }
+                if(!target.isAfter(LocalDate.now())){
+                    Intent i = new Intent();
+                    i.putExtra("year", date.getYear());
+                    i.putExtra("month", date.getMonth());
+                    i.putExtra("day", date.getDay());
+                    i.setClass(getBaseContext(), TodayActivity.class);
+                    startActivity(i);
+                }
             }
         });
 
@@ -196,7 +217,8 @@ public class CalendarActivity extends AppCompatActivity {
             for(int i=0; i<entries.size(); i++) {
                 LocalDate date = LocalDate.parse(entries.get(i).getDate());
                 if(entries.get(i).getSuccess() == 1) calendar.markDate(new DateData(date.getYear(), date.getMonthValue(), date.getDayOfMonth()).setMarkStyle(new MarkStyle(MarkStyle.BACKGROUND, getResources().getColor(R.color.dark_green))));
-                else if(entries.get(i).getSuccess() == 1) calendar.markDate(new DateData(date.getYear(), date.getMonthValue(), date.getDayOfMonth()).setMarkStyle(new MarkStyle(MarkStyle.BACKGROUND, getResources().getColor(R.color.red))));
+                else if(entries.get(i).getSuccess() == 0) calendar.markDate(new DateData(date.getYear(), date.getMonthValue(), date.getDayOfMonth()).setMarkStyle(new MarkStyle(MarkStyle.BACKGROUND, getResources().getColor(R.color.red))));
+                else calendar.markDate(new DateData(date.getYear(), date.getMonthValue(), date.getDayOfMonth()).setMarkStyle(new MarkStyle(MarkStyle.BACKGROUND, getResources().getColor(R.color.yellow))));
             }
             commentsAdapter = new CommentsAdapter(false, entries, CalendarActivity.this);
             commentsRecyclerView.setAdapter(commentsAdapter);

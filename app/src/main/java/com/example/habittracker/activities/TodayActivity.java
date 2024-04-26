@@ -23,7 +23,10 @@ import com.example.habittracker.R;
 import com.example.habittracker.adapters.DatabaseHandler;
 import com.example.habittracker.adapters.EntriesAdapter;
 import com.example.habittracker.fragments.DayEntryFragment;
+import com.example.habittracker.fragments.NewCategoryFragment;
+import com.example.habittracker.fragments.NewEntryFragment;
 import com.example.habittracker.fragments.NewGoalFragment;
+import com.example.habittracker.models.CategoryModel;
 import com.example.habittracker.models.EntryModel;
 import com.example.habittracker.models.GoalModel;
 import com.example.habittracker.models.HabitModel;
@@ -33,7 +36,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-public class TodayActivity extends AppCompatActivity implements DayEntryFragment.ItemClickListener{
+public class TodayActivity extends AppCompatActivity implements DayEntryFragment.ItemClickListener, NewEntryFragment.ItemClickListener{
 
     private View hamburgerMenu;
     private ImageView todayIW;
@@ -48,6 +51,7 @@ public class TodayActivity extends AppCompatActivity implements DayEntryFragment
     private ArrayList<EntryModel> entriesArrayList;
     private ArrayList<HabitModel> habitArrayList;
     private DayEntryFragment dayEntryFragment;
+    private NewEntryFragment newEntryFragment;
     LocalDate now;
     // spinner
     Spinner sortSpinner;
@@ -111,6 +115,7 @@ public class TodayActivity extends AppCompatActivity implements DayEntryFragment
                 }
             }
         }
+        if(now.isEqual(LocalDate.now())) rightImageButton.setColorFilter(getResources().getColor(R.color.light_gray));
         // passing list to adapter
         entriesRecyclerView = findViewById(R.id.entriesRecyclerView);
         // setting layout manager for recycler view
@@ -120,6 +125,12 @@ public class TodayActivity extends AppCompatActivity implements DayEntryFragment
         if(dbHandler.readDayentryByDate(now.toString()) != null) notifyChange(dbHandler.readDayentryByDate(now.toString()).getMood());
 
         leftImageButton.setOnClickListener(view -> {
+            if(now.isEqual(LocalDate.now())) {
+                TypedValue typedValue = new TypedValue();
+                getTheme().resolveAttribute(androidx.appcompat.R.attr.colorPrimary, typedValue, true);
+                int c = ContextCompat.getColor(this, typedValue.resourceId);
+                rightImageButton.setColorFilter(c);
+            }
             now = now.minusDays(1);
             loadEntries();
             if(dbHandler.readDayentryByDate(now.toString()) != null) notifyChange(dbHandler.readDayentryByDate(now.toString()).getMood());
@@ -132,6 +143,7 @@ public class TodayActivity extends AppCompatActivity implements DayEntryFragment
                 loadEntries();
                 if(dbHandler.readDayentryByDate(now.toString()) != null) notifyChange(dbHandler.readDayentryByDate(now.toString()).getMood());
                 else notifyChange(0);
+                if(now.isEqual(LocalDate.now())) rightImageButton.setColorFilter(getResources().getColor(R.color.light_gray));
             }
         });
 
@@ -260,6 +272,28 @@ public class TodayActivity extends AppCompatActivity implements DayEntryFragment
     }
 
     // ############################################ ONCLICKS #####################################################
+    // show the new category fragment
+    public void showBottomSheet(View view, EntryModel entry) {
+        newEntryFragment = NewEntryFragment.newInstance();
+        Bundle bundle = new Bundle();
+        bundle.putString("habit", entry.getHabit());
+        bundle.putString("date", entry.getDate());
+        newEntryFragment.setArguments(bundle);
+        newEntryFragment.show(getSupportFragmentManager(), NewCategoryFragment.TAG);
+    }
+
+    // change entry
+    public void notifyEntryChange(EntryModel entry) {
+        for(int i=0; i<entriesArrayList.size(); i++) {
+            if(entriesArrayList.get(i).getHabit().equals(entry.getHabit())) {
+                entriesArrayList.set(i, entry);
+                break;
+            }
+        }
+        dbHandler.updateEntry(entry);
+        entriesAdapter.notifyDataSetChanged();
+    }
+
     // change mood
     public void notifyChange(int mood) {
         switch (mood) {

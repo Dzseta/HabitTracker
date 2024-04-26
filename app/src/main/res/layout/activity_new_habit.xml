@@ -53,6 +53,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:layout_weight="1"
+                android:background="@drawable/edittext_background"
+                android:padding="10dp"
                 android:textColor="@color/light_gray"/>
 
             <ImageView
@@ -61,10 +63,18 @@
                 android:layout_height="50dp"
                 android:layout_weight="0"
                 android:background="@drawable/entry_background"
+                android:layout_marginLeft="30dp"
                 android:padding="10dp"
                 android:backgroundTint="#ffffff"
                 android:src="@drawable/icon_categories" />
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/medium_gray" />
 
         <TextView
             android:id="@+id/nameTextView"
@@ -82,8 +92,16 @@
             android:layout_height="50dp"
             android:ems="10"
             android:inputType="text"
-            android:backgroundTint="@color/light_gray"
+            android:background="@drawable/edittext_background"
+            android:padding="10dp"
             android:textColor="@color/light_gray" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/medium_gray" />
 
         <TextView
             android:id="@+id/descriptionTextView"
@@ -101,8 +119,16 @@
             android:layout_height="50dp"
             android:ems="10"
             android:inputType="text"
-            android:backgroundTint="@color/light_gray"
+            android:background="@drawable/edittext_background"
+            android:padding="10dp"
             android:textColor="@color/light_gray" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/medium_gray" />
 
         <TextView
             android:id="@+id/typeTextView"
@@ -147,10 +173,144 @@
         </RadioGroup>
 
         <LinearLayout
+            android:id="@+id/numberLinearLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/medium_gray" />
+
+            <TextView
+                android:id="@+id/numberTextView"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/new_habit_goal"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/numberEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/edittext_background"
+                    android:padding="10dp"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:textColor="@color/light_gray" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/timeLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/medium_gray" />
+
+            <TextView
+                android:id="@+id/timeTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:gravity="center_vertical"
+                android:text="@string/settings_time"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="40dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <NumberPicker
+                    android:id="@+id/hourNumberPicker"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:timePickerMode="spinner" />
+
+                <TextView
+                    android:id="@+id/textView1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="0"
+                    android:gravity="center"
+                    android:paddingHorizontal="20dp"
+                    android:text=":"
+                    android:textSize="30dp"
+                    android:textStyle="bold" />
+
+                <NumberPicker
+                    android:id="@+id/minuteNumberPicker"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:timePickerMode="spinner" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="0"
+                    android:gravity="center"
+                    android:paddingHorizontal="20dp"
+                    android:text=":"
+                    android:textSize="30dp"
+                    android:textStyle="bold" />
+
+                <NumberPicker
+                    android:id="@+id/secondNumberPicker"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:timePickerMode="spinner" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/medium_gray" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/startDateTextView"
@@ -162,14 +322,59 @@
                 android:textSize="20dp"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/startDateEditText"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="40dp"
                 android:layout_weight="1"
-                android:gravity="center_vertical|right"
-                android:text=""
-                android:textColor="@color/light_gray" />
+                android:orientation="horizontal">
+
+                <NumberPicker
+                    android:id="@+id/startYearNumberPicker"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:timePickerMode="spinner" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="0"
+                    android:gravity="center"
+                    android:paddingHorizontal="20dp"
+                    android:text="-"
+                    android:textSize="30dp"
+                    android:textStyle="bold" />
+
+                <NumberPicker
+                    android:id="@+id/startMonthNumberPicker"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:timePickerMode="spinner" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="0"
+                    android:gravity="center"
+                    android:paddingHorizontal="20dp"
+                    android:text="-"
+                    android:textSize="30dp"
+                    android:textStyle="bold" />
+
+                <NumberPicker
+                    android:id="@+id/startDayNumberPicker"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:timePickerMode="spinner" />
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -180,7 +385,8 @@
             android:layout_weight="1"
             android:textColor="@color/light_gray"
             android:text="@string/new_habit_end_date"
-            android:buttonTint="@color/light_gray"
+            android:thumbTint="?attr/colorPrimary"
+            android:trackTint="?attr/colorPrimaryVariant"
             android:textSize="20dp"
             android:textStyle="bold" />
 
@@ -189,7 +395,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/endDateTextView"
@@ -201,16 +407,68 @@
                 android:textSize="20dp"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/endDateEditText"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="40dp"
                 android:layout_weight="1"
-                android:gravity="center_vertical|right"
-                android:text=""
-                android:textColor="@color/light_gray" />
+                android:orientation="horizontal">
+
+                <NumberPicker
+                    android:id="@+id/endYearNumberPicker"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:timePickerMode="spinner" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="0"
+                    android:gravity="center"
+                    android:paddingHorizontal="20dp"
+                    android:text="-"
+                    android:textSize="30dp"
+                    android:textStyle="bold" />
+
+                <NumberPicker
+                    android:id="@+id/endMonthNumberPicker"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:timePickerMode="spinner" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="0"
+                    android:gravity="center"
+                    android:paddingHorizontal="20dp"
+                    android:text="-"
+                    android:textSize="30dp"
+                    android:textStyle="bold" />
+
+                <NumberPicker
+                    android:id="@+id/endDayNumberPicker"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:timePickerMode="spinner" />
+            </LinearLayout>
 
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/medium_gray" />
 
         <TextView
             android:id="@+id/priorityTextView"
@@ -230,8 +488,16 @@
             android:ems="10"
             android:inputType="number"
             android:text="0"
-            android:backgroundTint="@color/light_gray"
+            android:background="@drawable/edittext_background"
+            android:padding="10dp"
             android:textColor="@color/light_gray" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/medium_gray" />
 
         <Switch
             android:id="@+id/reminderSwitch"
@@ -240,16 +506,17 @@
             android:layout_weight="1"
             android:textColor="@color/light_gray"
             android:text="@string/settings_reminder"
-            android:buttonTint="@color/light_gray"
+            android:thumbTint="?attr/colorPrimary"
+            android:trackTint="?attr/colorPrimaryVariant"
             android:textSize="20dp"
             android:textStyle="bold" />
 
         <LinearLayout
             android:id="@+id/reminderLinearLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/reminderTextView"
@@ -261,15 +528,41 @@
                 android:textSize="20dp"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/reminderEditText"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="40dp"
                 android:layout_weight="1"
-                android:gravity="center_vertical|right"
-                android:text=""
-                android:textColor="@color/light_gray" />
+                android:orientation="horizontal">
 
+                <NumberPicker
+                    android:id="@+id/reminderHourNumberPicker"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:timePickerMode="spinner" />
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="0"
+                    android:gravity="center"
+                    android:paddingHorizontal="20dp"
+                    android:text=":"
+                    android:textSize="30dp"
+                    android:textStyle="bold" />
+
+                <NumberPicker
+                    android:id="@+id/reminderMinuteNumberPicker"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:timePickerMode="spinner" />
+            </LinearLayout>
         </LinearLayout>
 
         <Button
@@ -279,6 +572,7 @@
             android:layout_gravity="center"
             android:padding="0dp"
             android:layout_marginTop="20dp"
+            android:layout_marginBottom="50dp"
             android:background="@drawable/entry_background"
             android:text="@string/button_create" />
     </LinearLayout>

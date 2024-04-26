@@ -9,7 +9,7 @@ public class HabitModel {
     private String categoryName;
     private String name;
     private String description;
-    private String type;    // yesno, number, timer
+    private String type;    // yesno, number, time
     private String typeData;  // ---, min number, min time
     private String repeatType; // every x days, x times a week/month/year, m/t/w/th/f/s/su
     private int repeatNumber; // 0-inf, 1-7/1-31/1-365,
@@ -147,7 +147,7 @@ public class HabitModel {
             if(Integer.parseInt(data) >= Integer.parseInt(getTypeData())) return true;
         } else if(getType().equals("time")) {
             String[] d = data.split(":");
-            String[] t = getTypeData().split(".");
+            String[] t = getTypeData().split(":");
             if(Integer.parseInt(d[0]) < Integer.parseInt(t[0])) return false;
             else if(Integer.parseInt(d[0]) > Integer.parseInt(t[0])) return true;
             else if(Integer.parseInt(d[1]) < Integer.parseInt(t[1])) return false;

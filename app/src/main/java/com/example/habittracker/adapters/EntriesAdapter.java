@@ -15,6 +15,8 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.habittracker.R;
+import com.example.habittracker.activities.CategoriesActivity;
+import com.example.habittracker.activities.TodayActivity;
 import com.example.habittracker.models.CategoryModel;
 import com.example.habittracker.models.EntryModel;
 import com.example.habittracker.models.HabitModel;
@@ -56,10 +58,16 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHold
         holder.iconImageView.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(cat.getColor())));
         holder.nameTextView.setText(model.getHabit());
         holder.descriptionTextView.setText(habit.getDescription());
-        if(model.getSuccess() == 1) holder.checkBox.setChecked(true);
-        else holder.checkBox.setChecked(false);
-        holder.checkBox.setOnClickListener(view -> {
-            if(holder.checkBox.isChecked()) {
+        if(model.getSuccess() == 1) holder.checkboxImageView.setImageResource(context.getResources().getIdentifier("icon_success", "drawable", context.getPackageName()));
+        else if(model.getSuccess() == 0) holder.checkboxImageView.setImageResource(context.getResources().getIdentifier("icon_fail", "drawable", context.getPackageName()));
+        else holder.checkboxImageView.setImageResource(context.getResources().getIdentifier("icon_neutral", "drawable", context.getPackageName()));
+
+        holder.checkboxImageView.setOnClickListener(view -> {
+            if (context instanceof TodayActivity) {
+                ((TodayActivity)context).showBottomSheet(view, model);
+            }
+
+            /*if(holder.checkBox.isChecked()) {
                 model.setData("true");
                 if(habit.evaluate("true")) model.setSuccess(1);
                 else model.setSuccess(0);
@@ -68,7 +76,7 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHold
                 if(habit.evaluate("true")) model.setSuccess(1);
                 else model.setSuccess(0);
             }
-            dbHandler.updateEntry(model);
+            dbHandler.updateEntry(model);*/
         });
     }
 
@@ -87,7 +95,7 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHold
         // ImageView
         private ImageView iconImageView;
         // Checkbox
-        private CheckBox checkBox;
+        private ImageView checkboxImageView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -95,7 +103,7 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHold
             descriptionTextView = itemView.findViewById(R.id.descriptionTextView);
             iconImageView = itemView.findViewById(R.id.iconImageView);
             entryCardView = itemView.findViewById(R.id.entryCardView);
-            checkBox = itemView.findViewById(R.id.checkBox);
+            checkboxImageView = itemView.findViewById(R.id.checkboxImageView);
         }
     }
 }

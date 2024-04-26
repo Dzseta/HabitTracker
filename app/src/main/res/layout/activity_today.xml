@@ -58,7 +58,6 @@
                 android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0"
-                android:background="@android:color/transparent"
                 android:src="@drawable/icon_arrow_left"
                 app:tint="?attr/colorPrimary" />
 
@@ -77,7 +76,6 @@
                 android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0"
-                android:background="@android:color/transparent"
                 android:src="@drawable/icon_arrow_right"
                 app:tint="?attr/colorPrimary" />
         </LinearLayout>
@@ -129,7 +127,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="20dp"
-            android:paddingBottom="130dp" />
+            android:paddingBottom="60dp" />
     </LinearLayout>
 
     <ImageButton

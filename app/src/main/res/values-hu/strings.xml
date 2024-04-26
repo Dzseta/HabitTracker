@@ -92,4 +92,6 @@
     <string name="stats_wmy">Heti/havi/évi</string>
     <string name="stats_habit">Szokások</string>
     <string name="sort_end_d">Befejező dátum szerint csökkenő</string>
+    <string name="today_success">Sikeresség</string>
+    <string name="new_habit_goal">Cél szám</string>
 </resources>

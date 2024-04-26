@@ -98,6 +98,8 @@
     <string name="title_today">Today</string>
     <string name="today_mood">Mood</string>
     <string name="today_comment">Comment</string>
+    <string name="today_success">Success</string>
+    <string name="today_per" translatable="false">/</string>
 
     <!-- Calendar -->
     <string name="title_calendar">Calendar</string>
@@ -122,6 +124,7 @@
     <string name="new_habit_end_date">End date</string>
     <string name="new_habit_priority">Priority</string>
     <string name="new_habit_reminder_time">Reminder time</string>
+    <string name="new_habit_goal">Goal number</string>
 
     <!-- Profile -->
     <string name="profile_change_email">Change email</string>
