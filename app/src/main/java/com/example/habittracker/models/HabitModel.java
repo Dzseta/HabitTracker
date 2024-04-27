@@ -11,8 +11,7 @@ public class HabitModel {
     private String description;
     private String type;    // yesno, number, time
     private String typeData;  // ---, min number, min time
-    private String repeatType; // every x days, x times a week/month/year, m/t/w/th/f/s/su
-    private int repeatNumber; // 0-inf, 1-7/1-31/1-365,
+    private String repeatType; // everday / specific days
     private String startDate;
     private String endDate;
     private int priority;
@@ -20,14 +19,13 @@ public class HabitModel {
     private int reminderHour;
     private int reminderMinute;
 
-    public HabitModel(String categoryName, String name, String description, String type, String typeData, String repeatType, int repeatNumber, String startDate, String endDate, int priority, boolean reminder, int reminderHour, int reminderMinute) {
+    public HabitModel(String categoryName, String name, String description, String type, String typeData, String repeatType, String startDate, String endDate, int priority, boolean reminder, int reminderHour, int reminderMinute) {
         this.categoryName = categoryName;
         this.name = name;
         this.description = description;
         this.type = type;
         this.typeData = typeData;
         this.repeatType = repeatType;
-        this.repeatNumber = repeatNumber;
         this.startDate = startDate;
         this.endDate = endDate;
         this.priority = priority;
@@ -82,14 +80,6 @@ public class HabitModel {
 
     public void setRepeatType(String repeatType) {
         this.repeatType = repeatType;
-    }
-
-    public int getRepeatNumber() {
-        return repeatNumber;
-    }
-
-    public void setRepeatNumber(int repeatNumber) {
-        this.repeatNumber = repeatNumber;
     }
 
     public String getStartDate() {

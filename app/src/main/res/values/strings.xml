@@ -69,6 +69,7 @@
     <string name="settings_time">Time</string>
     <string name="settings_language">Language</string>
     <string name="settings_theme">Theme</string>
+    <string name="settings_everyday">Repeat everyday</string>
 
     <!-- Profile -->
     <string name="title_profile">Profile</string>
@@ -125,6 +126,14 @@
     <string name="new_habit_priority">Priority</string>
     <string name="new_habit_reminder_time">Reminder time</string>
     <string name="new_habit_goal">Goal number</string>
+    <string name="new_habit_days">Days</string>
+    <string name="new_habit_monday">M</string>
+    <string name="new_habit_tuesday">T</string>
+    <string name="new_habit_wednesday">W</string>
+    <string name="new_habit_thursday">Th</string>
+    <string name="new_habit_friday">F</string>
+    <string name="new_habit_saturday">S</string>
+    <string name="new_habit_sunday">Su</string>
 
     <!-- Profile -->
     <string name="profile_change_email">Change email</string>

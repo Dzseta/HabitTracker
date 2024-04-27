@@ -51,6 +51,14 @@ public class NewHabitActivity extends AppCompatActivity {
     EditText descriptionEditText;
     EditText priorityEditText;
     EditText numberEditText;
+    // textviews
+    TextView mondayTW;
+    TextView tuesdayTW;
+    TextView wednesdayTW;
+    TextView thursdayTW;
+    TextView fridayTW;
+    TextView saturdayTW;
+    TextView sundayTW;
     // radio
     RadioGroup typeRadioGroup;
     RadioButton yesNoRadioButton;
@@ -59,6 +67,7 @@ public class NewHabitActivity extends AppCompatActivity {
     // switch
     Switch reminderSwitch;
     Switch endDateSwitch;
+    Switch repeatSwitch;
     // button
     Button createButton;
     // numberpickers
@@ -78,10 +87,13 @@ public class NewHabitActivity extends AppCompatActivity {
     LinearLayout timeLinearLayout;
     LinearLayout endDateLinearLayout;
     LinearLayout reminderLinearLayout;
+    LinearLayout repeatLinearLayout;
     // extras
     String mode;
     String habitName;
     HabitModel origHabit;
+    // bools
+    boolean monday, tuesday, wednesday, thursday, friday, saturday, sunday;
     // array adapter
     ArrayAdapter<String> adapter;
     // category's position
@@ -114,6 +126,14 @@ public class NewHabitActivity extends AppCompatActivity {
         // time
         hour = 0;
         minute = 0;
+        // bools
+        monday = false;
+        tuesday = false;
+        wednesday = false;
+        thursday = false;
+        friday = false;
+        saturday = false;
+        sunday = false;
         // get numberpickers
         hourNumberPicker = findViewById(R.id.hourNumberPicker);
         hourNumberPicker.setMinValue(0);
@@ -166,11 +186,21 @@ public class NewHabitActivity extends AppCompatActivity {
         endDateLinearLayout.setVisibility(View.GONE);
         reminderLinearLayout = findViewById(R.id.reminderLinearLayout);
         reminderLinearLayout.setVisibility(View.GONE);
+        repeatLinearLayout = findViewById(R.id.repeatLinearLayout);
+        repeatLinearLayout.setVisibility(View.GONE);
         // spinner
         categorySpinner = findViewById(R.id.categorySpinner);
         // imageView
         iconImageView = findViewById(R.id.iconImageView);
-        // edittext
+        // textviews
+        mondayTW = findViewById(R.id.mondayTextView);
+        tuesdayTW = findViewById(R.id.tuesdayTextView);
+        wednesdayTW = findViewById(R.id.wednesDayTextView);
+        thursdayTW = findViewById(R.id.thursdayTextView);
+        fridayTW = findViewById(R.id.fridayTextView);
+        saturdayTW = findViewById(R.id.saturdayTextView);
+        sundayTW = findViewById(R.id.sundayTextView);
+        // edittexts
         nameEditText = findViewById(R.id.nameEditText);
         descriptionEditText = findViewById(R.id.descriptionEditText);
         numberEditText = findViewById(R.id.numberEditText);
@@ -183,6 +213,7 @@ public class NewHabitActivity extends AppCompatActivity {
         // switch
         reminderSwitch = findViewById(R.id.reminderSwitch);
         endDateSwitch = findViewById(R.id.endDateSwitch);
+        repeatSwitch = findViewById(R.id.repeatSwitch);
         // button
         createButton = findViewById(R.id.createButton);
         // get the spinner from the xml
@@ -283,6 +314,58 @@ public class NewHabitActivity extends AppCompatActivity {
                 int c = ContextCompat.getColor(this, typedValue.resourceId);
                 reminderSwitch.setThumbTintList(ColorStateList.valueOf(c));
             }
+            repeatSwitch.setEnabled(false);
+            mondayTW.setEnabled(false);
+            tuesdayTW.setEnabled(false);
+            wednesdayTW.setEnabled(false);
+            thursdayTW.setEnabled(false);
+            fridayTW.setEnabled(false);
+            saturdayTW.setEnabled(false);
+            sundayTW.setEnabled(false);
+            if(origHabit.getRepeatType().equals("everyday")) {
+                repeatSwitch.setChecked(true);
+                repeatLinearLayout.setVisibility(View.GONE);
+                repeatSwitch.setThumbTintList(ColorStateList.valueOf(getResources().getColor(R.color.medium_gray)));
+            } else {
+                repeatSwitch.setChecked(false);
+                repeatLinearLayout.setVisibility(View.VISIBLE);
+                repeatSwitch.setThumbTintList(ColorStateList.valueOf(getResources().getColor(R.color.medium_gray)));
+                TypedValue typedValue = new TypedValue();
+                getTheme().resolveAttribute(com.google.android.material.R.attr.colorPrimaryVariant, typedValue, true);
+                int c = ContextCompat.getColor(this, typedValue.resourceId);
+                repeatSwitch.setThumbTintList(ColorStateList.valueOf(c));
+                String[] days = origHabit.getRepeatType().split("-");
+                for(int i=0; i<days.length; i++) {
+                    if(days[i].equals(getResources().getString(R.string.new_habit_monday))) {
+                        mondayTW.setTextColor(c);
+                        monday = true;
+                    }
+                    else if(days[i].equals(getResources().getString(R.string.new_habit_tuesday))) {
+                        tuesdayTW.setTextColor(c);
+                        tuesday = true;
+                    }
+                    else if(days[i].equals(getResources().getString(R.string.new_habit_wednesday))) {
+                        wednesdayTW.setTextColor(c);
+                        wednesday = true;
+                    }
+                    else if(days[i].equals(getResources().getString(R.string.new_habit_thursday))) {
+                        thursdayTW.setTextColor(c);
+                        thursday = true;
+                    }
+                    else if(days[i].equals(getResources().getString(R.string.new_habit_friday))) {
+                        fridayTW.setTextColor(c);
+                        friday = true;
+                    }
+                    else if(days[i].equals(getResources().getString(R.string.new_habit_saturday))) {
+                        saturdayTW.setTextColor(c);
+                        saturday = true;
+                    }
+                    else if(days[i].equals(getResources().getString(R.string.new_habit_sunday))) {
+                        sundayTW.setTextColor(c);
+                        sunday = true;
+                    }
+                }
+            }
             reminderHourNumberPicker.setValue(origHabit.getReminderHour());
             reminderMinuteNumberPicker.setValue(origHabit.getReminderMinute());
             for(int i=0; i<categoryNames.length; i++) {
@@ -298,8 +381,9 @@ public class NewHabitActivity extends AppCompatActivity {
             int c = ContextCompat.getColor(this, typedValue.resourceId);
             reminderSwitch.setThumbTintList(ColorStateList.valueOf(c));
             endDateSwitch.setThumbTintList(ColorStateList.valueOf(c));
+            repeatSwitch.setChecked(true);
+            reminderSwitch.setThumbTintList(ColorStateList.valueOf(c));
         }
-
         // onValueChange
         startMonthNumberPicker.setOnValueChangedListener((numberPicker, oldVal, newVal) -> {
             if(newVal == 2) {
@@ -375,15 +459,40 @@ public class NewHabitActivity extends AppCompatActivity {
                 reminderSwitch.setThumbTintList(ColorStateList.valueOf(c));
             }
         });
+        // onCheckedChangeListener for repeat
+        repeatSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                repeatSwitch.setChecked(true);
+                repeatLinearLayout.setVisibility(View.GONE);
+                TypedValue typedValue = new TypedValue();
+                getTheme().resolveAttribute(com.google.android.material.R.attr.colorPrimary, typedValue, true);
+                int c = ContextCompat.getColor(this, typedValue.resourceId);
+                repeatSwitch.setThumbTintList(ColorStateList.valueOf(c));
+            } else {
+                repeatSwitch.setChecked(false);
+                repeatLinearLayout.setVisibility(View.VISIBLE);
+                TypedValue typedValue = new TypedValue();
+                getTheme().resolveAttribute(com.google.android.material.R.attr.colorPrimaryVariant, typedValue, true);
+                int c = ContextCompat.getColor(this, typedValue.resourceId);
+                reminderSwitch.setThumbTintList(ColorStateList.valueOf(c));
+            }
+        });
+        mondayTW.setOnClickListener(view -> monday = setDay((TextView) view, monday));
+        tuesdayTW.setOnClickListener(view -> tuesday = setDay((TextView) view, tuesday));
+        wednesdayTW.setOnClickListener(view -> wednesday = setDay((TextView) view, wednesday));
+        thursdayTW.setOnClickListener(view -> thursday = setDay((TextView) view, thursday));
+        fridayTW.setOnClickListener(view -> friday = setDay((TextView) view, friday));
+        saturdayTW.setOnClickListener(view -> saturday = setDay((TextView) view, saturday));
+        sundayTW.setOnClickListener(view -> sunday = setDay((TextView) view, sunday));
         // set button onClick
         createButton.setOnClickListener(view -> {
             HabitModel habit;
             if(yesNoRadioButton.isChecked()) {
-                habit = new HabitModel(categoryNames[position], nameEditText.getText().toString(), descriptionEditText.getText().toString(), "yesno", "", "daily", 1, "", "", Integer.parseInt(priorityEditText.getText().toString()), reminderSwitch.isActivated(), 0, 0);
+                habit = new HabitModel(categoryNames[position], nameEditText.getText().toString(), descriptionEditText.getText().toString(), "yesno", "", "everyday", "", "", Integer.parseInt(priorityEditText.getText().toString()), reminderSwitch.isActivated(), 0, 0);
             } else if(numberRadioButton.isChecked()) {
-                habit = new HabitModel(categoryNames[position], nameEditText.getText().toString(), descriptionEditText.getText().toString(), "number", numberEditText.getText().toString(), "daily", 1, "", "", Integer.parseInt(priorityEditText.getText().toString()), reminderSwitch.isActivated(), 0, 0);
+                habit = new HabitModel(categoryNames[position], nameEditText.getText().toString(), descriptionEditText.getText().toString(), "number", numberEditText.getText().toString(), "everyday", "", "", Integer.parseInt(priorityEditText.getText().toString()), reminderSwitch.isActivated(), 0, 0);
             } else {
-                habit = new HabitModel(categoryNames[position], nameEditText.getText().toString(), descriptionEditText.getText().toString(), "time", hourNumberPicker.getValue() + ":" + minuteNumberPicker.getValue() + ":" + secondNumberPicker.getValue(), "daily", 1, "", "", Integer.parseInt(priorityEditText.getText().toString()), reminderSwitch.isActivated(), 0, 0);
+                habit = new HabitModel(categoryNames[position], nameEditText.getText().toString(), descriptionEditText.getText().toString(), "time", hourNumberPicker.getValue() + ":" + minuteNumberPicker.getValue() + ":" + secondNumberPicker.getValue(), "daily", "", "", Integer.parseInt(priorityEditText.getText().toString()), reminderSwitch.isActivated(), 0, 0);
             }
             LocalDate start;
             if(startMonthNumberPicker.getValue()<10) {
@@ -417,6 +526,21 @@ public class NewHabitActivity extends AppCompatActivity {
                 }
                 habit.setEndDate(end.toString());
             }
+            String repeatDays = "";
+            if(monday) repeatDays += getResources().getString(R.string.new_habit_monday);
+            repeatDays += "-";
+            if(tuesday) repeatDays += getResources().getString(R.string.new_habit_tuesday);
+            repeatDays += "-";
+            if(wednesday) repeatDays += getResources().getString(R.string.new_habit_wednesday);
+            repeatDays += "-";
+            if(thursday) repeatDays += getResources().getString(R.string.new_habit_thursday);
+            repeatDays += "-";
+            if(friday) repeatDays += getResources().getString(R.string.new_habit_friday);
+            repeatDays += "-";
+            if(saturday) repeatDays += getResources().getString(R.string.new_habit_saturday);
+            repeatDays += "-";
+            if(sunday) repeatDays += getResources().getString(R.string.new_habit_sunday);
+            if(!repeatSwitch.isChecked()) habit.setRepeatType(repeatDays);
             habit.setReminderHour(reminderHourNumberPicker.getValue());
             habit.setReminderMinute(reminderMinuteNumberPicker.getValue());
             HabitModel prev = dbHandler.readHabitByName(habit.getName());
@@ -429,5 +553,19 @@ public class NewHabitActivity extends AppCompatActivity {
             i.setClass(this, HabitsActivity.class);
             startActivity(i);
         });
+    }
+
+    public boolean setDay(TextView view, boolean day) {
+        if(day) {
+            view.setTextColor(getResources().getColor(R.color.light_gray));
+            day = false;
+        } else {
+            TypedValue typedValue = new TypedValue();
+            getTheme().resolveAttribute(androidx.appcompat.R.attr.colorPrimary, typedValue, true);
+            int c = ContextCompat.getColor(this, typedValue.resourceId);
+            view.setTextColor(c);
+            day = true;
+        }
+        return  day;
     }
 }

@@ -94,4 +94,13 @@
     <string name="sort_end_d">Befejező dátum szerint csökkenő</string>
     <string name="today_success">Sikeresség</string>
     <string name="new_habit_goal">Cél szám</string>
+    <string name="settings_everyday">Ismétlés minden nap</string>
+    <string name="new_habit_days">Napok</string>
+    <string name="new_habit_monday">H</string>
+    <string name="new_habit_tuesday">K</string>
+    <string name="new_habit_wednesday">Sz</string>
+    <string name="new_habit_thursday">Cs</string>
+    <string name="new_habit_friday">P</string>
+    <string name="new_habit_saturday">Szo</string>
+    <string name="new_habit_sunday">V</string>
 </resources>

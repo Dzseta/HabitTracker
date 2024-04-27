@@ -26,6 +26,8 @@ import com.example.habittracker.models.HabitModel;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import sun.bob.mcalendarview.MCalendarView;
 import sun.bob.mcalendarview.MarkStyle;
@@ -91,6 +93,7 @@ public class CalendarActivity extends AppCompatActivity {
         calendarTW.setTextColor(ContextCompat.getColor(this, R.color.light_gray));
         // calendar
         calendar = findViewById(R.id.calendar);
+        calendar.hasTitle(false);
         LocalDate now = LocalDate.now();
         if(now.getMonthValue()<10) {
             s = now.getYear() + "-0" + now.getMonthValue() + "-01";
@@ -101,7 +104,6 @@ public class CalendarActivity extends AppCompatActivity {
         }
 
         markDays(s, e, "", true);
-
         calendar.setOnMonthChangeListener(new OnMonthChangeListener() {
             @Override
             public void onMonthChange(int year, int month) {
@@ -128,7 +130,7 @@ public class CalendarActivity extends AppCompatActivity {
                 int y = date.getYear();
                 int m = date.getMonth();
                 int d = date.getDay();
-                if(y >= 0) {
+                if(y > 0) {
                     if(m<10) {
                         if(d<10) {
                             target = LocalDate.parse(y + "-0" + m + "-0" + d);
@@ -145,9 +147,9 @@ public class CalendarActivity extends AppCompatActivity {
                 }
                 if(!target.isAfter(LocalDate.now())){
                     Intent i = new Intent();
-                    i.putExtra("year", date.getYear());
-                    i.putExtra("month", date.getMonth());
-                    i.putExtra("day", date.getDay());
+                    i.putExtra("year", target.getYear());
+                    i.putExtra("month", target.getMonthValue());
+                    i.putExtra("day", target.getDayOfMonth());
                     i.setClass(getBaseContext(), TodayActivity.class);
                     startActivity(i);
                 }
@@ -183,9 +185,17 @@ public class CalendarActivity extends AppCompatActivity {
 
     // mark the days
     public void markDays(String startDay, String endDay, String habit, boolean mood){
-        LocalDate ld = LocalDate.parse(endDay);
-        for(int i=0; i<ld.lengthOfMonth(); i++) {
-            calendar.unMarkDate(ld.getYear(), ld.getMonthValue(), i+1);
+        LocalDate habitStart = null;
+        LocalDate habitEnd = null;
+        if(!mood) {
+            habitStart = LocalDate.parse(dbHandler.readHabitByName(habit).getStartDate()); // start of habit
+            if(!dbHandler.readHabitByName(habit).getEndDate().equals("")) habitEnd = LocalDate.parse(dbHandler.readHabitByName(habit).getEndDate());     // end of habit
+            else habitEnd = LocalDate.MAX;
+        }
+        LocalDate firstDay = LocalDate.parse(startDay);                                          // yyyy-mm-01
+        LocalDate lastDay = LocalDate.parse(endDay);                                             // yyyy-mm-31
+        for(int i=0; i<lastDay.lengthOfMonth(); i++) {
+            calendar.unMarkDate(lastDay.getYear(), lastDay.getMonthValue(), i+1);
         }
         if(mood) {
             ArrayList<DayentryModel> dayentries = dbHandler.readAllDayentriesInRange(startDay, endDay);
@@ -212,13 +222,30 @@ public class CalendarActivity extends AppCompatActivity {
             commentsAdapter = new CommentsAdapter(true, dayentries, CalendarActivity.this);
             commentsRecyclerView.setAdapter(commentsAdapter);
             commentsAdapter.notifyDataSetChanged();
-        } else {
+        } else if (habitStart.isBefore(lastDay.plusDays(1)) && habitEnd.isAfter(firstDay.minusDays(1))) {
             ArrayList<EntryModel> entries = dbHandler.readAllEntriesByHabitInRange(habit, startDay, endDay);
-            for(int i=0; i<entries.size(); i++) {
-                LocalDate date = LocalDate.parse(entries.get(i).getDate());
-                if(entries.get(i).getSuccess() == 1) calendar.markDate(new DateData(date.getYear(), date.getMonthValue(), date.getDayOfMonth()).setMarkStyle(new MarkStyle(MarkStyle.BACKGROUND, getResources().getColor(R.color.dark_green))));
-                else if(entries.get(i).getSuccess() == 0) calendar.markDate(new DateData(date.getYear(), date.getMonthValue(), date.getDayOfMonth()).setMarkStyle(new MarkStyle(MarkStyle.BACKGROUND, getResources().getColor(R.color.red))));
-                else calendar.markDate(new DateData(date.getYear(), date.getMonthValue(), date.getDayOfMonth()).setMarkStyle(new MarkStyle(MarkStyle.BACKGROUND, getResources().getColor(R.color.yellow))));
+            Collections.sort(entries, Comparator.comparing(EntryModel::getDate));
+            int s, e;
+            if(habitStart.isBefore(firstDay)) s = 1;
+            else s = habitStart.getDayOfMonth();
+            if(habitEnd.isBefore(lastDay)) e = habitEnd.getDayOfMonth();
+            else e = lastDay.getDayOfMonth();
+
+            // days
+            String[] days = dbHandler.readHabitByName(habit).getRepeatType().split("-");
+            int j = 0;
+            for(int i=s; i<=e; i++) {
+                LocalDate date = null;
+                if(entries.size()>0) date = LocalDate.parse(entries.get(j).getDate());
+                if(entries.size()>0 && date.isEqual(firstDay.plusDays(i-1))) {
+                    if (j < entries.size()-1) j++;
+                    if (entries.get(j).getSuccess() == 1)
+                        calendar.markDate(new DateData(date.getYear(), date.getMonthValue(), date.getDayOfMonth()).setMarkStyle(new MarkStyle(MarkStyle.BACKGROUND, getResources().getColor(R.color.dark_green))));
+                    else if (entries.get(j).getSuccess() == 0) calendar.markDate(new DateData(date.getYear(), date.getMonthValue(), date.getDayOfMonth()).setMarkStyle(new MarkStyle(MarkStyle.BACKGROUND, getResources().getColor(R.color.red))));
+                    else calendar.markDate(new DateData(date.getYear(), date.getMonthValue(), date.getDayOfMonth()).setMarkStyle(new MarkStyle(MarkStyle.BACKGROUND, getResources().getColor(R.color.yellow))));
+                } else if(firstDay.plusDays(i-1).isBefore(LocalDate.now().plusDays(1)) && (days[0].equals("everyday") || ((days.length>firstDay.plusDays(i-1).getDayOfWeek().getValue()-1) && !days[firstDay.plusDays(i-1).getDayOfWeek().getValue()-1].equals("")))) {
+                    calendar.markDate(new DateData(firstDay.getYear(), firstDay.getMonthValue(), i).setMarkStyle(new MarkStyle(MarkStyle.BACKGROUND, getResources().getColor(R.color.yellow))));
+                }
             }
             commentsAdapter = new CommentsAdapter(false, entries, CalendarActivity.this);
             commentsRecyclerView.setAdapter(commentsAdapter);

@@ -204,9 +204,10 @@ public class TodayActivity extends AppCompatActivity implements DayEntryFragment
         for(int i=0; i<habitArrayList.size(); i++) {
             LocalDate startDate = LocalDate.parse(habitArrayList.get(i).getStartDate());
             LocalDate endDate = null;
+            String[] days = habitArrayList.get(i).getRepeatType().split("-");
             if(!habitArrayList.get(i).getEndDate().equals("")) endDate = LocalDate.parse(habitArrayList.get(i).getEndDate()).plusDays(1);
             if(startDate.isBefore(now.plusDays(1)) && (endDate == null || endDate.isAfter(now.plusDays(1)))) {
-                if(dbHandler.readEntryByHabitAndDate(habitArrayList.get(i).getName(), now.toString()) == null) {
+                if(dbHandler.readEntryByHabitAndDate(habitArrayList.get(i).getName(), now.toString()) == null && (days[0].equals("everyday") || ((days.length>now.getDayOfWeek().getValue()-1) && !days[now.getDayOfWeek().getValue()-1].equals("")))) {
                     EntryModel entry = new EntryModel(habitArrayList.get(i).getName(), now.toString(), "", -1);
                     dbHandler.addEntry(entry);
                 }

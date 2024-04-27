@@ -24,7 +24,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     // database name
     private static final String DB_NAME = "habitsdb";
     // database version
-    private static final int DB_VERSION = 19;
+    private static final int DB_VERSION = 22;
     // id column
     private static final String ID_COL = "id";
     // name column
@@ -49,8 +49,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String TYPEDATA_COL = "typedata";
     // repeat type column
     private static final String REPEATTYPE_COL = "repeattype";
-    // repeat number column
-    private static final String REPEATNUMBER_COL = "repeatnumber";
     // start date column
     private static final String STARTDATE_COL = "startdate";
     // end date column
@@ -110,7 +108,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + TYPE_COL + " TEXT,"
                 + TYPEDATA_COL + " TEXT,"
                 + REPEATTYPE_COL + " TEXT,"
-                + REPEATNUMBER_COL + " INTEGER,"
                 + STARTDATE_COL + " TEXT,"
                 + ENDDATE_COL + " TEXT,"
                 + PRIORITY_COL + " INTEGER,"
@@ -175,6 +172,15 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         // update database
         db.update(CATEGORY_TABLE_NAME, values, "name=?", new String[]{String.valueOf(origName)});
+
+        // update habits
+        if(!cat.getName().equals(origName)) {
+            ArrayList<HabitModel> habits = readAllHabitsInCategory(origName);
+            for(int i=0; i<habits.size(); i++) {
+                habits.get(i).setCategoryName(cat.getName());
+                updateHabit(habits.get(i), habits.get(i).getName());
+            }
+        }
     }
 
     // read a category
@@ -247,7 +253,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(TYPE_COL, habit.getType());
         values.put(TYPEDATA_COL, habit.getTypeData());
         values.put(REPEATTYPE_COL, habit.getRepeatType());
-        values.put(REPEATNUMBER_COL, habit.getRepeatNumber());
         values.put(STARTDATE_COL, habit.getStartDate());
         values.put(ENDDATE_COL, habit.getEndDate());
         values.put(PRIORITY_COL, habit.getPriority());
@@ -272,7 +277,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(TYPE_COL, habit.getType());
         values.put(TYPEDATA_COL, habit.getTypeData());
         values.put(REPEATTYPE_COL, habit.getRepeatType());
-        values.put(REPEATNUMBER_COL, habit.getRepeatNumber());
         values.put(STARTDATE_COL, habit.getStartDate());
         values.put(ENDDATE_COL, habit.getEndDate());
         values.put(PRIORITY_COL, habit.getPriority());
@@ -282,6 +286,21 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         // update database
         db.update(HABIT_TABLE_NAME, values, "name=?", new String[]{String.valueOf(origName)});
+        // delete all previous unneeded entries
+        if(!readHabitByName(origName).getStartDate().equals(habit.getStartDate())){
+            deleteAllEntriesBeforeDate(origName, habit.getStartDate());
+        }
+        // update entries
+        if(!habit.getName().equals(origName)) {
+            ArrayList<EntryModel> entries = readAllEntriesByHabit(origName);
+            for(int i=0; i<entries.size(); i++) {
+                entries.get(i).setHabit(habit.getName());
+                updateEntryHabit(entries.get(i), origName);
+            }
+            GoalModel goal = readGoalByHabit(origName);
+            goal.setHabit(habit.getName());
+            updateGoalHabit(goal, origName);
+        }
     }
 
     // read a habit
@@ -295,7 +314,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         // move cursor to first position
         if (cursorCourses.moveToFirst()) {
-            habit = new HabitModel(cursorCourses.getString(1), cursorCourses.getString(2), cursorCourses.getString(3), cursorCourses.getString(4), cursorCourses.getString(5), cursorCourses.getString(6), cursorCourses.getInt(7), cursorCourses.getString(8), cursorCourses.getString(9), cursorCourses.getInt(10), cursorCourses.getInt(11) > 0, cursorCourses.getInt(12), cursorCourses.getInt(13));
+            habit = new HabitModel(cursorCourses.getString(1), cursorCourses.getString(2), cursorCourses.getString(3), cursorCourses.getString(4), cursorCourses.getString(5), cursorCourses.getString(6), cursorCourses.getString(7), cursorCourses.getString(8), cursorCourses.getInt(9), cursorCourses.getInt(10) > 0, cursorCourses.getInt(11), cursorCourses.getInt(12));
         }
         // closing cursor
         cursorCourses.close();
@@ -315,7 +334,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         if (cursorCourses.moveToFirst()) {
             do {
                 // add data to the arraylist
-                habitModelArrayList.add(new HabitModel(cursorCourses.getString(1), cursorCourses.getString(2), cursorCourses.getString(3), cursorCourses.getString(4), cursorCourses.getString(5), cursorCourses.getString(6), cursorCourses.getInt(7), cursorCourses.getString(8), cursorCourses.getString(9), cursorCourses.getInt(10), cursorCourses.getInt(11) > 0, cursorCourses.getInt(12), cursorCourses.getInt(13)));
+                habitModelArrayList.add(new HabitModel(cursorCourses.getString(1), cursorCourses.getString(2), cursorCourses.getString(3), cursorCourses.getString(4), cursorCourses.getString(5), cursorCourses.getString(6), cursorCourses.getString(7), cursorCourses.getString(8), cursorCourses.getInt(9), cursorCourses.getInt(10) > 0, cursorCourses.getInt(11), cursorCourses.getInt(12)));
             } while (cursorCourses.moveToNext());
         }
         // closing cursor
@@ -336,7 +355,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         if (cursorCourses.moveToFirst()) {
             do {
                 // add data to the arraylist
-                habitModelArrayList.add(new HabitModel(cursorCourses.getString(1), cursorCourses.getString(2), cursorCourses.getString(3), cursorCourses.getString(4), cursorCourses.getString(5), cursorCourses.getString(6), cursorCourses.getInt(7), cursorCourses.getString(8), cursorCourses.getString(9), cursorCourses.getInt(10), cursorCourses.getInt(11) > 0, cursorCourses.getInt(12), cursorCourses.getInt(13)));
+                habitModelArrayList.add(new HabitModel(cursorCourses.getString(1), cursorCourses.getString(2), cursorCourses.getString(3), cursorCourses.getString(4), cursorCourses.getString(5), cursorCourses.getString(6), cursorCourses.getString(7), cursorCourses.getString(8), cursorCourses.getInt(9), cursorCourses.getInt(10) > 0, cursorCourses.getInt(11), cursorCourses.getInt(12)));
             } while (cursorCourses.moveToNext());
         }
         // closing cursor
@@ -387,7 +406,22 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(FINISHED_COL, goal.isFinished());
 
         // update database
-        db.update(GOAL_TABLE_NAME, values, "name=?", new String[]{String.valueOf(goal.getHabit())});
+        db.update(GOAL_TABLE_NAME, values, "name=?", new String[]{goal.getHabit()});
+    }
+
+    // update goal
+    public void updateGoalHabit(GoalModel goal, String habit) {
+        // get database
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        // passing all values
+        values.put(NAME_COL, habit);
+        values.put(NEEDED_COL, goal.getNeeded());
+        values.put(FINISHED_COL, goal.isFinished());
+
+        // update database
+        db.update(GOAL_TABLE_NAME, values, "name=?", new String[]{goal.getHabit()});
     }
 
     // read a goal
@@ -474,6 +508,23 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         // update database
         db.update(ENTRY_TABLE_NAME, values, "name=? and date=?", new String[]{entry.getHabit(), entry.getDate()});
+    }
+
+    // update entry
+    public void updateEntryHabit(EntryModel entry, String habit) {
+        // get database
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        // passing all values
+        values.put(NAME_COL, habit);
+        values.put(DATE_COL, entry.getDate());
+        values.put(DATA_COL, entry.getData());
+        values.put(SUCCESS_COL, entry.getSuccess());
+        values.put(COMMENT_COL, entry.getComment());
+
+        // update database
+        db.update(ENTRY_TABLE_NAME, values, "name=? and date=?", new String[]{habit, entry.getDate()});
     }
 
     // read an entry by habit and date
@@ -575,6 +626,30 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 // add data to the arraylist
                 LocalDate entryDate = LocalDate.parse(cursorCourses.getString(2));
                 if(entryDate.isAfter(startDate) && entryDate.isBefore(endDate)) entryModelArrayList.add(new EntryModel(cursorCourses.getString(1), cursorCourses.getString(2), cursorCourses.getString(3), cursorCourses.getInt(4), cursorCourses.getString(5)));
+            } while (cursorCourses.moveToNext());
+        }
+        // closing cursor
+        cursorCourses.close();
+        return entryModelArrayList;
+    }
+
+    // delete entries before date
+    public ArrayList<EntryModel> deleteAllEntriesBeforeDate(String name, String date) {
+        // create database
+        SQLiteDatabase db = this.getReadableDatabase();
+        // create cursor
+        Cursor cursorCourses = db.rawQuery("SELECT * FROM " + ENTRY_TABLE_NAME + " WHERE name=?", new String[]{name});
+        // create array list
+        ArrayList<EntryModel> entryModelArrayList = new ArrayList<>();
+        // dates
+        LocalDate dateBefore = LocalDate.parse(date);
+
+        // move cursor to first position
+        if (cursorCourses.moveToFirst()) {
+            do {
+                // add data to the arraylist
+                LocalDate entryDate = LocalDate.parse(cursorCourses.getString(2));
+                if(entryDate.isBefore(entryDate)) db.delete(ENTRY_TABLE_NAME, "name=? and date=?", new String[]{name, cursorCourses.getString(2)});;
             } while (cursorCourses.moveToNext());
         }
         // closing cursor
