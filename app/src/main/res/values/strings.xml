@@ -111,6 +111,18 @@
     <string name="stats_daily">Daily</string>
     <string name="stats_wmy">W / M / Y</string>
     <string name="stats_habit">Habits</string>
+    <string name="stats_success">Successful</string>
+    <string name="stats_skipped">Skipped</string>
+    <string name="stats_failed">Failed</string>
+    <string name="stats_score">Score</string>
+    <string name="stats_most_common">Most common</string>
+    <string name="stats_least_common">Least common</string>
+    <string name="stats_current_streak">Current streak</string>
+    <string name="stats_best_streak">Best streak</string>
+    <string name="stats_effect">Effect on mood</string>
+    <string name="stats_paired">Often paired with</string>
+    <string name="stats_average_number">Average number</string>
+    <string name="stats_average_time">Average time</string>
 
     <!-- New Habit -->
     <string name="title_new_habit">New habit</string>

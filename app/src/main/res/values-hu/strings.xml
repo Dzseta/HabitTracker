@@ -49,6 +49,8 @@
     <string name="forgotten_password">Elfelejtett jelszó</string>
     <string name="title_statistics">Statisztikák</string>
     <string name="title_today">Mai nap</string>
+    <string name="stats_success">Sikeres</string>
+    <string name="stats_skipped">Kihagyott</string>
     <string name="title_new_habit">Új szokás</string>
     <string name="new_habit_category">Kategória</string>
     <string name="new_habit_habit_name">Szokás neve</string>
@@ -103,4 +105,14 @@
     <string name="new_habit_friday">P</string>
     <string name="new_habit_saturday">Szo</string>
     <string name="new_habit_sunday">V</string>
+    <string name="stats_failed">Sikertelen</string>
+    <string name="stats_score">Értékelés</string>
+    <string name="stats_most_common">Leggyakoribb</string>
+    <string name="stats_least_common">Legritkább</string>
+    <string name="stats_current_streak">Jelenlegi sorozat</string>
+    <string name="stats_best_streak">Legjobb sorozat</string>
+    <string name="stats_effect">Hatása a hangulatra</string>
+    <string name="stats_paired">Gyakran együtt</string>
+    <string name="stats_average_time">Átlagos idő</string>
+    <string name="stats_average_number">Átlagos érték</string>
 </resources>
