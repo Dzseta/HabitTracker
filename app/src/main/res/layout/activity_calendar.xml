@@ -89,7 +89,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             tools:context=".activities.CalendarActivity"
-            android:paddingBottom="40dp"
             android:id="@+id/calendar" />
 
         <TextView

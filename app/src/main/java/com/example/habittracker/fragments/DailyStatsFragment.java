@@ -95,7 +95,6 @@ public class DailyStatsFragment extends Fragment {
             now = now.minusDays(1);
             loadData();
         });
-
         if(now.isEqual(LocalDate.now())) rightImageView.setColorFilter(getResources().getColor(R.color.light_gray));
         rightImageView.setOnClickListener(view -> {
             if(!now.isEqual(LocalDate.now())) {
@@ -153,7 +152,7 @@ public class DailyStatsFragment extends Fragment {
         entries.add(new PieEntry(successful, ""));
         entries.add(new PieEntry(skipped, ""));
         entries.add(new PieEntry(failed, ""));
-        PieDataSet set = new PieDataSet(entries, "Election Results");
+        PieDataSet set = new PieDataSet(entries, "");
         set.setColors(colors);
         set.setDrawValues(false);
         PieData data = new PieData(set);

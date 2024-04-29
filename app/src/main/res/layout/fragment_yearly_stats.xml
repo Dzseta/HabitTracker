@@ -245,7 +245,7 @@
         <com.github.mikephil.charting.charts.BarChart
             android:id="@+id/barChart"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="200dp" />
 
         <View
             android:layout_width="match_parent"
@@ -253,11 +253,6 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:background="@color/medium_gray" />
-
-        <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/lineChart"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
 
         <View
             android:layout_width="match_parent"
@@ -301,29 +296,33 @@
             android:background="@color/medium_gray" />
 
         <TextView
+            android:id="@+id/mostTextView"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:gravity="center_vertical"
             android:layout_weight="1"
+            android:gravity="center_vertical"
             android:text="@string/stats_most_common"
             android:textSize="20dp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:visibility="gone" />
 
         <LinearLayout
+            android:id="@+id/firstLinearLayout"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:layout_marginBottom="10dp"
             android:layout_marginLeft="20dp"
+            android:layout_marginBottom="10dp"
             android:layout_weight="1"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/firstHabitTextView"
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
                 android:layout_gravity="center_vertical"
-                android:gravity="center_vertical"
                 android:layout_weight="1"
+                android:gravity="center_vertical"
                 android:text="habit"
                 android:textSize="16dp"
                 android:textStyle="bold" />
@@ -340,20 +339,22 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/secondLinearLayout"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:layout_marginBottom="10dp"
             android:layout_marginLeft="20dp"
+            android:layout_marginBottom="10dp"
             android:layout_weight="1"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/secondHabitTextView"
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
                 android:layout_gravity="center_vertical"
-                android:gravity="center_vertical"
                 android:layout_weight="1"
+                android:gravity="center_vertical"
                 android:text="habit"
                 android:textSize="16dp"
                 android:textStyle="bold" />
@@ -370,20 +371,22 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/thirdLinearLayout"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:layout_marginBottom="10dp"
             android:layout_marginLeft="20dp"
+            android:layout_marginBottom="10dp"
             android:layout_weight="1"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/thirdHabitTextView"
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
                 android:layout_gravity="center_vertical"
-                android:gravity="center_vertical"
                 android:layout_weight="1"
+                android:gravity="center_vertical"
                 android:text="habit"
                 android:textSize="16dp"
                 android:textStyle="bold" />
@@ -400,29 +403,33 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/leastLinearLayout"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:gravity="center_vertical"
             android:layout_weight="1"
+            android:gravity="center_vertical"
             android:text="@string/stats_least_common"
             android:textSize="20dp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:visibility="gone" />
 
         <LinearLayout
+            android:id="@+id/lastLinearLayout"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:layout_marginBottom="10dp"
             android:layout_marginLeft="20dp"
+            android:layout_marginBottom="10dp"
             android:layout_weight="1"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/lastHabitTextView"
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
                 android:layout_gravity="center_vertical"
-                android:gravity="center_vertical"
                 android:layout_weight="1"
+                android:gravity="center_vertical"
                 android:text="habit"
                 android:textSize="16dp"
                 android:textStyle="bold" />
@@ -439,20 +446,22 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/secondLastLinearLayout"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:layout_marginBottom="10dp"
             android:layout_marginLeft="20dp"
+            android:layout_marginBottom="10dp"
             android:layout_weight="1"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/secondLastHabitTextView"
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
                 android:layout_gravity="center_vertical"
-                android:gravity="center_vertical"
                 android:layout_weight="1"
+                android:gravity="center_vertical"
                 android:text="habit"
                 android:textSize="16dp"
                 android:textStyle="bold" />
@@ -469,20 +478,22 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/thirdLastLinearLayout"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:layout_marginBottom="10dp"
             android:layout_marginLeft="20dp"
+            android:layout_marginBottom="10dp"
             android:layout_weight="1"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/thirdLastHabitTextView"
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
                 android:layout_gravity="center_vertical"
-                android:gravity="center_vertical"
                 android:layout_weight="1"
+                android:gravity="center_vertical"
                 android:text="habit"
                 android:textSize="16dp"
                 android:textStyle="bold" />
@@ -518,6 +529,7 @@
             android:id="@+id/habitsRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginLeft="30dp"
             android:paddingBottom="60dp" />
 
     </LinearLayout>

@@ -109,7 +109,7 @@
     <!-- Statistics -->
     <string name="title_statistics">Statistics</string>
     <string name="stats_daily">Daily</string>
-    <string name="stats_wmy">W / M / Y</string>
+    <string name="stats_wmy">M / Y</string>
     <string name="stats_habit">Habits</string>
     <string name="stats_success">Successful</string>
     <string name="stats_skipped">Skipped</string>
@@ -123,6 +123,8 @@
     <string name="stats_paired">Often paired with</string>
     <string name="stats_average_number">Average number</string>
     <string name="stats_average_time">Average time</string>
+    <string name="stats_year">YEAR</string>
+    <string name="stats_month">MONTH</string>
 
     <!-- New Habit -->
     <string name="title_new_habit">New habit</string>

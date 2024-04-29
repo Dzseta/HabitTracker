@@ -63,7 +63,6 @@ public class GoalModel {
                 break;
             }
         }
-        System.out.println(this.getHabit() + " - " + streak);
         return streak;
     }
 }

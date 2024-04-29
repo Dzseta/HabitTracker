@@ -93,7 +93,6 @@ public class CalendarActivity extends AppCompatActivity {
         calendarTW.setTextColor(ContextCompat.getColor(this, R.color.light_gray));
         // calendar
         calendar = findViewById(R.id.calendar);
-        calendar.hasTitle(false);
         LocalDate now = LocalDate.now();
         if(now.getMonthValue()<10) {
             s = now.getYear() + "-0" + now.getMonthValue() + "-01";
@@ -238,11 +237,11 @@ public class CalendarActivity extends AppCompatActivity {
                 LocalDate date = null;
                 if(entries.size()>0) date = LocalDate.parse(entries.get(j).getDate());
                 if(entries.size()>0 && date.isEqual(firstDay.plusDays(i-1))) {
-                    if (j < entries.size()-1) j++;
                     if (entries.get(j).getSuccess() == 1)
                         calendar.markDate(new DateData(date.getYear(), date.getMonthValue(), date.getDayOfMonth()).setMarkStyle(new MarkStyle(MarkStyle.BACKGROUND, getResources().getColor(R.color.dark_green))));
                     else if (entries.get(j).getSuccess() == 0) calendar.markDate(new DateData(date.getYear(), date.getMonthValue(), date.getDayOfMonth()).setMarkStyle(new MarkStyle(MarkStyle.BACKGROUND, getResources().getColor(R.color.red))));
                     else calendar.markDate(new DateData(date.getYear(), date.getMonthValue(), date.getDayOfMonth()).setMarkStyle(new MarkStyle(MarkStyle.BACKGROUND, getResources().getColor(R.color.yellow))));
+                    if (j < entries.size()-1) j++;
                 } else if(firstDay.plusDays(i-1).isBefore(LocalDate.now().plusDays(1)) && (days[0].equals("everyday") || ((days.length>firstDay.plusDays(i-1).getDayOfWeek().getValue()-1) && !days[firstDay.plusDays(i-1).getDayOfWeek().getValue()-1].equals("")))) {
                     calendar.markDate(new DateData(firstDay.getYear(), firstDay.getMonthValue(), i).setMarkStyle(new MarkStyle(MarkStyle.BACKGROUND, getResources().getColor(R.color.yellow))));
                 }
