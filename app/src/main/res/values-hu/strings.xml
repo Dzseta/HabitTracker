@@ -129,4 +129,7 @@
     <string name="stats_oct">Okt</string>
     <string name="stats_nov">Nov</string>
     <string name="stats_dec">Dec</string>
+    <string name="backup_data">Biztonsági mentés</string>
+    <string name="backup_export">Exportálás .csv formátumba</string>
+    <string name="button_export">Exportálás</string>
 </resources>

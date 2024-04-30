@@ -14,6 +14,7 @@
     <string name="button_register">Register</string>
     <string name="button_create">Create</string>
     <string name="button_change">Change</string>
+    <string name="button_export">Export</string>
     <string name="button_ok" translatable="false">OK</string>
 
     <!-- Sort -->
@@ -94,6 +95,8 @@
 
     <!-- Backup -->
     <string name="title_backup">Backup</string>
+    <string name="backup_data">Backup all data</string>
+    <string name="backup_export">Export to .csv file</string>
 
     <!-- Today -->
     <string name="title_today">Today</string>
