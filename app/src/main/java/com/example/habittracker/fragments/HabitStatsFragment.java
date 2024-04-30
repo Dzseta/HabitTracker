@@ -1,6 +1,7 @@
 package com.example.habittracker.fragments;
 
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.habittracker.R;
@@ -21,12 +23,24 @@ import com.example.habittracker.models.EntryModel;
 import com.example.habittracker.models.HabitModel;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 
 import org.w3c.dom.Text;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 
 public class HabitStatsFragment extends Fragment {
 
@@ -74,6 +88,10 @@ public class HabitStatsFragment extends Fragment {
     String[] habitNames;
     // database handler
     DatabaseHandler dbHandler;
+    // year
+    int year;
+    // colors
+    int[] colors;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -105,10 +123,57 @@ public class HabitStatsFragment extends Fragment {
         firstLinearLayout = v.findViewById(R.id.firstLinearLayout);
         secondLinearLayout = v.findViewById(R.id.secondLinearLayout);
         thirdLinearLayout = v.findViewById(R.id.thirdLinearLayout);
+        // year
+        year = LocalDate.now().getYear();
+        intervalTextView.setText(Integer.toString(year));
         // charts
         yearBarChart = v.findViewById(R.id.yearBarChart);
+        Legend legend = yearBarChart.getLegend();
+        legend.setEnabled(false);
+        Description description = yearBarChart.getDescription();
+        description.setEnabled(false);
+        yearBarChart.animateY(1000);
+        yearBarChart.animateX(1000);
+        XAxis xAxis = yearBarChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setGranularity(1f);
+        xAxis.setDrawAxisLine(false);
+        xAxis.setDrawGridLines(false);
+        YAxis leftAxis = yearBarChart.getAxisLeft();
+        leftAxis.setDrawAxisLine(false);
+        YAxis rightAxis = yearBarChart.getAxisRight();
+        leftAxis.setTextColor(getResources().getColor(R.color.light_gray));
+        rightAxis.setTextColor(getResources().getColor(R.color.light_gray));
+        rightAxis.setDrawAxisLine(false);
+        xAxis.setTextColor(getResources().getColor(R.color.light_gray));
+
         monthBarChart = v.findViewById(R.id.monthBarChart);
+        Legend legend2 = monthBarChart.getLegend();
+        legend2.setEnabled(false);
+        Description description2 = monthBarChart.getDescription();
+        description2.setEnabled(false);
+        monthBarChart.animateY(1000);
+        monthBarChart.animateX(1000);
+        XAxis xAxis2 = monthBarChart.getXAxis();
+        xAxis2.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis2.setGranularity(1f);
+        xAxis2.setDrawAxisLine(false);
+        xAxis2.setDrawGridLines(false);
+        YAxis leftAxis2 = monthBarChart.getAxisLeft();
+        leftAxis2.setDrawAxisLine(false);
+        YAxis rightAxis2 = monthBarChart.getAxisRight();
+        leftAxis2.setTextColor(getResources().getColor(R.color.light_gray));
+        rightAxis2.setTextColor(getResources().getColor(R.color.light_gray));
+        rightAxis2.setDrawAxisLine(false);
+        xAxis2.setTextColor(getResources().getColor(R.color.light_gray));
+
         pieChart = v.findViewById(R.id.pieChart);
+        colors = new int[]{getResources().getColor(R.color.green), getResources().getColor(R.color.yellow), getResources().getColor(R.color.red)};
+        Legend legend3 = pieChart.getLegend();
+        legend3.setEnabled(false);
+        pieChart.setHoleColor(getResources().getColor(R.color.dark_gray));
+        Description description3 = pieChart.getDescription();
+        description3.setEnabled(false);
         // dbHandler
         dbHandler = new DatabaseHandler(getContext());
         // spinner
@@ -135,6 +200,28 @@ public class HabitStatsFragment extends Fragment {
                         position = 0;
                     }
                 });
+        // onClicks
+        // year
+        leftImageView.setOnClickListener(view -> {
+            if(year == LocalDate.now().getYear()) {
+                TypedValue typedValue = new TypedValue();
+                getContext().getTheme().resolveAttribute(androidx.appcompat.R.attr.colorPrimary, typedValue, true);
+                int c = ContextCompat.getColor(getContext(), typedValue.resourceId);
+                rightImageView.setColorFilter(c);
+            }
+            year--;
+            intervalTextView.setText(Integer.toString(year));
+            loadData();
+        });
+        rightImageView.setColorFilter(getResources().getColor(R.color.light_gray));
+        rightImageView.setOnClickListener(view -> {
+            if(!(year == LocalDate.now().getYear())) {
+                year++;
+                if(year == LocalDate.now().getYear()) rightImageView.setColorFilter(getResources().getColor(R.color.light_gray));
+                intervalTextView.setText(Integer.toString(year));
+                loadData();
+            }
+        });
 
         loadData();
         // Inflate the layout for this fragment
@@ -193,6 +280,8 @@ public class HabitStatsFragment extends Fragment {
         for(int i=0;i<paired.length;i++) {
             paired[i] = 0;
         }
+        HashMap<String, Integer> entriesInYear = new HashMap<>();
+        HashMap<String, Integer> entriesInMonth = new HashMap<>();
         for(int i=0; i<entriesArrayList.size(); i++) {
             if(entriesArrayList.get(i).getSuccess() == 1) {
                 ArrayList<EntryModel> entriesOnDay = dbHandler.readAllEntriesByDate(entriesArrayList.get(i).getDate());
@@ -203,8 +292,23 @@ public class HabitStatsFragment extends Fragment {
                         }
                     };
                 }
+                // get the successfull entry numbers by year and by month
+                LocalDate date = LocalDate.parse(entriesArrayList.get(i).getDate());
+                if(entriesInYear.containsKey(Integer.toString(date.getYear()))) {
+                    entriesInYear.put(Integer.toString(date.getYear()), entriesInYear.get(Integer.toString(date.getYear())) + 1);
+                } else {
+                    entriesInYear.put(Integer.toString(date.getYear()), 1);
+                }
+                if(year == date.getYear()) {
+                    if(entriesInMonth.containsKey(Integer.toString(date.getMonthValue()))) {
+                        entriesInMonth.put(Integer.toString(date.getMonthValue()), entriesInMonth.get(Integer.toString(date.getMonthValue())) + 1);
+                    } else {
+                        entriesInMonth.put(Integer.toString(date.getMonthValue()), 1);
+                    }
+                }
             }
         }
+
         int first = 0, second = 0, third = 0;
         int fPos = 0, sPos = 0, tPos = 0;
         for(int i=0; i<paired.length; i++) {
@@ -245,6 +349,69 @@ public class HabitStatsFragment extends Fragment {
             thirdHabitValueTextView.setText(Integer.toString(third));
             thirdLinearLayout.setVisibility(View.VISIBLE);
         }
+
+        // yearly entries chart
+        ArrayList<BarEntry> entries = new ArrayList<>();
+        final ArrayList<String> xAxisLabel = new ArrayList<>();
+        float pos = 0f;
+        for (String i : entriesInYear.keySet()) {
+            entries.add(new BarEntry(pos, entriesInYear.get(i)));
+            xAxisLabel.add(i);
+            pos++;
+        }
+        yearBarChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(xAxisLabel));
+        BarDataSet set = new BarDataSet(entries, "yearSet");
+        set.setColors(getResources().getColor(R.color.light_green));
+        set.setDrawValues(false);
+        set.setValueTextColor(getResources().getColor(R.color.light_gray));
+
+        BarData data = new BarData(set);
+        data.setBarWidth(0.9f); // set custom bar width
+        yearBarChart.setData(data);
+        yearBarChart.setFitBars(true); // make the x-axis fit exactly all bars
+        yearBarChart.invalidate(); // refresh
+
+        // monthly entries chart
+        ArrayList<BarEntry> entries2 = new ArrayList<>();
+        final ArrayList<String> xAxisLabel2 = new ArrayList<>();
+        for (String i : entriesInMonth.keySet()) {
+            entries2.add(new BarEntry(Float.parseFloat(i)-1, entriesInMonth.get(i)));
+        }
+        BarDataSet set2 = new BarDataSet(entries2, "monthSet");
+        set2.setColors(getResources().getColor(R.color.dark_blue));
+        set2.setDrawValues(false);
+        set2.setValueTextColor(getResources().getColor(R.color.light_gray));
+        xAxisLabel2.add(getResources().getString(R.string.stats_jan));
+        xAxisLabel2.add(getResources().getString(R.string.stats_feb));
+        xAxisLabel2.add(getResources().getString(R.string.stats_mar));
+        xAxisLabel2.add(getResources().getString(R.string.stats_apr));
+        xAxisLabel2.add(getResources().getString(R.string.stats_may));
+        xAxisLabel2.add(getResources().getString(R.string.stats_jun));
+        xAxisLabel2.add(getResources().getString(R.string.stats_jul));
+        xAxisLabel2.add(getResources().getString(R.string.stats_aug));
+        xAxisLabel2.add(getResources().getString(R.string.stats_sep));
+        xAxisLabel2.add(getResources().getString(R.string.stats_oct));
+        xAxisLabel2.add(getResources().getString(R.string.stats_nov));
+        xAxisLabel2.add(getResources().getString(R.string.stats_dec));
+        monthBarChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(xAxisLabel2));
+
+        BarData data2 = new BarData(set2);
+        data2.setBarWidth(0.9f); // set custom bar width
+        monthBarChart.setData(data2);
+        monthBarChart.setFitBars(true); // make the x-axis fit exactly all bars
+        monthBarChart.invalidate(); // refresh
+
+        // pieChart
+        ArrayList<PieEntry> entries3 = new ArrayList<>();
+        entries3.add(new PieEntry(successful, ""));
+        entries3.add(new PieEntry(skipped, ""));
+        entries3.add(new PieEntry(failed, ""));
+        PieDataSet set3 = new PieDataSet(entries3, "");
+        set3.setColors(colors);
+        set3.setDrawValues(false);
+        PieData data3 = new PieData(set3);
+        pieChart.setData(data3);
+        pieChart.invalidate(); // refresh
     }
 
     public int streak(ArrayList<EntryModel> entries){
@@ -290,7 +457,7 @@ public class HabitStatsFragment extends Fragment {
                 now = now.minusDays(1);
                 streak++;
             } else {
-                longestStreak = streak;
+                if(streak > longestStreak) longestStreak = streak;
                 streak = 0;
             }
         }

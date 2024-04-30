@@ -117,4 +117,16 @@
     <string name="stats_paired">Gyakran együtt</string>
     <string name="stats_average_time">Átlagos idő</string>
     <string name="stats_average_number">Átlagos érték</string>
+    <string name="stats_jan">Jan</string>
+    <string name="stats_feb">Feb</string>
+    <string name="stats_mar">Már</string>
+    <string name="stats_apr">Ápr</string>
+    <string name="stats_may">Máj</string>
+    <string name="stats_jun">Jún</string>
+    <string name="stats_jul">Júl</string>
+    <string name="stats_aug">Aug</string>
+    <string name="stats_sep">Szep</string>
+    <string name="stats_oct">Okt</string>
+    <string name="stats_nov">Nov</string>
+    <string name="stats_dec">Dec</string>
 </resources>

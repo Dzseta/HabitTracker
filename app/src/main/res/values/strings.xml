@@ -125,6 +125,18 @@
     <string name="stats_average_time">Average time</string>
     <string name="stats_year">YEAR</string>
     <string name="stats_month">MONTH</string>
+    <string name="stats_jan">Jan</string>
+    <string name="stats_feb">Feb</string>
+    <string name="stats_mar">Mar</string>
+    <string name="stats_apr">Apr</string>
+    <string name="stats_may">May</string>
+    <string name="stats_jun">Jun</string>
+    <string name="stats_jul">Jul</string>
+    <string name="stats_aug">Aug</string>
+    <string name="stats_sep">Sep</string>
+    <string name="stats_oct">Oct</string>
+    <string name="stats_nov">Nov</string>
+    <string name="stats_dec">Dec</string>
 
     <!-- New Habit -->
     <string name="title_new_habit">New habit</string>
