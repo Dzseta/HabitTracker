@@ -5,8 +5,8 @@ public class EntryModel {
     // variables
     private String habit;
     private String date;
-    private String data; // -1 if not set, 0 if false, 1 if true
-    private int success;
+    private String data;
+    private int success; // -1 if not set, 0 if false, 1 if true
     private String comment;
 
     public EntryModel(String habit, String date, String data, int success) {

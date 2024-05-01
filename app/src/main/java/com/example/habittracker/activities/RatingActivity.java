@@ -79,7 +79,7 @@ public class RatingActivity extends AppCompatActivity {
 
         // get previous rating
         db.collection("ratings")
-                .whereEqualTo("email", FirebaseAuth.getInstance().getCurrentUser().getUid()).get()
+                .whereEqualTo("uid", FirebaseAuth.getInstance().getCurrentUser().getUid()).get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
@@ -103,40 +103,24 @@ public class RatingActivity extends AppCompatActivity {
             // Add a new document with a generated ID
             db.collection("ratings")
                     .add(rating)
-                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                        @Override
-                        public void onSuccess(DocumentReference documentReference) {
-                            Intent i = new Intent();
-                            i.setClass(RatingActivity.this, TodayActivity.class);
-                            startActivity(i);
-                            Toast.makeText(RatingActivity.this, "Siker", Toast.LENGTH_LONG).show();
-                        }
+                    .addOnSuccessListener(documentReference -> {
+                        Intent i = new Intent();
+                        i.setClass(RatingActivity.this, TodayActivity.class);
+                        startActivity(i);
+                        Toast.makeText(RatingActivity.this, "Siker", Toast.LENGTH_LONG).show();
                     })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(RatingActivity.this, "Nem sikerült", Toast.LENGTH_LONG).show();
-                        }
-                    });
+                    .addOnFailureListener(e -> Toast.makeText(RatingActivity.this, "Nem sikerült", Toast.LENGTH_LONG).show());
         } else {
             // Refresh rating
             docref
                     .update("stars", rating.getStars(), "opinion", rating.getOpinion())
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Intent i = new Intent();
-                            i.setClass(RatingActivity.this, TodayActivity.class);
-                            startActivity(i);
-                            Toast.makeText(RatingActivity.this, "Siker", Toast.LENGTH_LONG).show();
-                        }
+                    .addOnSuccessListener(aVoid -> {
+                        Intent i = new Intent();
+                        i.setClass(RatingActivity.this, TodayActivity.class);
+                        startActivity(i);
+                        Toast.makeText(RatingActivity.this, "Siker", Toast.LENGTH_LONG).show();
                     })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(RatingActivity.this, "Nem sikerült", Toast.LENGTH_LONG).show();
-                        }
-                    });
+                    .addOnFailureListener(e -> Toast.makeText(RatingActivity.this, "Nem sikerült", Toast.LENGTH_LONG).show());
         }
 
     }

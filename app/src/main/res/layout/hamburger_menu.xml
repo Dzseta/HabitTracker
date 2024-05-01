@@ -188,5 +188,32 @@
                 android:text="@string/hamburger_rating" />
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/helpButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="openActivity"
+            android:padding="10dp"
+            android:background="@drawable/selector_button_background"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/helpImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:tint="?attr/colorPrimary"
+                android:paddingRight="10dp"
+                android:src="@drawable/icon_question" />
+
+            <TextView
+                android:id="@+id/helpTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:textColor="?attr/colorPrimary"
+                android:text="SEGÍTSÉG" />
+        </LinearLayout>
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

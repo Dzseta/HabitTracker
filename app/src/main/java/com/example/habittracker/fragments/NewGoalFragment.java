@@ -122,12 +122,12 @@ public class NewGoalFragment extends BottomSheetDialogFragment {
                 if(daysEditText.getText().length()>0 && mode.equals("new") && prev == null) {
                     GoalModel goal = new GoalModel(habitNames[position], Integer.parseInt(daysEditText.getText().toString()), false);
                     dbHandler.addGoal(goal);
-                    listener.notifyChange(goal);
+                    listener.notifyChange(goal, mode);
                     dismiss();
                 } else if (daysEditText.getText().length()>0 && mode.equals("edit")) {
                     GoalModel goal = new GoalModel(origHabit, Integer.parseInt(daysEditText.getText().toString()), false);
                     dbHandler.updateGoal(goal);
-                    listener.notifyChange(goal);
+                    listener.notifyChange(goal, mode);
                     dismiss();
                 }
             });
@@ -152,6 +152,6 @@ public class NewGoalFragment extends BottomSheetDialogFragment {
     }
 
     public interface ItemClickListener {
-        void notifyChange(GoalModel goal);
+        void notifyChange(GoalModel goal, String mode);
     }
 }

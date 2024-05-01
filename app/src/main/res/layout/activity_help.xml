@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/dark_gray"
-    tools:context=".activities.BackupActivity">
+    tools:context=".activities.HelpActivity">
 
     <LinearLayout
         android:id="@+id/linearLayout2"
@@ -32,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/title_backup"
+            android:text="Segítség"
             android:textSize="30sp" />
     </LinearLayout>
 
@@ -51,57 +51,66 @@
             android:layout_marginBottom="10dp"
             android:background="@color/medium_gray" />
 
-        <ImageView
-            android:id="@+id/backupImageView"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_gravity="center"
-            app:tint="?attr/colorPrimary"
-            android:paddingRight="10dp"
-            android:src="@drawable/icon_cloud_upload" />
-
-        <TextView
-            android:id="@+id/backupTextView"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/backup_data"
-            android:textSize="20dp"
-            android:textStyle="bold" />
+            android:layout_height="match_parent"
+            android:layout_above="@id/idTILQuery"
+            android:layout_alignParentTop="true"
+            android:layout_margin="5dp"
+            android:padding="5dp">
 
-        <Button
-            android:id="@+id/backupButton"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <!-- text view for displaying question-->
+                <TextView
+                    android:id="@+id/idTVQuestion"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="30dp"
+                    android:padding="4dp"
+                    android:text="Question"
+                    android:textColor="@color/white"
+                    android:textSize="17sp" />
+
+                <!-- text view for displaying response-->
+                <TextView
+                    android:id="@+id/idTVResponse"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:layout_marginTop="5dp"
+                    android:padding="4dp"
+                    android:text="Response"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+        </ScrollView>
+        <!-- text field for asking question-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/idTILQuery"
+            android:background="@drawable/edittext_background"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:padding="0dp"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginVertical="20dp"
-            android:layout_weight="1"
-            android:background="@drawable/entry_background"
-            android:text="@string/button_send" />
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="5dp"
+            android:hint="Enter your query"
+            android:padding="5dp">
 
-        <TextView
-            android:id="@+id/exportTextView"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/backup_export"
-            android:textSize="20dp"
-            android:textStyle="bold" />
-
-        <Button
-            android:id="@+id/changeEmailButton"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:padding="0dp"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginVertical="20dp"
-            android:layout_weight="1"
-            android:background="@drawable/entry_background"
-            android:text="@string/button_export" />
-
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/idEdtQuery"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:ems="10"
+                android:imeOptions="actionSend"
+                android:importantForAutofill="no"
+                android:inputType="textEmailAddress"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:textSize="14sp" />
+        </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 
     <include

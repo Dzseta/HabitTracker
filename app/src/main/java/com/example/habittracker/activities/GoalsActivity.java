@@ -190,13 +190,15 @@ public class GoalsActivity extends AppCompatActivity implements NewGoalFragment.
         newGoalFragment.show(getSupportFragmentManager(), NewGoalFragment.TAG);
     }
 
-    public void notifyChange(GoalModel goal) {
-        for(int i=0; i<goalsArrayList.size(); i++) {
-            if(goalsArrayList.get(i).getHabit().equals(goal.getHabit())) {
-                goalsArrayList.add(i, goal);
-                break;
+    public void notifyChange(GoalModel goal, String mode) {
+        if(mode.equals("edit")){
+            for(int i=0; i<goalsArrayList.size(); i++) {
+                if(goalsArrayList.get(i).getHabit().equals(goal.getHabit())) {
+                    goalsArrayList.set(i, goal);
+                    break;
+                }
             }
-        }
+        } else goalsArrayList.add(goal);
         goalsAdapter.notifyDataSetChanged();
     }
 

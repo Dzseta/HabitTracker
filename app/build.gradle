@@ -89,4 +89,6 @@ dependencies {
     implementation 'com.github.SpongeBobSun:mCalendarView:-SNAPSHOT'
     // swipe layout
     implementation 'com.github.chthai64:SwipeRevealLayout:1212b4f4d8'
+    // below line is used for volley library
+    implementation 'com.android.volley:volley:1.2.0'
 }
