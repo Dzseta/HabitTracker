@@ -106,7 +106,7 @@ public class HelpActivity extends AppCompatActivity {
             public Map<String, String> getHeaders() {
                 Map<String, String> params = new HashMap<>();
                 // adding headers on below line.
-                params.put("Authorization", "Bearer sk-proj-TexDun1OOfdD0d6rW5zxT3BlbkFJuvtUJ64OmKu1RAr0Nfkn");
+                params.put("Authorization", "Bearer API_KEY_HERE");
                 return params;
             }
         };
