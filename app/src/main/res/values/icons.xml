@@ -3,7 +3,37 @@
     <string-array name="icons">
         <item>icon_icecream</item>
         <item>icon_fastfood</item>
+        <item>icon_bakery</item>
+        <item>icon_coffee</item>
+
         <item>icon_hospital</item>
+        <item>icon_medical</item>
+        <item>icon_medication</item>
+        <item>icon_call</item>
+
+        <item>icon_wallet</item>
+        <item>icon_balance</item>
+        <item>icon_euro</item>
+        <item>icon_block</item>
+
+        <item>icon_ball</item>
+        <item>icon_bike</item>
+        <item>icon_run</item>
+        <item>icon_brush</item>
+
+        <item>icon_museum</item>
+        <item>icon_castle</item>
+        <item>icon_church</item>
+        <item>icon_park</item>
+
         <item>icon_bed</item>
+        <item>icon_chair</item>
+        <item>icon_clock</item>
+        <item>icon_car</item>
+
+        <item>icon_camera</item>
+        <item>icon_dice</item>
+        <item>icon_celebration</item>
+        <item>icon_saw</item>
     </string-array>
 </resources>

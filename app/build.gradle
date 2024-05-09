@@ -83,12 +83,19 @@ dependencies {
     debugImplementation 'androidx.compose.ui:ui-test-manifest'
     // android material
     implementation 'com.google.android.material:material:1.11.0'
+
     // charts
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
     // better calendar
     implementation 'com.github.SpongeBobSun:mCalendarView:-SNAPSHOT'
     // swipe layout
     implementation 'com.github.chthai64:SwipeRevealLayout:1212b4f4d8'
-    // below line is used for volley library
-    implementation 'com.android.volley:volley:1.2.0'
+    // better toasts
+    implementation 'com.github.GrenderG:Toasty:1.5.2'
+
+    // Stripe dependency
+    implementation 'com.stripe:stripe-android:20.41.1'
+    // for network call
+    implementation 'com.squareup.okhttp3:okhttp:4.4.0'
+    implementation 'com.google.code.gson:gson:2.8.6'
 }

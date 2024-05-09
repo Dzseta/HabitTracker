@@ -22,6 +22,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import es.dmoral.toasty.Toasty;
+
 public class RegisterActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
@@ -45,6 +47,13 @@ public class RegisterActivity extends AppCompatActivity {
 
     // register
     public void register(View view) {
+        if(editTextTextPassword.getText().toString().length() < 6) {
+            Toasty.warning(RegisterActivity.this, getResources().getString(R.string.toast_password_length), Toast.LENGTH_SHORT, true).show();
+            return;
+        } else if (!editTextTextPassword.getText().toString().matches(".*\\d.*")) {
+            Toasty.warning(RegisterActivity.this, getResources().getString(R.string.toast_password_number), Toast.LENGTH_SHORT, true).show();
+            return;
+        }
         mAuth.createUserWithEmailAndPassword(editTextTextEmailAddress.getText().toString(), editTextTextPassword.getText().toString())
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
@@ -55,15 +64,16 @@ public class RegisterActivity extends AppCompatActivity {
                         db.collection("users")
                                 .add(userModel)
                                 .addOnSuccessListener(documentReference -> {
+                                    Toasty.success(RegisterActivity.this, getResources().getString(R.string.toast_successful_register), Toast.LENGTH_SHORT, true).show();
                                     // go to app
                                     Intent i = new Intent();
                                     i.setClass(getApplicationContext(), TodayActivity.class);
                                     startActivity(i);
                                 })
-                                .addOnFailureListener(e -> Toast.makeText(RegisterActivity.this, "User creation failed.", Toast.LENGTH_LONG).show());
+                                .addOnFailureListener(e -> Toasty.error(RegisterActivity.this, getResources().getString(R.string.toast_auth_failed), Toast.LENGTH_SHORT, true).show());
                     } else {
                         // If sign in fails, display a message to the user.
-                        Toast.makeText(RegisterActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                        Toasty.error(RegisterActivity.this, getResources().getString(R.string.toast_auth_failed), Toast.LENGTH_SHORT, true).show();
                     }
                 });
     }

@@ -1,29 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="iconColors">
-        <item>#800000</item>
-        <item>#FF0000</item>
-        <item>#DC143C</item>
-        <item>#FF7F50</item>
+        <item>#ED0000</item>
+        <item>#EF5350</item>
+        <item>#E57373</item>
+        <item>#EF9A9A</item>
 
-        <item>#B8860B</item>
-        <item>#FF8C00</item>
-        <item>#FFD700</item>
-        <item>#F0E68C</item>
+        <item>#8E24AA</item>
+        <item>#AB47BC</item>
+        <item>#CE93D8</item>
+        <item>#F3E5F5</item>
 
-        <item>#006400</item>
-        <item>#32CD32</item>
-        <item>#9ACD32</item>
-        <item>#98FB98</item>
+        <item>#1565C0</item>
+        <item>#039BE5</item>
+        <item>#64B5F6</item>
+        <item>#B3E5FC</item>
 
-        <item>#000080</item>
-        <item>#0000FF</item>
-        <item>#00CED1</item>
-        <item>#B0E0E6</item>
+        <item>#0097A7</item>
+        <item>#00BCD4</item>
+        <item>#4DD0E1</item>
+        <item>#B2EBF2</item>
 
-        <item>#4B0082</item>
-        <item>#8A2BE2</item>
-        <item>#C71585</item>
-        <item>#FF69B4</item>
+        <item>#388E3C</item>
+        <item>#7CB342</item>
+        <item>#81C784</item>
+        <item>#DCEDC8</item>
+
+        <item>#F57F17</item>
+        <item>#FBC02D</item>
+        <item>#FFEB3B</item>
+        <item>#FFF59D</item>
+
+        <item>#E64A19</item>
+        <item>#FF7043</item>
+        <item>#FF8A65</item>
+        <item>#FFAB91</item>
     </string-array>
 </resources>

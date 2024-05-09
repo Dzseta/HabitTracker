@@ -23,6 +23,8 @@ import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import es.dmoral.toasty.Toasty;
+
 public class ProfileActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
@@ -32,6 +34,7 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView profileTW;
     private Button changeEmailButton;
     private Button changePasswordButton;
+    private Button premiumButton;
     private Button logoutButton;
     private TextView origEmailTextView;
     private EditText newEmailEditText;
@@ -76,6 +79,12 @@ public class ProfileActivity extends AppCompatActivity {
         changeEmailButton.setOnClickListener(view -> changeEmail());
         changePasswordButton = findViewById(R.id.changePasswordButton);
         changePasswordButton.setOnClickListener(view -> changePassword());
+        premiumButton = findViewById(R.id.premiumButton);
+        premiumButton.setOnClickListener(view -> {
+            Intent i = new Intent();
+            i.setClass(this, PaymentActivity.class);
+            startActivity(i);
+        });
         logoutButton = findViewById(R.id.logoutButton);
         logoutButton.setOnClickListener(view -> logout());
 
@@ -91,14 +100,23 @@ public class ProfileActivity extends AppCompatActivity {
             // Now change your email address
             user.updateEmail(user.getEmail()).addOnCompleteListener(task1 -> {
                 if (task1.isSuccessful()) {
-                    Toast.makeText(ProfileActivity.this, "Siker", Toast.LENGTH_LONG).show();
+                    Toasty.success(ProfileActivity.this, getResources().getString(R.string.toast_email_changed), Toast.LENGTH_SHORT, true).show();
+                } else {
+                    Toasty.error(ProfileActivity.this, getResources().getString(R.string.toast_auth_failed), Toast.LENGTH_SHORT, true).show();
                 }
             });
         });
     }
 
-    // change email
+    // change password
     public void changePassword(){
+        if(newPasswordEditText.getText().toString().length() < 6) {
+            Toasty.warning(ProfileActivity.this, getResources().getString(R.string.toast_password_length), Toast.LENGTH_SHORT, true).show();
+            return;
+        } else if (!newPasswordEditText.getText().toString().matches(".*\\d.*")) {
+            Toasty.warning(ProfileActivity.this, getResources().getString(R.string.toast_password_number), Toast.LENGTH_SHORT, true).show();
+            return;
+        }
         FirebaseUser user = mAuth.getCurrentUser();
         // Get auth credentials from the user for re-authentication
         AuthCredential credential = EmailAuthProvider.getCredential(user.getEmail(), oldPasswordEditText.getText().toString());
@@ -107,7 +125,9 @@ public class ProfileActivity extends AppCompatActivity {
             // Now change your email address
             user.updatePassword(newPasswordEditText.getText().toString()).addOnCompleteListener(task1 -> {
                 if (task1.isSuccessful()) {
-                    Toast.makeText(ProfileActivity.this, "Siker", Toast.LENGTH_LONG).show();
+                    Toasty.success(ProfileActivity.this, getResources().getString(R.string.toast_password_changed), Toast.LENGTH_SHORT, true).show();
+                } else {
+                    Toasty.error(ProfileActivity.this, getResources().getString(R.string.toast_auth_failed), Toast.LENGTH_SHORT, true).show();
                 }
             });
         });
@@ -116,6 +136,7 @@ public class ProfileActivity extends AppCompatActivity {
     // logout
     public void logout() {
         FirebaseAuth.getInstance().signOut();
+        Toasty.info(ProfileActivity.this, getResources().getString(R.string.toast_logout), Toast.LENGTH_SHORT, true).show();
         Intent i = new Intent();
         i.setClass(this, LoginActivity.class);
         startActivity(i);

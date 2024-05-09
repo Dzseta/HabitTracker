@@ -57,14 +57,14 @@ public class YearlyStatsFragment extends Fragment {
     TextView secondLastHabitValueTextView;
     TextView thirdLastHabitTextView;
     TextView thirdLastHabitValueTextView;
-    TextView mostTextView;
-    TextView leastTextView;
     // ImageViews
     ImageView leftImageView;
     ImageView rightImageView;
     ImageView intervalLeftImageView;
     ImageView intervalRightImageView;
     // linearlayouts
+    LinearLayout mostTextView;
+    LinearLayout leastTextView;
     LinearLayout firstLinearLayout;
     LinearLayout secondLinearLayout;
     LinearLayout thirdLinearLayout;
@@ -112,7 +112,7 @@ public class YearlyStatsFragment extends Fragment {
         secondLastHabitValueTextView = v.findViewById(R.id.secondLastHabitValueTextView);
         thirdLastHabitTextView = v.findViewById(R.id.thirdLastHabitTextView);
         thirdLastHabitValueTextView = v.findViewById(R.id.thirdLastHabitValueTextView);
-        mostTextView = v.findViewById(R.id.mostTextView);
+        mostTextView = v.findViewById(R.id.mostLinearLayout);
         leastTextView = v.findViewById(R.id.leastLinearLayout);
         // ImageViews
         leftImageView = v.findViewById(R.id.leftImageButton);
@@ -141,10 +141,12 @@ public class YearlyStatsFragment extends Fragment {
         xAxis.setDrawGridLines(false);
         YAxis leftAxis = barChart.getAxisLeft();
         leftAxis.setDrawAxisLine(false);
-        YAxis rightAxis = barChart.getAxisRight();
         leftAxis.setTextColor(getResources().getColor(R.color.light_gray));
-        rightAxis.setTextColor(getResources().getColor(R.color.light_gray));
-        rightAxis.setDrawAxisLine(false);
+        leftAxis.setAxisMinimum(0f);
+        leftAxis.setAxisMaximum(5f);
+        leftAxis.setGranularity(1f);
+        YAxis rightAxis = barChart.getAxisRight();
+        rightAxis.setEnabled(false);
         final ArrayList<String> xAxisLabel = new ArrayList<>();
         xAxisLabel.add(getResources().getString(R.string.new_habit_monday));
         xAxisLabel.add(getResources().getString(R.string.new_habit_tuesday));
@@ -267,6 +269,7 @@ public class YearlyStatsFragment extends Fragment {
         }
         // load from database
         dayentryArrayList = dbHandler.readAllDayentriesInRange(s, e);
+        habitArrayList = dbHandler.readAllHabitsInRange(s, e);
         // mood and comment
         double moodAvg = 0;
         int verySad = 0, sad = 0, neutral = 0, happy = 0, veryHappy = 0, comments = 0;
@@ -291,7 +294,7 @@ public class YearlyStatsFragment extends Fragment {
             }
             if(!dayentryArrayList.get(i).getComment().equals("")) comments++;
         }
-        moodValueTextVIew.setText(Double.toString(moodAvg / dayentryArrayList.size()));
+        moodValueTextVIew.setText(String.valueOf(moodAvg / dayentryArrayList.size()));
         verySadTextVIew.setText(Integer.toString(verySad));
         sadTextVIew.setText(Integer.toString(sad));
         neutralTextVIew.setText(Integer.toString(neutral));
@@ -407,13 +410,13 @@ public class YearlyStatsFragment extends Fragment {
             if(count[i] == 0) count[i]++;
         }
         ArrayList<BarEntry> entries = new ArrayList<>();
-        entries.add(new BarEntry(0f, sum[0]/count[0]));
-        entries.add(new BarEntry(1f, sum[1]/count[1]));
-        entries.add(new BarEntry(2f, sum[2]/count[2]));
-        entries.add(new BarEntry(3f, sum[3]/count[3]));
-        entries.add(new BarEntry(4f, sum[4]/count[4]));
-        entries.add(new BarEntry(5f, sum[5]/count[5]));
-        entries.add(new BarEntry(6f, sum[6]/count[6]));
+        entries.add(new BarEntry(0f, (float) sum[0] /count[0]));
+        entries.add(new BarEntry(1f, (float) sum[1]/count[1]));
+        entries.add(new BarEntry(2f, (float) sum[2]/count[2]));
+        entries.add(new BarEntry(3f, (float) sum[3]/count[3]));
+        entries.add(new BarEntry(4f, (float) sum[4]/count[4]));
+        entries.add(new BarEntry(5f, (float) sum[5]/count[5]));
+        entries.add(new BarEntry(6f, (float) sum[6]/count[6]));
         BarDataSet set = new BarDataSet(entries, "BarDataSet");
         set.setColors(getResources().getColor(R.color.green));
         set.setDrawValues(false);

@@ -363,6 +363,35 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return habitModelArrayList;
     }
 
+    // read all habits in range
+    public ArrayList<HabitModel> readAllHabitsInRange(String start, String end) {
+        // create database
+        SQLiteDatabase db = this.getReadableDatabase();
+        // create cursor
+        Cursor cursorCourses = db.rawQuery("SELECT * FROM " + HABIT_TABLE_NAME, null);
+        // create array list
+        ArrayList<HabitModel> habitModelArrayList = new ArrayList<>();
+        // dates
+        LocalDate startDate = LocalDate.parse(start).minusDays(1);
+        LocalDate endDate;
+        if(!end.equals("")) endDate = LocalDate.parse(end).plusDays(1);
+        else endDate = LocalDate.MAX;
+        // move cursor to first position
+        if (cursorCourses.moveToFirst()) {
+            do {
+                // add data to the arraylist
+                LocalDate habitStart = LocalDate.parse(cursorCourses.getString(7));
+                LocalDate habitEnd;
+                if(!cursorCourses.getString(8).equals("")) habitEnd = LocalDate.parse(end).plusDays(1);
+                else habitEnd = LocalDate.MAX;
+                if(habitStart.isBefore(endDate) && habitEnd.isAfter(startDate)) habitModelArrayList.add(new HabitModel(cursorCourses.getString(1), cursorCourses.getString(2), cursorCourses.getString(3), cursorCourses.getString(4), cursorCourses.getString(5), cursorCourses.getString(6), cursorCourses.getString(7), cursorCourses.getString(8), cursorCourses.getInt(9), cursorCourses.getInt(10) > 0, cursorCourses.getInt(11), cursorCourses.getInt(12)));
+            } while (cursorCourses.moveToNext());
+        }
+        // closing cursor
+        cursorCourses.close();
+        return habitModelArrayList;
+    }
+
     // delete habit
     public void deleteHabit(String name) {
         // get database

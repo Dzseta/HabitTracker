@@ -62,6 +62,13 @@
             android:layout_weight="1"
             android:orientation="horizontal">
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:tint="?attr/colorPrimary"
+                android:paddingRight="10dp"
+                android:src="@drawable/icon_mood_happy" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
@@ -88,14 +95,27 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginBottom="5dp"
-                android:gravity="center_vertical"
-                android:text="@string/today_comment"
-                android:textSize="20dp"
-                android:textStyle="bold" />
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    app:tint="?attr/colorPrimary"
+                    android:paddingRight="10dp"
+                    android:src="@drawable/icon_comment" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="5dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/today_comment"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/commentTextView"
@@ -215,6 +235,13 @@
             android:layout_marginBottom="10dp"
             android:layout_weight="1"
             android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:tint="?attr/colorPrimary"
+                android:paddingRight="10dp"
+                android:src="@drawable/icon_speed" />
 
             <TextView
                 android:layout_width="match_parent"

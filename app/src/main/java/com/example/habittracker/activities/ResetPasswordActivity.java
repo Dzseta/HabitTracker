@@ -14,6 +14,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
+import es.dmoral.toasty.Toasty;
+
 public class ResetPasswordActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
@@ -37,10 +39,12 @@ public class ResetPasswordActivity extends AppCompatActivity {
         mAuth.sendPasswordResetEmail(emailEditText.getText().toString())
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        Toast.makeText(ResetPasswordActivity.this, "Siker", Toast.LENGTH_LONG).show();
+                        Toasty.info(ResetPasswordActivity.this, getResources().getString(R.string.toast_successful_password_reset), Toast.LENGTH_SHORT, true).show();
                         Intent i = new Intent();
                         i.setClass(getApplicationContext(), LoginActivity.class);
                         startActivity(i);
+                    } else {
+                        Toasty.error(ResetPasswordActivity.this, getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT, true).show();
                     }
                 });
     }

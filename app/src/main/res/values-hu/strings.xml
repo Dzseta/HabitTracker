@@ -132,4 +132,20 @@
     <string name="backup_data">Biztonsági mentés</string>
     <string name="backup_export">Exportálás .csv formátumba</string>
     <string name="button_export">Exportálás</string>
+    <string name="profile_premium">Prémium</string>
+    <string name="toast_successful_rating">Köszönjük a visszajelzést!</string>
+    <string name="toast_error">Ismeretlen hiba, próbálja újra később</string>
+    <string name="toast_used_name">Ez a név már foglalt</string>
+    <string name="toast_goal_exists">Ehhez a szokáshoz már tartozik cél</string>
+    <string name="toast_nan">A célnak minimum 1 nap hosszúnak kell lennie</string>
+    <string name="toast_auth_failed">Sikeretelen authentikáció, próbálja újra</string>
+    <string name="toast_empty_name">A név mező nem lehet üres</string>
+    <string name="toast_email_changed">Az e-mail cím sikeresen megváltozott</string>
+    <string name="toast_password_changed">A jelszó sikeresen megváltozott</string>
+    <string name="toast_logout">Sikeres kijelentkezés</string>
+    <string name="toast_password_length">A jelszónak legalább 6 karakterből kell állnia</string>
+    <string name="toast_password_number">A jelszónak tartalmaznia kell legalább 1 számot</string>
+    <string name="toast_successful_register">Sikeres regisztráció</string>
+    <string name="toast_successful_password_reset">Jelszó helyreállítási e-mail elküldve, ellenőrizze a beérkező leveleket</string>
+    <string name="button_edit">Módosítás</string>
 </resources>

@@ -16,7 +16,6 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.habittracker.R;
-import com.example.habittracker.activities.CalendarActivity;
 import com.example.habittracker.adapters.DatabaseHandler;
 import com.example.habittracker.models.DayentryModel;
 import com.example.habittracker.models.EntryModel;
@@ -141,10 +140,11 @@ public class HabitStatsFragment extends Fragment {
         xAxis.setDrawGridLines(false);
         YAxis leftAxis = yearBarChart.getAxisLeft();
         leftAxis.setDrawAxisLine(false);
-        YAxis rightAxis = yearBarChart.getAxisRight();
         leftAxis.setTextColor(getResources().getColor(R.color.light_gray));
-        rightAxis.setTextColor(getResources().getColor(R.color.light_gray));
-        rightAxis.setDrawAxisLine(false);
+        leftAxis.setGranularity(1f);
+        leftAxis.setAxisMinimum(0f);
+        YAxis rightAxis = yearBarChart.getAxisRight();
+        rightAxis.setEnabled(false);
         xAxis.setTextColor(getResources().getColor(R.color.light_gray));
 
         monthBarChart = v.findViewById(R.id.monthBarChart);
@@ -161,10 +161,11 @@ public class HabitStatsFragment extends Fragment {
         xAxis2.setDrawGridLines(false);
         YAxis leftAxis2 = monthBarChart.getAxisLeft();
         leftAxis2.setDrawAxisLine(false);
-        YAxis rightAxis2 = monthBarChart.getAxisRight();
         leftAxis2.setTextColor(getResources().getColor(R.color.light_gray));
-        rightAxis2.setTextColor(getResources().getColor(R.color.light_gray));
-        rightAxis2.setDrawAxisLine(false);
+        leftAxis2.setGranularity(1f);
+        leftAxis2.setAxisMinimum(0f);
+        YAxis rightAxis2 = monthBarChart.getAxisRight();
+        rightAxis2.setEnabled(false);
         xAxis2.setTextColor(getResources().getColor(R.color.light_gray));
 
         pieChart = v.findViewById(R.id.pieChart);
@@ -231,9 +232,11 @@ public class HabitStatsFragment extends Fragment {
     public void loadData(){
         // get all entries
         entriesArrayList = dbHandler.readAllEntriesByHabit(habitNames[position]);
+        HabitModel habit = dbHandler.readHabitByName(habitNames[position]);
         // set texts
         int successful = 0, skipped = 0, failed = 0;
         int successMood = 0, successMoodCount = 0, failedMood = 0, failedMoodCount = 0;
+        int number = 0, seconds = 0;
         if(entriesArrayList.size() == 0) {
             bestStreakValueTextView.setText("0");
             currentStreakValueTextView.setText("0");
@@ -245,6 +248,13 @@ public class HabitStatsFragment extends Fragment {
             for(int i=0; i<entriesArrayList.size(); i++) {
                 if(entriesArrayList.get(i).getSuccess() == 1) {
                     successful++;
+                    if(habit.getType().equals("number")) number += Integer.parseInt(entriesArrayList.get(i).getData());
+                    else if(habit.getType().equals("time")) {
+                        String[] d = entriesArrayList.get(i).getData().split(":");
+                        seconds += Integer.parseInt(d[2]);
+                        seconds += Integer.parseInt(d[1]) * 60;
+                        seconds += Integer.parseInt(d[0]) * 3600;
+                    }
                     //get effect on mood
                     DayentryModel temp = dbHandler.readDayentryByDate(entriesArrayList.get(i).getDate());
                     if(temp != null) {
@@ -254,14 +264,21 @@ public class HabitStatsFragment extends Fragment {
                 }
                 else if(entriesArrayList.get(i).getSuccess() == 0) {
                     failed++;
+                    if(habit.getType().equals("number")) number += Integer.parseInt(entriesArrayList.get(i).getData());
+                    else if(habit.getType().equals("time")) {
+                        String[] d = entriesArrayList.get(i).getData().split(":");
+                        seconds += Integer.parseInt(d[2]);
+                        seconds += Integer.parseInt(d[1]) * 60;
+                        seconds += Integer.parseInt(d[0]) * 3600;
+                        System.out.println(seconds);
+                    }
                     //get effect on mood
                     DayentryModel temp = dbHandler.readDayentryByDate(entriesArrayList.get(i).getDate());
                     if(temp != null) {
                         failedMood += temp.getMood();
                         failedMoodCount++;
                     }
-                }
-                if(entriesArrayList.get(i).getSuccess() == -1) {
+                } else if(entriesArrayList.get(i).getSuccess() == -1) {
                     skipped++;
                 }
 
@@ -273,8 +290,18 @@ public class HabitStatsFragment extends Fragment {
         failedTextView.setText(Integer.toString(failed));
         if(successMoodCount == 0) successMoodCount++;
         if(failedMoodCount == 0) failedMoodCount++;
-        effectStreakValueTextView.setText(Double.toString((successMood/successMoodCount) - (failedMood/failedMoodCount)));
-
+        effectStreakValueTextView.setText(String.valueOf((successMood/successMoodCount) - (failedMood/failedMoodCount)));
+        if(habit.getType().equals("number")) {
+            averageNumberLinearLayout.setVisibility(View.VISIBLE);
+            averageNumberStreakValueTextView.setText(String.valueOf(1.0 * number / (successful+failed)));
+        } else if(habit.getType().equals("time")){
+            averageTimeLinearLayout.setVisibility(View.VISIBLE);
+            seconds = seconds / (successful+failed);
+            averageTimeValueTextView.setText((seconds / 3600) + ":" + (seconds%3600/60) + ":" + (seconds%3600%60));
+        } else {
+            averageNumberLinearLayout.setVisibility(View.GONE);
+            averageTimeLinearLayout.setVisibility(View.GONE);
+        }
         // often paired with
         int[] paired = new int[habitNames.length];
         for(int i=0;i<paired.length;i++) {
@@ -292,7 +319,7 @@ public class HabitStatsFragment extends Fragment {
                         }
                     };
                 }
-                // get the successfull entry numbers by year and by month
+                // get the successful entry numbers by year and by month
                 LocalDate date = LocalDate.parse(entriesArrayList.get(i).getDate());
                 if(entriesInYear.containsKey(Integer.toString(date.getYear()))) {
                     entriesInYear.put(Integer.toString(date.getYear()), entriesInYear.get(Integer.toString(date.getYear())) + 1);

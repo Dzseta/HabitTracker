@@ -17,6 +17,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import es.dmoral.toasty.Toasty;
+
 public class LoginActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
@@ -51,21 +53,15 @@ public class LoginActivity extends AppCompatActivity {
     // login
     public void login(View view) {
         mAuth.signInWithEmailAndPassword(editTextTextEmailAddress.getText().toString(), editTextTextPassword.getText().toString())
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // sign in success
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            // go to app
-                            Intent i = new Intent();
-                            i.setClass(getApplicationContext(), TodayActivity.class);
-                            startActivity(i);
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Toast.makeText(LoginActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                        }
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        // go to app
+                        Intent i = new Intent();
+                        i.setClass(getApplicationContext(), TodayActivity.class);
+                        startActivity(i);
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        Toasty.error(LoginActivity.this, getResources().getString(R.string.toast_auth_failed), Toast.LENGTH_SHORT, true).show();
                     }
                 });
     }

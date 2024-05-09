@@ -26,11 +26,13 @@ public class IconsAdapter extends RecyclerView.Adapter<IconsAdapter.ViewHolder> 
     // variables
     private String[] iconsArray;
     private Context context;
+    private String color;
 
     // constructor
-    public IconsAdapter(Context context) {
+    public IconsAdapter(Context context, String color) {
         this.iconsArray = context.getResources().getStringArray(R.array.icons);
         this.context = context;
+        this.color = color;
     }
 
     @NonNull
@@ -46,7 +48,7 @@ public class IconsAdapter extends RecyclerView.Adapter<IconsAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull IconsAdapter.ViewHolder holder, int position) {
         // setting data to recycler view item
         holder.iconImageView.setImageResource(context.getResources().getIdentifier(iconsArray[position], "drawable", context.getPackageName()));
-        holder.iconImageView.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#ffffff")));
+        holder.iconImageView.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(color)));
         holder.iconImageView.setOnClickListener(v -> {
             if (context instanceof CategoriesActivity) {
                 ((CategoriesActivity) context).setIcon(iconsArray[position]);

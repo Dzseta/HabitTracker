@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,6 +27,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import es.dmoral.toasty.Toasty;
 
 public class NewGoalFragment extends BottomSheetDialogFragment {
 
@@ -117,13 +120,20 @@ public class NewGoalFragment extends BottomSheetDialogFragment {
             }
 
             createButton = dialog.findViewById(R.id.createButton);
+            if(mode.equals("edit")) createButton.setText(getResources().getString(R.string.button_edit));
             createButton.setOnClickListener(view -> {
                 GoalModel prev = dbHandler.readGoalByHabit(habitNames[position]);
-                if(daysEditText.getText().length()>0 && mode.equals("new") && prev == null) {
-                    GoalModel goal = new GoalModel(habitNames[position], Integer.parseInt(daysEditText.getText().toString()), false);
-                    dbHandler.addGoal(goal);
-                    listener.notifyChange(goal, mode);
-                    dismiss();
+                if(daysEditText.getText().length()<=0 || Integer.parseInt(daysEditText.getText().toString()) <= 0) {
+                    Toasty.error(getContext(), getResources().getString(R.string.toast_nan), Toast.LENGTH_SHORT, true).show();
+                } else if(mode.equals("new")) {
+                   if(prev == null) {
+                        GoalModel goal = new GoalModel(habitNames[position], Integer.parseInt(daysEditText.getText().toString()), false);
+                        dbHandler.addGoal(goal);
+                        listener.notifyChange(goal, mode);
+                        dismiss();
+                    } else {
+                        Toasty.error(getContext(), getResources().getString(R.string.toast_goal_exists), Toast.LENGTH_SHORT, true).show();
+                    }
                 } else if (daysEditText.getText().length()>0 && mode.equals("edit")) {
                     GoalModel goal = new GoalModel(origHabit, Integer.parseInt(daysEditText.getText().toString()), false);
                     dbHandler.updateGoal(goal);

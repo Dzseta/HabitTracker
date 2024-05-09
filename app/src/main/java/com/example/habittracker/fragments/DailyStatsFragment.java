@@ -145,7 +145,7 @@ public class DailyStatsFragment extends Fragment {
         Double score;
         if(successful+failed > 0) score = (double) (1.0 * successful / (successful + failed) * dayEntry.getMood() * 20);
         else score = 0.0;
-        scoreTextView.setText(Double.toString(Math.round(score)));
+        scoreTextView.setText(Integer.toString((int) Math.round(score)));
 
         // pieChart
         ArrayList<PieEntry> entries = new ArrayList<>();

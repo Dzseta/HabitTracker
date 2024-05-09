@@ -20,14 +20,18 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.habittracker.R;
+import com.example.habittracker.activities.CategoriesActivity;
 import com.example.habittracker.adapters.DatabaseHandler;
 import com.example.habittracker.models.CategoryModel;
 import com.example.habittracker.models.GoalModel;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+
+import es.dmoral.toasty.Toasty;
 
 public class NewCategoryFragment extends BottomSheetDialogFragment {
 
@@ -82,21 +86,33 @@ public class NewCategoryFragment extends BottomSheetDialogFragment {
                 setIcon(origCat.getIcon());
             }
             iconTextView.setOnClickListener(view -> {
-                listener.onChooseIcon();
+                listener.onChooseIcon(color);
             });
             colorTextView = dialog.findViewById(R.id.colorTextView);
             colorTextView.setOnClickListener(view -> {
                 listener.onChooseColor();
             });
             createButton = dialog.findViewById(R.id.createButton);
+            if(mode.equals("edit")) createButton.setText(getResources().getString(R.string.button_edit));
             createButton.setOnClickListener(view -> {
                 CategoryModel cat = new CategoryModel(icon, nameEditText.getText().toString(), color);
-                if(mode.equals("new")) {
-                    listener.onCreateCategory(cat);
-                    dismiss();
+                CategoryModel prev = dbHandler.readCategoryByName(cat.getName());
+                if(cat.getName().equals("")) {
+                    Toasty.warning(getContext(), getResources().getString(R.string.toast_empty_name), Toast.LENGTH_SHORT, true).show();
+                } else if(mode.equals("new")) {
+                    if(prev == null){
+                        listener.onCreateCategory(cat);
+                        dismiss();
+                    } else {
+                        Toasty.error(getContext(), getResources().getString(R.string.toast_used_name), Toast.LENGTH_SHORT, true).show();
+                    }
                 } else if (mode.equals("edit")) {
-                    listener.onEditCategory(cat, origName);
-                    dismiss();
+                    if(origName.equals(cat.getName()) || prev == null) {
+                        listener.onEditCategory(cat, origName);
+                        dismiss();
+                    } else {
+                        Toasty.error(getContext(), getResources().getString(R.string.toast_used_name), Toast.LENGTH_SHORT, true).show();
+                    }
                 }
             });
         });
@@ -131,7 +147,7 @@ public class NewCategoryFragment extends BottomSheetDialogFragment {
     public interface ItemClickListener {
         void onCreateCategory(CategoryModel cat);
         void onEditCategory(CategoryModel cat, String origName);
-        void onChooseIcon();
+        void onChooseIcon(String color);
         void onChooseColor();
     }
 }

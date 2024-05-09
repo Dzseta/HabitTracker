@@ -49,6 +49,7 @@
                 android:layout_height="50dp"
                 android:layout_weight="1"
                 android:ems="10"
+                android:padding="10dp"
                 android:hint="pelda@email.hu"
                 android:background="@drawable/edittext_background"
 
@@ -77,6 +78,7 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:hint="jelszo123"
+                android:padding="10dp"
                 android:background="@drawable/edittext_background"
                 android:inputType="textPassword" />
         </LinearLayout>

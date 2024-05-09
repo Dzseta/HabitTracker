@@ -33,6 +33,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.Console;
 
+import es.dmoral.toasty.Toasty;
+
 public class RatingActivity extends AppCompatActivity {
 
     public View hamburgerMenu;
@@ -104,25 +106,24 @@ public class RatingActivity extends AppCompatActivity {
             db.collection("ratings")
                     .add(rating)
                     .addOnSuccessListener(documentReference -> {
+                        Toasty.success(RatingActivity.this, getResources().getString(R.string.toast_successful_rating), Toast.LENGTH_SHORT, true).show();
                         Intent i = new Intent();
                         i.setClass(RatingActivity.this, TodayActivity.class);
                         startActivity(i);
-                        Toast.makeText(RatingActivity.this, "Siker", Toast.LENGTH_LONG).show();
                     })
-                    .addOnFailureListener(e -> Toast.makeText(RatingActivity.this, "Nem sikerült", Toast.LENGTH_LONG).show());
+                    .addOnFailureListener(e -> Toasty.error(RatingActivity.this, getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT, true).show());
         } else {
             // Refresh rating
             docref
                     .update("stars", rating.getStars(), "opinion", rating.getOpinion())
                     .addOnSuccessListener(aVoid -> {
+                        Toasty.success(RatingActivity.this, getResources().getString(R.string.toast_successful_rating), Toast.LENGTH_SHORT, true).show();
                         Intent i = new Intent();
                         i.setClass(RatingActivity.this, TodayActivity.class);
                         startActivity(i);
-                        Toast.makeText(RatingActivity.this, "Siker", Toast.LENGTH_LONG).show();
                     })
-                    .addOnFailureListener(e -> Toast.makeText(RatingActivity.this, "Nem sikerült", Toast.LENGTH_LONG).show());
+                    .addOnFailureListener(e -> Toasty.error(RatingActivity.this, getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT, true).show());
         }
-
     }
 
     // open and close the hamburger menu

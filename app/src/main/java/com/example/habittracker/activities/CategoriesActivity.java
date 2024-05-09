@@ -178,8 +178,8 @@ public class CategoriesActivity extends AppCompatActivity implements NewCategory
 
     // choose icon
     @Override
-    public void onChooseIcon() {
-        CategoryIconsDialog iconsDialog = new CategoryIconsDialog(this);
+    public void onChooseIcon(String color) {
+        CategoryIconsDialog iconsDialog = new CategoryIconsDialog(this, color);
         iconsDialog.show();
     }
 
@@ -201,12 +201,9 @@ public class CategoriesActivity extends AppCompatActivity implements NewCategory
     // create the new category
     @Override
     public void onCreateCategory(CategoryModel cat) {
-        CategoryModel prev = dbHandler.readCategoryByName(cat.getName());
-        if(prev == null) {
-            dbHandler.addCategory(cat);
-            categoriesArrayList.add(cat);
-            categoriesAdapter.notifyDataSetChanged();
-        }
+        dbHandler.addCategory(cat);
+        categoriesArrayList.add(cat);
+        categoriesAdapter.notifyDataSetChanged();
     }
 
     // create the new category

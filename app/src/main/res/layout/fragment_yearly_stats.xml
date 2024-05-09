@@ -94,6 +94,13 @@
             android:layout_weight="1"
             android:orientation="horizontal">
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:tint="?attr/colorPrimary"
+                android:paddingRight="10dp"
+                android:src="@drawable/icon_mood_happy" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
@@ -268,6 +275,13 @@
             android:layout_weight="1"
             android:orientation="horizontal">
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:tint="?attr/colorPrimary"
+                android:paddingRight="10dp"
+                android:src="@drawable/icon_comment" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
@@ -295,16 +309,30 @@
             android:layout_marginBottom="10dp"
             android:background="@color/medium_gray" />
 
-        <TextView
-            android:id="@+id/mostTextView"
+        <LinearLayout
+            android:id="@+id/mostLinearLayout"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:text="@string/stats_most_common"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            android:visibility="gone" />
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            tools:visibility="visible" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:tint="?attr/colorPrimary"
+                android:paddingRight="10dp"
+                android:src="@drawable/icon_top" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/stats_most_common"
+                android:textSize="20dp"
+                android:textStyle="bold"/>
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/firstLinearLayout"
@@ -402,16 +430,30 @@
                 android:textSize="16dp" />
         </LinearLayout>
 
-        <TextView
+        <LinearLayout
             android:id="@+id/leastLinearLayout"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:text="@string/stats_least_common"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            android:visibility="gone" />
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            tools:visibility="visible" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:tint="?attr/colorPrimary"
+                android:paddingRight="10dp"
+                android:src="@drawable/icon_bottom" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/stats_least_common"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/lastLinearLayout"
@@ -516,14 +558,27 @@
             android:layout_marginBottom="10dp"
             android:background="@color/medium_gray" />
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:gravity="center_vertical"
-            android:layout_weight="1"
-            android:text="@string/title_habits"
-            android:textSize="20dp"
-            android:textStyle="bold" />
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:tint="?attr/colorPrimary"
+                android:paddingRight="10dp"
+                android:src="@drawable/icon_checklist" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/title_habits"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+        </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/habitsRecyclerView"

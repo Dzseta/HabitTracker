@@ -52,6 +52,13 @@
             android:layout_weight="1"
             android:orientation="horizontal">
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:tint="?attr/colorPrimary"
+                android:paddingRight="10dp"
+                android:src="@drawable/icon_fire" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
@@ -78,6 +85,13 @@
             android:layout_marginBottom="10dp"
             android:layout_weight="1"
             android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:tint="?attr/colorPrimary"
+                android:paddingRight="10dp"
+                android:src="@drawable/icon_fire" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -106,6 +120,13 @@
             android:layout_weight="1"
             android:orientation="horizontal">
 
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="match_parent"
+                app:tint="?attr/colorPrimary"
+                android:paddingRight="10dp"
+                android:src="@drawable/icon_success" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
@@ -132,6 +153,13 @@
             android:layout_marginBottom="10dp"
             android:layout_weight="1"
             android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:tint="?attr/colorPrimary"
+                android:paddingRight="10dp"
+                android:src="@drawable/icon_mood_happy" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -163,6 +191,13 @@
             android:visibility="gone"
             tools:visibility="visible">
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:tint="?attr/colorPrimary"
+                android:paddingRight="10dp"
+                android:src="@drawable/icon_number" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
@@ -193,6 +228,13 @@
             android:visibility="gone"
             tools:visibility="visible">
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:tint="?attr/colorPrimary"
+                android:paddingRight="10dp"
+                android:src="@drawable/icon_clock" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
@@ -220,17 +262,30 @@
             android:layout_marginBottom="10dp"
             android:background="@color/medium_gray" />
 
-        <TextView
-            android:id="@+id/pairedWithTextView"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:text="@string/stats_paired"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            android:visibility="gone"
-            tools:visibility="visible" />
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:tint="?attr/colorPrimary"
+                android:paddingRight="10dp"
+                android:src="@drawable/icon_group" />
+
+            <TextView
+                android:id="@+id/pairedWithTextView"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/stats_paired"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:visibility="gone"
+                tools:visibility="visible" />
+        </LinearLayout>
 
 
         <LinearLayout

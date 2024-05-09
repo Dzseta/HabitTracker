@@ -15,7 +15,24 @@
     <string name="button_create">Create</string>
     <string name="button_change">Change</string>
     <string name="button_export">Export</string>
+    <string name="button_edit">Edit</string>
     <string name="button_ok" translatable="false">OK</string>
+
+    <!-- Toasts -->
+    <string name="toast_successful_rating">Thank you for your feedback!</string>
+    <string name="toast_error">Unknown error, try later</string>
+    <string name="toast_used_name">This name is already used</string>
+    <string name="toast_goal_exists">This habit already has a goal</string>
+    <string name="toast_nan">The goal has to be at least 1 day long</string>
+    <string name="toast_auth_failed">Authentication failed, try again</string>
+    <string name="toast_empty_name">The name can\'t be empty</string>
+    <string name="toast_email_changed">The email address has been changed successfully</string>
+    <string name="toast_password_changed">The password has been changed successfully</string>
+    <string name="toast_logout">Logged out successfully</string>
+    <string name="toast_password_length">The password has to be at least 6 characters long</string>
+    <string name="toast_password_number">The password has to contain at least 1 number</string>
+    <string name="toast_successful_register">Registration successful</string>
+    <string name="toast_successful_password_reset">Password reset email sent, check your inbox</string>
 
     <!-- Sort -->
     <string name="sort_AZ">A-z</string>
@@ -75,6 +92,7 @@
     <!-- Profile -->
     <string name="title_profile">Profile</string>
     <string name="profile_logout">Logout</string>
+    <string name="profile_premium">Premium</string>
 
     <!-- Categories -->
     <string name="title_categories">Categories</string>

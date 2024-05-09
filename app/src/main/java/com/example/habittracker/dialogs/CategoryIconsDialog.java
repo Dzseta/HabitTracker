@@ -20,9 +20,11 @@ import com.example.habittracker.adapters.IconsAdapter;
 public class CategoryIconsDialog extends Dialog {
     private IconsAdapter adapter;
     private Context context;
-    public CategoryIconsDialog(Context context) {
+    private String color;
+    public CategoryIconsDialog(Context context, String color) {
         super(context);
         this.context = context;
+        this.color = color;
     }
 
     @Override
@@ -39,7 +41,7 @@ public class CategoryIconsDialog extends Dialog {
         RecyclerView recyclerView = view.findViewById(R.id.iconsRecyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(context, 4));
 
-        adapter = new IconsAdapter(context);
+        adapter = new IconsAdapter(context, color);
         recyclerView.setAdapter(adapter);
 
         Button button = view.findViewById(R.id.chooseButton);

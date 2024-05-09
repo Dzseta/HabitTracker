@@ -27,6 +27,7 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.example.habittracker.R;
 import com.example.habittracker.adapters.DatabaseHandler;
@@ -37,6 +38,8 @@ import com.example.habittracker.models.HabitModel;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
+
+import es.dmoral.toasty.Toasty;
 
 public class NewHabitActivity extends AppCompatActivity {
 
@@ -255,6 +258,7 @@ public class NewHabitActivity extends AppCompatActivity {
             origHabit = dbHandler.readHabitByName(habitName);
             nameEditText.setText(origHabit.getName());
             descriptionEditText.setText(origHabit.getDescription());
+            createButton.setText(getResources().getString(R.string.button_edit));
             // set type
             yesNoRadioButton.setClickable(false);
             numberRadioButton.setClickable(false);
@@ -541,13 +545,27 @@ public class NewHabitActivity extends AppCompatActivity {
             repeatDays += "-";
             if(sunday) repeatDays += getResources().getString(R.string.new_habit_sunday);
             if(!repeatSwitch.isChecked()) habit.setRepeatType(repeatDays);
+            else habit.setRepeatType("everyday");
             habit.setReminderHour(reminderHourNumberPicker.getValue());
             habit.setReminderMinute(reminderMinuteNumberPicker.getValue());
             HabitModel prev = dbHandler.readHabitByName(habit.getName());
-            if(mode.equals("new") && prev == null) {
-                dbHandler.addHabit(habit);
+            if(habit.getName().equals("")) {
+                Toasty.warning(NewHabitActivity.this, getResources().getString(R.string.toast_empty_name), Toast.LENGTH_SHORT, true).show();
+                return;
+            } else if(mode.equals("new")) {
+                if(prev == null) {
+                    dbHandler.addHabit(habit);
+                } else {
+                    Toasty.error(NewHabitActivity.this, getResources().getString(R.string.toast_used_name), Toast.LENGTH_SHORT, true).show();
+                    return;
+                }
             } else if (mode.equals("edit")) {
-                dbHandler.updateHabit(habit, habitName);
+                if(origHabit.getName().equals(habit.getName()) || prev == null) {
+                    dbHandler.updateHabit(habit, habitName);
+                } else {
+                    Toasty.error(NewHabitActivity.this, getResources().getString(R.string.toast_used_name), Toast.LENGTH_SHORT, true).show();
+                    return;
+                }
             }
             Intent i = new Intent();
             i.setClass(this, HabitsActivity.class);
