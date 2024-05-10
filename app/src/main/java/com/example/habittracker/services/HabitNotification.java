@@ -1,7 +1,6 @@
 package com.example.habittracker.services;
 
 import android.Manifest;
-import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -16,14 +15,21 @@ import com.example.habittracker.R;
 
 import es.dmoral.toasty.Toasty;
 
-// BroadcastReceiver for handling notifications
-public class DailyNotification extends BroadcastReceiver {
+public class HabitNotification  extends BroadcastReceiver {
+
+    String icon;
+    String habit;
+    int id;
+
     @Override
     public void onReceive(Context context, Intent intent) {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "daily")
-                .setSmallIcon(R.drawable.logo)
-                .setContentTitle(context.getResources().getString(R.string.notification_daily_title))
-                .setContentText(context.getResources().getString(R.string.notification_daily_desc));
+        icon = intent.getStringExtra("icon");
+        habit = intent.getStringExtra("habit");
+        id = intent.getIntExtra("id", 0);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "habit")
+                .setSmallIcon(context.getResources().getIdentifier(icon, "drawable", context.getPackageName()))
+                .setContentTitle(context.getResources().getString(R.string.notification_habit_title))
+                .setContentText(context.getResources().getString(R.string.notification_habit_desc) + " " + habit);
 
         // Get the NotificationManager service
         NotificationManagerCompat manager = NotificationManagerCompat.from(context);
@@ -33,6 +39,6 @@ public class DailyNotification extends BroadcastReceiver {
             Toasty.error(context, context.getResources().getString(R.string.toast_missing_permission), Toast.LENGTH_SHORT, true).show();
             return;
         }
-        manager.notify(1, builder.build());
+        manager.notify(id, builder.build());
     }
 }

@@ -23,7 +23,7 @@
     <string name="toolbar_calendar">NAPTÁR</string>
     <string name="toolbar_goals">CÉLOK</string>
     <string name="toolbar_stats">ELEMZÉS</string>
-    <string name="hamburger_rating">APP ÉRTÉKELÉSE</string>
+    <string name="hamburger_rating">VISSZAJELZÉS KÜLDÉSE</string>
     <string name="category_name">Név</string>
     <string name="category_icon">Ikon</string>
     <string name="category_color">Szín</string>
@@ -65,7 +65,7 @@
     <string name="new_habit_priority">Prioritás</string>
     <string name="new_habit_reminder_time">Emlékeztető ideje</string>
     <string name="category_entries">bejegyzés</string>
-    <string name="notification_daily_title">Emlékeztető</string>
+    <string name="notification_daily_title">Napi emlékeztető</string>
     <string name="sort_AZ">A-z</string>
     <string name="sort_ZA">Z-a</string>
     <string name="sort_entries_I">Bejegyzések szerint növekvő</string>
@@ -154,4 +154,7 @@
     <string name="rating_bug_report">Hibajelzés</string>
     <string name="notification_daily_desc">Töltse ki a napi szokásait!</string>
     <string name="toast_missing_permission">Hiányzó engedély</string>
+    <string name="hamburger_help">SEGÍTSÉG</string>
+    <string name="notification_habit_title">Emlékeztető</string>
+    <string name="notification_habit_desc">Ne felejtse el:</string>
 </resources>

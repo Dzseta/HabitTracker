@@ -36,8 +36,10 @@
     <string name="toast_missing_permission">Missing permission</string>
 
     <!-- Notifications -->
-    <string name="notification_daily_title">Reminder</string>
+    <string name="notification_daily_title">Daily reminder</string>
     <string name="notification_daily_desc">Fill in your daily habits!</string>
+    <string name="notification_habit_title">Reminder</string>
+    <string name="notification_habit_desc">Don\'t forget to do:</string>
 
     <!-- Sort -->
     <string name="sort_AZ">A-z</string>
@@ -84,7 +86,8 @@
     <string name="hamburger_options">SETTINGS</string>
     <string name="hamburger_profile">PROFILE</string>
     <string name="hamburger_backups">BACKUPS</string>
-    <string name="hamburger_rating">RATE THE APP</string>
+    <string name="hamburger_rating">SEND FEEDBACK</string>
+    <string name="hamburger_help">HELP</string>
 
     <!-- Rating -->
     <string name="title_rating">Feedback</string>

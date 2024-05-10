@@ -1,5 +1,7 @@
 package com.example.habittracker.activities;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -18,6 +20,7 @@ import com.example.habittracker.adapters.HabitsAdapter;
 import com.example.habittracker.models.CategoryModel;
 import com.example.habittracker.models.EntryModel;
 import com.example.habittracker.models.HabitModel;
+import com.example.habittracker.services.HabitNotification;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -151,6 +154,15 @@ public class HabitsActivity extends AppCompatActivity {
         dbHandler.deleteHabit(model.getName());
         habitsArrayList.remove(pos);
         habitsAdapter.notifyDataSetChanged();
+
+        int id = dbHandler.readHabitId(model.getName());
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        Intent intent = new Intent(HabitsActivity.this, HabitNotification.class);
+        intent.putExtra("icon", dbHandler.readCategoryByName(model.getCategoryName()).getIcon());
+        intent.putExtra("habit", model.getName());
+        intent.putExtra("id",  id);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), id, intent, PendingIntent.FLAG_IMMUTABLE);
+        if(alarmManager != null) alarmManager.cancel(pendingIntent);
     }
 
     ArrayList<HabitModel> sortCategoryAZ(ArrayList<HabitModel> habitsArrayList){

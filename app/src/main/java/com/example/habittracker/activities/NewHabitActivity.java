@@ -3,7 +3,11 @@ package com.example.habittracker.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -35,6 +39,8 @@ import com.example.habittracker.adapters.DatabaseHandler;
 import com.example.habittracker.models.CategoryModel;
 import com.example.habittracker.models.GoalModel;
 import com.example.habittracker.models.HabitModel;
+import com.example.habittracker.services.DailyNotification;
+import com.example.habittracker.services.HabitNotification;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -568,6 +574,25 @@ public class NewHabitActivity extends AppCompatActivity {
                     return;
                 }
             }
+            // alarm manager, intent, pendingintent
+            int id = dbHandler.readHabitId(habit.getName());
+            AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+            Intent intent = new Intent(NewHabitActivity.this, HabitNotification.class);
+            intent.putExtra("icon", dbHandler.readCategoryByName(habit.getCategoryName()).getIcon());
+            intent.putExtra("habit", habit.getName());
+            intent.putExtra("id",  id);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), id, intent, PendingIntent.FLAG_IMMUTABLE);
+            if(habit.isReminder()) {
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTimeInMillis(System.currentTimeMillis());
+                calendar.set(Calendar.HOUR_OF_DAY, habit.getReminderHour());
+                calendar.set(Calendar.MINUTE, habit.getReminderMinute());
+                calendar.set(Calendar.SECOND, 0);
+                if(calendar.after(Calendar.getInstance())) calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH)-1);
+                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+            } else {
+                if(alarmManager != null) alarmManager.cancel(pendingIntent);
+            }
             Intent i = new Intent();
             i.setClass(this, HabitsActivity.class);
             startActivity(i);
@@ -586,5 +611,19 @@ public class NewHabitActivity extends AppCompatActivity {
             day = true;
         }
         return  day;
+    }
+
+    // create notification channel
+    private void createNotificationChannel() {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "HabitReminderChannel";
+            String description = "Channel for the habit reminders";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("habit", name, importance);
+            channel.setDescription(description);
+
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel);
+        }
     }
 }

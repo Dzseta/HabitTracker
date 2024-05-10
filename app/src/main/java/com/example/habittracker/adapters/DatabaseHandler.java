@@ -321,6 +321,24 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return habit;
     }
 
+    // read a habit's id
+    public int readHabitId(String name) {
+        // create database
+        SQLiteDatabase db = this.getReadableDatabase();
+        // create cursor
+        Cursor cursorCourses = db.rawQuery("SELECT * FROM " + HABIT_TABLE_NAME + " WHERE name=?", new String[]{name});
+        // create id
+        int id = 0;
+
+        // move cursor to first position
+        if (cursorCourses.moveToFirst()) {
+            id = cursorCourses.getInt(0);
+        }
+        // closing cursor
+        cursorCourses.close();
+        return id;
+    }
+
     // read all habits
     public ArrayList<HabitModel> readAllHabits() {
         // create database
