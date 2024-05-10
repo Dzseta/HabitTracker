@@ -12,13 +12,17 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chauthai.swipereveallayout.SwipeRevealLayout;
 import com.example.habittracker.R;
 import com.example.habittracker.activities.CategoriesActivity;
 import com.example.habittracker.activities.GoalsActivity;
+import com.example.habittracker.dialogs.CategoryDeleteDialog;
+import com.example.habittracker.dialogs.GoalDeleteDialog;
 import com.example.habittracker.models.CategoryModel;
 import com.example.habittracker.models.EntryModel;
 import com.example.habittracker.models.GoalModel;
@@ -94,10 +98,9 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
             }
         });
         holder.deleteButton.setOnClickListener(v -> {
-            dbHandler.deleteGoal(model.getHabit());
-            goalsArrayList.remove(position);
+            DialogFragment deleteDialog = new GoalDeleteDialog(context, model, position);
+            deleteDialog.show(((AppCompatActivity)context).getSupportFragmentManager(), "goalDeleteDialog");
             holder.goalSwipeRevealLayout.close(true);
-            notifyDataSetChanged();
         });
     }
 

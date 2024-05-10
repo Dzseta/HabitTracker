@@ -6,7 +6,7 @@
     <string name="hamburger_options">BEÁLLÍTÁSOK</string>
     <string name="hamburger_profile">PROFIL</string>
     <string name="hamburger_backups">BIZTONSÁGI MENTÉS</string>
-    <string name="title_rating">Alkalmazás értékelése</string>
+    <string name="title_rating">Visszajelzés</string>
     <string name="rating_opinion">Fejtse ki a véleményét bővebben (nem kötelező)</string>
     <string name="button_send">Küldés</string>
     <string name="button_save">Mentés</string>
@@ -28,7 +28,6 @@
     <string name="category_icon">Ikon</string>
     <string name="category_color">Szín</string>
     <string name="button_create">Létrehozás</string>
-    <string name="category_delete_dialog">Biztosan törli?</string>
     <string name="goal_habit">Szokás</string>
     <string name="goal_days">Nap</string>
     <string name="goal_days_in_row">Sikeres sorozat</string>
@@ -66,6 +65,7 @@
     <string name="new_habit_priority">Prioritás</string>
     <string name="new_habit_reminder_time">Emlékeztető ideje</string>
     <string name="category_entries">bejegyzés</string>
+    <string name="notification_daily_title">Emlékeztető</string>
     <string name="sort_AZ">A-z</string>
     <string name="sort_ZA">Z-a</string>
     <string name="sort_entries_I">Bejegyzések szerint növekvő</string>
@@ -148,4 +148,10 @@
     <string name="toast_successful_register">Sikeres regisztráció</string>
     <string name="toast_successful_password_reset">Jelszó helyreállítási e-mail elküldve, ellenőrizze a beérkező leveleket</string>
     <string name="button_edit">Módosítás</string>
+    <string name="dialog_questionmark">-t?</string>
+    <string name="delete_dialog">"Biztosan törli a "</string>
+    <string name="rating_rate">Értékelje az alkalmazást</string>
+    <string name="rating_bug_report">Hibajelzés</string>
+    <string name="notification_daily_desc">Töltse ki a napi szokásait!</string>
+    <string name="toast_missing_permission">Hiányzó engedély</string>
 </resources>

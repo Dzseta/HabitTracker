@@ -3,24 +3,23 @@ package com.example.habittracker.dialogs;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.DialogFragment;
 
 import com.example.habittracker.R;
 import com.example.habittracker.activities.CategoriesActivity;
-import com.example.habittracker.adapters.CategoriesAdapter;
-import com.example.habittracker.adapters.DatabaseHandler;
+import com.example.habittracker.activities.HabitsActivity;
 import com.example.habittracker.models.CategoryModel;
+import com.example.habittracker.models.HabitModel;
 
-public class CategoryDeleteDialog extends DialogFragment {
+public class HabitDeleteDialog  extends DialogFragment {
 
     private Context context;
-    private CategoryModel model;
+    private HabitModel model;
     private int position;
-    public CategoryDeleteDialog(Context context, CategoryModel model, int position) {
+
+    public HabitDeleteDialog(Context context, HabitModel model, int position) {
         this.context = context;
         this.model = model;
         this.position = position;
@@ -34,7 +33,7 @@ public class CategoryDeleteDialog extends DialogFragment {
                 .setNegativeButton(R.string.button_cancel, (dialog, id) -> dismiss())
                 .setPositiveButton(R.string.button_delete, (dialog, id) -> {
                     if (context instanceof CategoriesActivity) {
-                        ((CategoriesActivity) context).deleteCategory(model, position);
+                        ((HabitsActivity) context).deleteHabit(model, position);
                     }
                 });
         //crete alert

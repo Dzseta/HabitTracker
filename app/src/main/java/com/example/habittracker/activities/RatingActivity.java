@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.habittracker.R;
+import com.example.habittracker.models.BugModel;
 import com.example.habittracker.models.RatingModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -32,6 +33,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.Console;
+import java.time.LocalDate;
 
 import es.dmoral.toasty.Toasty;
 
@@ -41,8 +43,10 @@ public class RatingActivity extends AppCompatActivity {
     private ImageView ratingIW;
     private TextView ratingTW;
     Button sendButton;
+    Button sendBugButton;
     RatingBar ratingbar;
     EditText opinionText;
+    EditText bugText;
     RatingModel rating;
     FirebaseFirestore db;
     DocumentReference docref;
@@ -72,12 +76,14 @@ public class RatingActivity extends AppCompatActivity {
 
         // rating bar
         ratingbar = (RatingBar)findViewById(R.id.ratingBar);
-        // edittext
+        // edittexts
         opinionText = findViewById(R.id.opinionMultiLine);
+        bugText = findViewById(R.id.bugMultiLine);
         // rating
         rating = null;
-        // send button
+        // send buttons
         sendButton = findViewById(R.id.sendRatingButton);
+        sendBugButton = findViewById(R.id.sendBugButton);
 
         // get previous rating
         db.collection("ratings")
@@ -124,6 +130,17 @@ public class RatingActivity extends AppCompatActivity {
                     })
                     .addOnFailureListener(e -> Toasty.error(RatingActivity.this, getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT, true).show());
         }
+    }
+
+    public void sendBug(View view) {
+        // Create a new bug
+        BugModel bug = new BugModel(FirebaseAuth.getInstance().getCurrentUser().getUid(), LocalDate.now().toString(), bugText.getText().toString());
+
+        // Add a new document with a generated ID
+        db.collection("bugs").add(bug).addOnSuccessListener(documentReference -> {
+                    Toasty.success(RatingActivity.this, getResources().getString(R.string.toast_successful_rating), Toast.LENGTH_SHORT, true).show();
+                    bugText.setText("");
+                }).addOnFailureListener(e -> Toasty.error(RatingActivity.this, getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT, true).show());
     }
 
     // open and close the hamburger menu

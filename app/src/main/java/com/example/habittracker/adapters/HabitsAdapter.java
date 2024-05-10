@@ -15,13 +15,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chauthai.swipereveallayout.SwipeRevealLayout;
 import com.example.habittracker.R;
 import com.example.habittracker.activities.CategoriesActivity;
 import com.example.habittracker.activities.NewHabitActivity;
+import com.example.habittracker.dialogs.CategoryDeleteDialog;
+import com.example.habittracker.dialogs.HabitDeleteDialog;
 import com.example.habittracker.models.CategoryModel;
 import com.example.habittracker.models.HabitModel;
 
@@ -73,10 +77,9 @@ public class HabitsAdapter extends RecyclerView.Adapter<HabitsAdapter.ViewHolder
             startActivity(context, i, new Bundle());
         });
         holder.deleteButton.setOnClickListener(v -> {
-            dbHandler.deleteHabit(model.getName());
-            habitsArrayList.remove(position);
+            DialogFragment deleteDialog = new HabitDeleteDialog(context, model, position);
+            deleteDialog.show(((AppCompatActivity)context).getSupportFragmentManager(), "habDeleteDialog");
             holder.habitSwipeRevealLayout.close(true);
-            notifyDataSetChanged();
         });
     }
 

@@ -33,6 +33,11 @@
     <string name="toast_password_number">The password has to contain at least 1 number</string>
     <string name="toast_successful_register">Registration successful</string>
     <string name="toast_successful_password_reset">Password reset email sent, check your inbox</string>
+    <string name="toast_missing_permission">Missing permission</string>
+
+    <!-- Notifications -->
+    <string name="notification_daily_title">Reminder</string>
+    <string name="notification_daily_desc">Fill in your daily habits!</string>
 
     <!-- Sort -->
     <string name="sort_AZ">A-z</string>
@@ -53,6 +58,10 @@
     <string name="sort_start_d">Start date late to early</string>
     <string name="sort_end_i">End date early to late</string>
     <string name="sort_end_d">End date late to early</string>
+
+    <!-- Dialogs -->
+    <string name="delete_dialog">Do you want to delete </string>
+    <string name="dialog_questionmark">\?</string>
 
     <!-- Login -->
     <string name="title_login">Login</string>
@@ -78,8 +87,10 @@
     <string name="hamburger_rating">RATE THE APP</string>
 
     <!-- Rating -->
-    <string name="title_rating">Rate the App</string>
+    <string name="title_rating">Feedback</string>
+    <string name="rating_rate">Rate the App</string>
     <string name="rating_opinion">Write down your opinions (not mandatory)</string>
+    <string name="rating_bug_report">Bug report</string>
 
     <!-- Settings -->
     <string name="title_settings">Settings</string>
@@ -99,7 +110,6 @@
     <string name="category_name">Name</string>
     <string name="category_icon">Icon</string>
     <string name="category_color">Color</string>
-    <string name="category_delete_dialog">Are you sure?</string>
     <string name="category_entries">entries</string>
 
     <!-- Habits -->

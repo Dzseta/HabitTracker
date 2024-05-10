@@ -219,6 +219,13 @@ public class CategoriesActivity extends AppCompatActivity implements NewCategory
         categoriesAdapter.notifyDataSetChanged();
     }
 
+    // delete category
+    public void deleteCategory(CategoryModel model, int pos) {
+        dbHandler.deleteCategory(model.getName());
+        categoriesArrayList.remove(pos);
+        categoriesAdapter.notifyDataSetChanged();
+    }
+
     // open and close the hamburger menu
     public void openCloseHamburgerMenu(View view) {
         if (hamburgerMenu.getVisibility() == View.VISIBLE) {

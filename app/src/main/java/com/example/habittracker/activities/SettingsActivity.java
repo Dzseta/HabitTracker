@@ -1,5 +1,9 @@
 package com.example.habittracker.activities;
 
+import android.app.AlarmManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -24,7 +28,13 @@ import androidx.core.content.ContextCompat;
 import androidx.core.os.LocaleListCompat;
 
 import com.example.habittracker.R;
+import com.example.habittracker.services.DailyNotification;
 
+import org.checkerframework.checker.units.qual.N;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.Calendar;
 import java.util.Locale;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -51,6 +61,9 @@ public class SettingsActivity extends AppCompatActivity {
     int minute;
     // reminder
     boolean reminder;
+    // reminder variables
+    PendingIntent pendingIntent;
+    AlarmManager alarmManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +78,8 @@ public class SettingsActivity extends AppCompatActivity {
         else setTheme(R.style.Theme_HabitTracker);
         setContentView(R.layout.activity_settings);
 
+        // channel
+        createNotificationChannel();
         // time TextView
         timeTextView = findViewById(R.id.timeTextView);
         // flag imageviews
@@ -88,6 +103,10 @@ public class SettingsActivity extends AppCompatActivity {
         // reminder time picker
         reminderTimePicker = findViewById(R.id.reminderTimePicker);
         reminderTimePicker.setIs24HourView(true);
+        // alarm manager, intent, pendingintent
+        alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        Intent intent = new Intent(SettingsActivity.this, DailyNotification.class);
+        pendingIntent = PendingIntent.getBroadcast(SettingsActivity.this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
 
         // hour, minute
         hour = prefs.getInt("hour", 0);
@@ -115,6 +134,14 @@ public class SettingsActivity extends AppCompatActivity {
                 reminderSwitch.setThumbTintList(ColorStateList.valueOf(c));
                 reminderTimeLinearLayout.setVisibility(View.VISIBLE);
                 reminder = true;
+
+                // set alarm
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTimeInMillis(System.currentTimeMillis());
+                calendar.set(Calendar.HOUR_OF_DAY, hour);
+                calendar.set(Calendar.MINUTE, minute);
+                if(calendar.after(Calendar.getInstance())) calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH)-1);
+                alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
             } else {
                 reminderSwitch.setChecked(false);
                 TypedValue typedValue = new TypedValue();
@@ -123,6 +150,7 @@ public class SettingsActivity extends AppCompatActivity {
                 reminderSwitch.setThumbTintList(ColorStateList.valueOf(c));
                 reminderTimeLinearLayout.setVisibility(View.GONE);
                 reminder = false;
+                if(alarmManager != null) alarmManager.cancel(pendingIntent);
             }
             editor.putBoolean("reminder", reminder);
             editor.commit();
@@ -135,6 +163,13 @@ public class SettingsActivity extends AppCompatActivity {
             editor.putInt("hour", hour);
             editor.putInt("minute", minute);
             editor.commit();
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(System.currentTimeMillis());
+            calendar.set(Calendar.HOUR_OF_DAY, hour);
+            calendar.set(Calendar.MINUTE, minute);
+            calendar.set(Calendar.SECOND, 0);
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
         });
 
         hunImageView.setOnClickListener(view -> changeLanguage("hu"));
@@ -146,6 +181,18 @@ public class SettingsActivity extends AppCompatActivity {
         blueImageView.setOnClickListener(view -> changeTheme("b"));
     }
 
+    private void createNotificationChannel() {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "DailyReminderChannel";
+            String description = "Channel for the daily reminders";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("daily", name, importance);
+            channel.setDescription(description);
+
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel);
+        }
+    }
 
     // ######################################### ONCLICKS ######################################################################
     // choose theme

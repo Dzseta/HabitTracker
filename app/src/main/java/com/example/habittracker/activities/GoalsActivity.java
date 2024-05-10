@@ -139,6 +139,13 @@ public class GoalsActivity extends AppCompatActivity implements NewGoalFragment.
                 });
     }
 
+    // delete goal
+    public void deleteGoal(GoalModel model, int pos) {
+        dbHandler.deleteGoal(model.getHabit());
+        goalsArrayList.remove(pos);
+        goalsAdapter.notifyDataSetChanged();
+    }
+
     ArrayList<GoalModel> sortNameAZ(ArrayList<GoalModel> goalsArrayList){
         Collections.sort(goalsArrayList, Comparator.comparing(GoalModel::getHabit));
         return goalsArrayList;

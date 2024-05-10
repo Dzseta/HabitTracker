@@ -75,12 +75,9 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
             }
         });
         holder.deleteButton.setOnClickListener(v -> {
-            //DialogFragment deleteDialog = new CategoryDeleteDialog();
-            //deleteDialog.show(((AppCompatActivity)context).getSupportFragmentManager(), "catDeleteDialog");
-            dbHandler.deleteCategory(model.getName());
-            categoriesArrayList.remove(position);
+            DialogFragment deleteDialog = new CategoryDeleteDialog(context, model, position);
+            deleteDialog.show(((AppCompatActivity)context).getSupportFragmentManager(), "catDeleteDialog");
             holder.categorySwipeRevealLayout.close(true);
-            notifyDataSetChanged();
         });
     }
 

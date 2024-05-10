@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.example.habittracker.R;
 import com.example.habittracker.adapters.DatabaseHandler;
 import com.example.habittracker.adapters.HabitsAdapter;
+import com.example.habittracker.models.CategoryModel;
 import com.example.habittracker.models.EntryModel;
 import com.example.habittracker.models.HabitModel;
 
@@ -143,6 +144,13 @@ public class HabitsActivity extends AppCompatActivity {
                         position = 0;
                     }
                 });
+    }
+
+    // delete habit
+    public void deleteHabit(HabitModel model, int pos) {
+        dbHandler.deleteHabit(model.getName());
+        habitsArrayList.remove(pos);
+        habitsAdapter.notifyDataSetChanged();
     }
 
     ArrayList<HabitModel> sortCategoryAZ(ArrayList<HabitModel> habitsArrayList){
