@@ -130,6 +130,8 @@ public class NewHabitActivity extends AppCompatActivity {
         else setTheme(R.style.Theme_HabitTracker);
         setContentView(R.layout.activity_new_habit);
 
+        // channel
+        createNotificationChannel();
         // database handler
         dbHandler = new DatabaseHandler(this);
         LocalDate now = LocalDate.now();
@@ -265,6 +267,7 @@ public class NewHabitActivity extends AppCompatActivity {
             origHabit = dbHandler.readHabitByName(habitName);
             nameEditText.setText(origHabit.getName());
             descriptionEditText.setText(origHabit.getDescription());
+            priorityEditText.setText(Integer.toString(origHabit.getPriority()));
             createButton.setText(getResources().getString(R.string.button_edit));
             // set type
             yesNoRadioButton.setClickable(false);
@@ -497,13 +500,17 @@ public class NewHabitActivity extends AppCompatActivity {
         sundayTW.setOnClickListener(view -> sunday = setDay((TextView) view, sunday));
         // set button onClick
         createButton.setOnClickListener(view -> {
+            if(priorityEditText.getText().toString().equals("")) {
+                Toasty.error(this, getResources().getString(R.string.toast_empty_priority), Toast.LENGTH_SHORT, true).show();
+                return;
+            }
             HabitModel habit;
             if(yesNoRadioButton.isChecked()) {
-                habit = new HabitModel(categoryNames[position], nameEditText.getText().toString(), descriptionEditText.getText().toString(), "yesno", "", "everyday", "", "", Integer.parseInt(priorityEditText.getText().toString()), reminderSwitch.isActivated(), 0, 0);
+                habit = new HabitModel(categoryNames[position], nameEditText.getText().toString(), descriptionEditText.getText().toString(), "yesno", "", "everyday", "", "", Integer.parseInt(priorityEditText.getText().toString()), reminderSwitch.isChecked(), 0, 0);
             } else if(numberRadioButton.isChecked()) {
-                habit = new HabitModel(categoryNames[position], nameEditText.getText().toString(), descriptionEditText.getText().toString(), "number", numberEditText.getText().toString(), "everyday", "", "", Integer.parseInt(priorityEditText.getText().toString()), reminderSwitch.isActivated(), 0, 0);
+                habit = new HabitModel(categoryNames[position], nameEditText.getText().toString(), descriptionEditText.getText().toString(), "number", numberEditText.getText().toString(), "everyday", "", "", Integer.parseInt(priorityEditText.getText().toString()), reminderSwitch.isChecked(), 0, 0);
             } else {
-                habit = new HabitModel(categoryNames[position], nameEditText.getText().toString(), descriptionEditText.getText().toString(), "time", hourNumberPicker.getValue() + ":" + minuteNumberPicker.getValue() + ":" + secondNumberPicker.getValue(), "daily", "", "", Integer.parseInt(priorityEditText.getText().toString()), reminderSwitch.isActivated(), 0, 0);
+                habit = new HabitModel(categoryNames[position], nameEditText.getText().toString(), descriptionEditText.getText().toString(), "time", hourNumberPicker.getValue() + ":" + minuteNumberPicker.getValue() + ":" + secondNumberPicker.getValue(), "daily", "", "", Integer.parseInt(priorityEditText.getText().toString()), reminderSwitch.isChecked(), 0, 0);
             }
             LocalDate start;
             if(startMonthNumberPicker.getValue()<10) {
@@ -578,10 +585,11 @@ public class NewHabitActivity extends AppCompatActivity {
             int id = dbHandler.readHabitId(habit.getName());
             AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
             Intent intent = new Intent(NewHabitActivity.this, HabitNotification.class);
-            intent.putExtra("icon", dbHandler.readCategoryByName(habit.getCategoryName()).getIcon());
+            if(habit.getCategoryName().equals("")) intent.putExtra("icon", "icon_category");
+            else intent.putExtra("icon", dbHandler.readCategoryByName(habit.getCategoryName()).getIcon());
             intent.putExtra("habit", habit.getName());
             intent.putExtra("id",  id);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), id, intent, PendingIntent.FLAG_IMMUTABLE);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(NewHabitActivity.this, id, intent, PendingIntent.FLAG_IMMUTABLE);
             if(habit.isReminder()) {
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTimeInMillis(System.currentTimeMillis());
@@ -589,7 +597,8 @@ public class NewHabitActivity extends AppCompatActivity {
                 calendar.set(Calendar.MINUTE, habit.getReminderMinute());
                 calendar.set(Calendar.SECOND, 0);
                 if(calendar.after(Calendar.getInstance())) calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH)-1);
-                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+                //alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis()+1000, pendingIntent);
+                alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
             } else {
                 if(alarmManager != null) alarmManager.cancel(pendingIntent);
             }
@@ -618,7 +627,7 @@ public class NewHabitActivity extends AppCompatActivity {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = "HabitReminderChannel";
             String description = "Channel for the habit reminders";
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            int importance = NotificationManager.IMPORTANCE_HIGH;
             NotificationChannel channel = new NotificationChannel("habit", name, importance);
             channel.setDescription(description);
 

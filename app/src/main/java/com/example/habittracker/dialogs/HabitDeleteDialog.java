@@ -32,7 +32,7 @@ public class HabitDeleteDialog  extends DialogFragment {
         builder.setMessage(getResources().getString(R.string.delete_dialog) + " " + model.getName() + getResources().getString(R.string.dialog_questionmark))
                 .setNegativeButton(R.string.button_cancel, (dialog, id) -> dismiss())
                 .setPositiveButton(R.string.button_delete, (dialog, id) -> {
-                    if (context instanceof CategoriesActivity) {
+                    if (context instanceof HabitsActivity) {
                         ((HabitsActivity) context).deleteHabit(model, position);
                     }
                 });

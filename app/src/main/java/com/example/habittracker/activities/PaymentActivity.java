@@ -20,6 +20,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.stripe.android.ApiResultCallback;
+import com.stripe.android.PaymentConfiguration;
 import com.stripe.android.PaymentIntentResult;
 import com.stripe.android.Stripe;
 import com.stripe.android.model.ConfirmPaymentIntentParams;
@@ -46,8 +47,7 @@ import okhttp3.Response;
 
 public class PaymentActivity extends AppCompatActivity {
 
-    // 10.0.2.2 is the Android emulator's alias to localhost
-    // 192.168.1.6 If you are testing in real device with usb connected to same network then use your IP address
+    // 192.168.56.1 If you are testing in real device with usb connected to same network then use your IP address
     private static final String BACKEND_URL = "http://192.168.56.1:4242/"; //4242 is port mentioned in server i.e index.js
     EditText amountText;
     CardInputWidget cardInputWidget;
@@ -57,12 +57,10 @@ public class PaymentActivity extends AppCompatActivity {
     private String paymentIntentClientSecret;
     //declare stripe
     private Stripe stripe;
-
     Double amountDouble=null;
-
     private OkHttpClient httpClient;
-
     static ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,23 +72,18 @@ public class PaymentActivity extends AppCompatActivity {
         progressDialog.setTitle("Transaction in progress");
         progressDialog.setCancelable(false);
         httpClient = new OkHttpClient();
+        PaymentConfiguration.init(this, "pk_test_51PBmI3Rrfhw85rRuLbkFFnlGLpmR5SFaQp3zY1m3QU5iMqn6zc4NibeLEuYKYXLsIS9gsHqzg2dUzXMV9LlXknmu00e8v0DHCF");
 
         //Initialize
         stripe = new Stripe(
                 getApplicationContext(),
-                Objects.requireNonNull("pk_test_51ISLoeDrYpYnN0xnqW7bZ0tJKmtxUEdYOhD8AXoO10S9aMSXZ8Hk6e7EXJvKpn476isXZXgdG5R5TAj7aVXceJZo00bIx1MjgM")
+                Objects.requireNonNull("pk_test_51PBmI3Rrfhw85rRuLbkFFnlGLpmR5SFaQp3zY1m3QU5iMqn6zc4NibeLEuYKYXLsIS9gsHqzg2dUzXMV9LlXknmu00e8v0DHCF")
         );
 
-
-        payButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //get Amount
-                amountDouble = Double.valueOf(amountText.getText().toString());
-                //call checkout to get paymentIntentClientSecret key
-                progressDialog.show();
-                startCheckout();
-            }
+        payButton.setOnClickListener(v -> {
+            //call checkout to get paymentIntentClientSecret key
+            progressDialog.show();
+            startCheckout();
         });
     }
 
@@ -98,29 +91,13 @@ public class PaymentActivity extends AppCompatActivity {
         {
             // Create a PaymentIntent by calling the server's endpoint.
             MediaType mediaType = MediaType.get("application/json; charset=utf-8");
-//        String json = "{"
-//                + "\"currency\":\"usd\","
-//                + "\"items\":["
-//                + "{\"id\":\"photo_subscription\"}"
-//                + "]"
-//                + "}";
-            double amount=amountDouble*100;
-            Map<String,Object> payMap=new HashMap<>();
-            Map<String,Object> itemMap=new HashMap<>();
-            List<Map<String,Object>> itemList =new ArrayList<>();
-            payMap.put("currency","INR");
-            itemMap.put("id","photo_subscription");
-            itemMap.put("amount",amount);
-            itemList.add(itemMap);
-            payMap.put("items",itemList);
+            double amount = 3000;
+            Map<String, Object> payMap = new HashMap<>();
+            payMap.put("currency","HUF");
             String json = new Gson().toJson(payMap);
             RequestBody body = RequestBody.create(json, mediaType);
-            Request request = new Request.Builder()
-                    .url(BACKEND_URL + "create-payment-intent")
-                    .post(body)
-                    .build();
-            httpClient.newCall(request)
-                    .enqueue(new PayCallback(this));
+            Request request = new Request.Builder().url(BACKEND_URL + "create-payment-intent").post(body).build();
+            httpClient.newCall(request).enqueue(new PayCallback(this));
 
         }
     }

@@ -231,6 +231,7 @@ public class HabitStatsFragment extends Fragment {
 
     public void loadData(){
         // get all entries
+        if(habitNames.length == 0) return;
         entriesArrayList = dbHandler.readAllEntriesByHabit(habitNames[position]);
         HabitModel habit = dbHandler.readHabitByName(habitNames[position]);
         // set texts

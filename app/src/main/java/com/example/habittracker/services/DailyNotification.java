@@ -16,7 +16,6 @@ import com.example.habittracker.R;
 
 import es.dmoral.toasty.Toasty;
 
-// BroadcastReceiver for handling notifications
 public class DailyNotification extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {

@@ -24,7 +24,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     // database name
     private static final String DB_NAME = "habitsdb";
     // database version
-    private static final int DB_VERSION = 23;
+    private static final int DB_VERSION = 25;
     // id column
     private static final String ID_COL = "id";
     // name column

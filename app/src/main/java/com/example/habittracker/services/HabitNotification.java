@@ -15,7 +15,7 @@ import com.example.habittracker.R;
 
 import es.dmoral.toasty.Toasty;
 
-public class HabitNotification  extends BroadcastReceiver {
+public class HabitNotification extends BroadcastReceiver {
 
     String icon;
     String habit;
@@ -25,7 +25,7 @@ public class HabitNotification  extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         icon = intent.getStringExtra("icon");
         habit = intent.getStringExtra("habit");
-        id = intent.getIntExtra("id", 0);
+        id = intent.getIntExtra("id", 1);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "habit")
                 .setSmallIcon(context.getResources().getIdentifier(icon, "drawable", context.getPackageName()))
                 .setContentTitle(context.getResources().getString(R.string.notification_habit_title))

@@ -157,4 +157,5 @@
     <string name="hamburger_help">SEGÍTSÉG</string>
     <string name="notification_habit_title">Emlékeztető</string>
     <string name="notification_habit_desc">Ne felejtse el:</string>
+    <string name="toast_empty_priority">A prioritás nem lehet üres</string>
 </resources>

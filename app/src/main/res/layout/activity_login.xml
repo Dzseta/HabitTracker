@@ -28,62 +28,30 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView">
 
-        <LinearLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginBottom="10dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:textSize="20dp"
-                android:text="@string/email" />
+            android:hint="@string/email"
+            android:layout_marginBottom="50dp"
+            android:layout_height="wrap_content">
 
             <EditText
                 android:id="@+id/editTextTextEmailAddress"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_weight="1"
-                android:ems="10"
-                android:padding="10dp"
-                android:hint="pelda@email.hu"
-                android:background="@drawable/edittext_background"
-
+                android:layout_height="wrap_content"
                 android:inputType="textEmailAddress" />
-        </LinearLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <LinearLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_weight="1"
-                android:textSize="20dp"
-                android:gravity="center_vertical"
-                android:paddingRight="10dp"
-                android:text="@string/password" />
+            android:hint="@string/password"
+            android:layout_height="wrap_content">
 
             <EditText
                 android:id="@+id/editTextTextPassword"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_weight="1"
-                android:ems="10"
-                android:hint="jelszo123"
-                android:padding="10dp"
-                android:background="@drawable/edittext_background"
+                android:layout_height="wrap_content"
                 android:inputType="textPassword" />
-        </LinearLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/loginButton"

@@ -1,10 +1,13 @@
 package com.example.habittracker.activities;
 
 import android.app.AlarmManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -63,6 +66,9 @@ public class HabitsActivity extends AppCompatActivity {
         else if(color.equals("b")) setTheme(R.style.Theme_HabitTracker_Blue);
         else setTheme(R.style.Theme_HabitTracker);
         setContentView(R.layout.activity_habits);
+
+        // channel
+        createNotificationChannel();
 
         // hamburger menu
         hamburgerMenu = findViewById(R.id.hamburgerMenu);
@@ -158,13 +164,29 @@ public class HabitsActivity extends AppCompatActivity {
         int id = dbHandler.readHabitId(model.getName());
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         Intent intent = new Intent(HabitsActivity.this, HabitNotification.class);
-        intent.putExtra("icon", dbHandler.readCategoryByName(model.getCategoryName()).getIcon());
+        if(model.getCategoryName().equals("")) intent.putExtra("icon", "icon_category");
+        else intent.putExtra("icon", dbHandler.readCategoryByName(model.getCategoryName()).getIcon());
         intent.putExtra("habit", model.getName());
         intent.putExtra("id",  id);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), id, intent, PendingIntent.FLAG_IMMUTABLE);
         if(alarmManager != null) alarmManager.cancel(pendingIntent);
     }
 
+    // create notification channel
+    private void createNotificationChannel() {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "HabitReminderChannel";
+            String description = "Channel for the habit reminders";
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel channel = new NotificationChannel("habit", name, importance);
+            channel.setDescription(description);
+
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel);
+        }
+    }
+
+    // #################################################### SORTS ##############################################
     ArrayList<HabitModel> sortCategoryAZ(ArrayList<HabitModel> habitsArrayList){
         Collections.sort(habitsArrayList, Comparator.comparing(HabitModel::getCategoryName));
         return habitsArrayList;

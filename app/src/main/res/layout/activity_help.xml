@@ -91,24 +91,16 @@
         <!-- text field for asking question-->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/idTILQuery"
-            android:background="@drawable/edittext_background"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_margin="5dp"
-            android:hint="Enter your query"
-            android:padding="5dp">
+            android:hint="@string/hamburger_help"
+            android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/idEdtQuery"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:ems="10"
                 android:imeOptions="actionSend"
                 android:importantForAutofill="no"
-                android:inputType="textEmailAddress"
-                android:textColor="@color/white"
-                android:textColorHint="@color/white"
                 android:textSize="14sp" />
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
