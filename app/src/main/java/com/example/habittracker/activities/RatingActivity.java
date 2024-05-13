@@ -98,7 +98,7 @@ public class RatingActivity extends AppCompatActivity {
                             sendButton.setClickable(true);
                         }
                     } else {
-                        Toast.makeText(RatingActivity.this, "Nem sikerült elérni a szervert", Toast.LENGTH_LONG).show();
+                        Toasty.error(RatingActivity.this, getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT, true).show();
                     }
                 });
     }

@@ -11,6 +11,15 @@ public class UserModel {
         this.premium = premium;
     }
 
+    public UserModel(String uid, String premium) {
+        this.uid = uid;
+        if(premium.equals("true")){
+            this.premium = true;
+        } else {
+            this.premium = false;
+        }
+    }
+
     public String getUid() {
         return uid;
     }

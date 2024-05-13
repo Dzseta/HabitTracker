@@ -28,6 +28,7 @@ public class HabitNotification extends BroadcastReceiver {
         id = intent.getIntExtra("id", 1);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "habit")
                 .setSmallIcon(context.getResources().getIdentifier(icon, "drawable", context.getPackageName()))
+                .setColor(context.getResources().getColor(R.color.orange))
                 .setContentTitle(context.getResources().getString(R.string.notification_habit_title))
                 .setContentText(context.getResources().getString(R.string.notification_habit_desc) + " " + habit);
 

@@ -158,4 +158,12 @@
     <string name="notification_habit_title">Emlékeztető</string>
     <string name="notification_habit_desc">Ne felejtse el:</string>
     <string name="toast_empty_priority">A prioritás nem lehet üres</string>
+    <string name="profile_account">Fiók státusza</string>
+    <string name="profile_free_version">Ingyenes verzió</string>
+    <string name="profile_premium_version">Prémium verzió</string>
+    <string name="profile_buy">Prémium vásárlása - 3000 Ft</string>
+    <string name="toast_pay_success">Fizetés megszakítva</string>
+    <string name="toast_pay_failed">Fizetés sikertelen</string>
+    <string name="toast_pay_cancel">Fizetés sikeres</string>
+    <string name="load">Adatok betöltése</string>
 </resources>

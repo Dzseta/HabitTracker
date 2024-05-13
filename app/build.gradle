@@ -96,6 +96,5 @@ dependencies {
     // Stripe dependency
     implementation 'com.stripe:stripe-android:20.41.1'
     // for network call
-    implementation 'com.squareup.okhttp3:okhttp:4.4.0'
-    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'com.github.kittinunf.fuel:fuel:2.3.1'
 }

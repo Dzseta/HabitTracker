@@ -3,6 +3,7 @@
     <string name="title_home" translatable="false">Home</string>
     <string name="title_dashboard" translatable="false">Dashboard</string>
     <string name="title_notifications" translatable="false">Notifications</string>
+    <string name="load">Loading data</string>
 
     <!-- Buttons -->
     <string name="button_send">Send</string>
@@ -21,6 +22,9 @@
     <!-- Toasts -->
     <string name="toast_successful_rating">Thank you for your feedback!</string>
     <string name="toast_error">Unknown error, try later</string>
+    <string name="toast_pay_cancel">Payment cancelled</string>
+    <string name="toast_pay_failed">Payment failed</string>
+    <string name="toast_pay_success">Payment successful</string>
     <string name="toast_used_name">This name is already used</string>
     <string name="toast_goal_exists">This habit already has a goal</string>
     <string name="toast_nan">The goal has to be at least 1 day long</string>
@@ -108,6 +112,10 @@
     <string name="title_profile">Profile</string>
     <string name="profile_logout">Logout</string>
     <string name="profile_premium">Premium</string>
+    <string name="profile_account">Account status</string>
+    <string name="profile_free_version">Free version</string>
+    <string name="profile_premium_version">Premium version</string>
+    <string name="profile_buy">Buy premium for 3000 HUF</string>
 
     <!-- Categories -->
     <string name="title_categories">Categories</string>

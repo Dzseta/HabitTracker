@@ -1,5 +1,7 @@
 package com.example.habittracker.activities;
 
+import static java.lang.Float.parseFloat;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -16,12 +18,26 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.habittracker.R;
+import com.example.habittracker.models.RatingModel;
+import com.example.habittracker.models.UserModel;
+import com.github.kittinunf.fuel.Fuel;
+import com.github.kittinunf.fuel.core.FuelError;
+import com.github.kittinunf.fuel.core.Handler;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.stripe.android.PaymentConfiguration;
+import com.stripe.android.paymentsheet.PaymentSheet;
+import com.stripe.android.paymentsheet.PaymentSheetResult;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import es.dmoral.toasty.Toasty;
 
@@ -37,6 +53,7 @@ public class ProfileActivity extends AppCompatActivity {
     private Button premiumButton;
     private Button logoutButton;
     private TextView origEmailTextView;
+    private TextView premiumTextView;
     private EditText newEmailEditText;
     private EditText passwordEditText;
     private EditText oldPasswordEditText;
@@ -44,6 +61,15 @@ public class ProfileActivity extends AppCompatActivity {
     // sharedprefs
     private static String PREF_NAME = "optionsSharedPrefs";
     SharedPreferences prefs;
+    // stripe
+    PaymentSheet paymentSheet;
+    String paymentIntentClientSecret;
+    PaymentSheet.CustomerConfiguration customerConfig;
+    // fs database
+    FirebaseFirestore db;
+    DocumentReference docref;
+    // user
+    UserModel userAccount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,27 +96,105 @@ public class ProfileActivity extends AppCompatActivity {
         // edittexts
         origEmailTextView = findViewById(R.id.origEmailTextView);
         origEmailTextView.setText(user.getEmail());
+        premiumTextView = findViewById(R.id.premiumTextView);
         newEmailEditText = findViewById(R.id.newEmailEditText);
         passwordEditText = findViewById(R.id.passwordEditText);
         oldPasswordEditText = findViewById(R.id.origPasswordEditText);
         newPasswordEditText = findViewById(R.id.newPasswordEditText);
+        // paymentSheet
+        paymentSheet = new PaymentSheet(this, this::onPaymentSheetResult);
         // buttons
         changeEmailButton = findViewById(R.id.changeEmailButton);
         changeEmailButton.setOnClickListener(view -> changeEmail());
         changePasswordButton = findViewById(R.id.changePasswordButton);
         changePasswordButton.setOnClickListener(view -> changePassword());
         premiumButton = findViewById(R.id.premiumButton);
-        premiumButton.setOnClickListener(view -> {
-            Intent i = new Intent();
-            i.setClass(this, PaymentActivity.class);
-            startActivity(i);
-        });
         logoutButton = findViewById(R.id.logoutButton);
         logoutButton.setOnClickListener(view -> logout());
 
+        // firebase
+        db = FirebaseFirestore.getInstance();
+        // get user status
+        db.collection("users")
+                .whereEqualTo("uid", FirebaseAuth.getInstance().getCurrentUser().getUid()).get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            userAccount = new UserModel(document.getData().get("uid").toString(), document.getData().get("premium").toString());
+                            System.out.println(document.getData().get("premium").toString());
+                            docref = document.getReference();
+                            if(userAccount.isPremium()) {
+                                premiumTextView.setText(getResources().getString(R.string.profile_premium_version));
+                            } else {
+                                premiumTextView.setText(getResources().getString(R.string.profile_free_version));
+                                premiumButton.setVisibility(View.VISIBLE);
+                            }
+                        }
+                    } else {
+                        Toasty.error(ProfileActivity.this, getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT, true).show();
+                    }
+                });
+        // buy premium
+        premiumButton.setOnClickListener(view -> {
+            getDetails();
+        });
     }
 
-    // ############################## ONCLICKS ########################################
+    // ########################################### STRIPE #######################################################
+    void getDetails(){
+        Fuel.INSTANCE.post("https://stripepayment-6ra6cylkra-uc.a.run.app?amt=" + "300000", null).responseString(new Handler<String>() {
+            @Override
+            public void success(String s) {
+                try {
+                    JSONObject result = new JSONObject(s);
+                    customerConfig = new PaymentSheet.CustomerConfiguration(
+                            result.getString("customer"),
+                            result.getString("ephemeralKey")
+                    );
+                    paymentIntentClientSecret = result.getString("paymentIntent");
+                    PaymentConfiguration.init(getApplicationContext(), result.getString("publishableKey"));
+
+                    runOnUiThread(() -> showStripePaymentSheet());
+                } catch (JSONException e) {
+                    Toasty.error(ProfileActivity.this, getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT, true).show();
+                }
+            }
+            @Override
+            public void failure(@NonNull FuelError fuelError) {
+                Toasty.error(ProfileActivity.this, getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT, true).show();
+            }
+        });
+    }
+
+    void showStripePaymentSheet(){
+        final PaymentSheet.Configuration configuration = new PaymentSheet.Configuration.Builder("Dzseta Kft.")
+                .customer(customerConfig)
+                .allowsDelayedPaymentMethods(true)
+                .build();
+        paymentSheet.presentWithPaymentIntent(
+                paymentIntentClientSecret,
+                configuration
+        );
+    }
+
+    private void onPaymentSheetResult(final PaymentSheetResult paymentSheetResult) {
+        if (paymentSheetResult instanceof PaymentSheetResult.Canceled) {
+            Toasty.info(ProfileActivity.this, getResources().getString(R.string.toast_pay_cancel), Toast.LENGTH_SHORT, true).show();
+        } else if (paymentSheetResult instanceof PaymentSheetResult.Failed) {
+            Toasty.error(ProfileActivity.this, getResources().getString(R.string.toast_pay_failed), Toast.LENGTH_SHORT, true).show();
+        } else if (paymentSheetResult instanceof PaymentSheetResult.Completed) {
+            Toasty.success(ProfileActivity.this, getResources().getString(R.string.toast_pay_success), Toast.LENGTH_SHORT, true).show();
+            userAccount.setPremium(true);
+            docref.update("premium", userAccount.isPremium())
+                    .addOnSuccessListener(aVoid -> {
+                        premiumTextView.setText(getResources().getString(R.string.profile_premium_version));
+                        premiumButton.setVisibility(View.GONE);
+                    })
+                    .addOnFailureListener(e -> Toasty.error(ProfileActivity.this, getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT, true).show());
+        }
+    }
+
+    // ########################################## ONCLICKS #####################################################
     // change email
     public void changeEmail(){
         // Get auth credentials from the user for re-authentication

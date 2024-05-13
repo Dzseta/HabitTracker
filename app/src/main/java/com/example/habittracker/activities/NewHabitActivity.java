@@ -132,6 +132,8 @@ public class NewHabitActivity extends AppCompatActivity {
 
         // channel
         createNotificationChannel();
+        // alarm manager
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         // database handler
         dbHandler = new DatabaseHandler(this);
         LocalDate now = LocalDate.now();
@@ -583,9 +585,8 @@ public class NewHabitActivity extends AppCompatActivity {
             }
             // alarm manager, intent, pendingintent
             int id = dbHandler.readHabitId(habit.getName());
-            AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
             Intent intent = new Intent(NewHabitActivity.this, HabitNotification.class);
-            if(habit.getCategoryName().equals("")) intent.putExtra("icon", "icon_category");
+            if(habit.getCategoryName().equals("")) intent.putExtra("icon", "icon_categories");
             else intent.putExtra("icon", dbHandler.readCategoryByName(habit.getCategoryName()).getIcon());
             intent.putExtra("habit", habit.getName());
             intent.putExtra("id",  id);
@@ -597,7 +598,6 @@ public class NewHabitActivity extends AppCompatActivity {
                 calendar.set(Calendar.MINUTE, habit.getReminderMinute());
                 calendar.set(Calendar.SECOND, 0);
                 if(calendar.after(Calendar.getInstance())) calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH)-1);
-                //alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis()+1000, pendingIntent);
                 alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
             } else {
                 if(alarmManager != null) alarmManager.cancel(pendingIntent);

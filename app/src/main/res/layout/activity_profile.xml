@@ -87,6 +87,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textAlignment="textEnd"
                     android:text="TextView" />
             </LinearLayout>
 
@@ -186,6 +187,29 @@
                 android:layout_marginBottom="10dp"
                 android:background="@color/medium_gray" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="@string/profile_premium"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/premiumTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAlignment="textEnd"
+                    android:text="@string/load" />
+            </LinearLayout>
+
             <Button
                 android:id="@+id/premiumButton"
                 android:layout_width="match_parent"
@@ -195,7 +219,8 @@
                 android:layout_weight="1"
                 android:background="@drawable/entry_background"
                 android:padding="0dp"
-                android:text="@string/profile_premium" />
+                android:text="@string/profile_buy"
+                android:visibility="gone" />
 
             <View
                 android:layout_width="match_parent"
@@ -208,9 +233,9 @@
                 android:id="@+id/logoutButton"
                 android:layout_width="100dp"
                 android:layout_height="70dp"
-                android:layout_marginLeft="10dp"
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
+                android:layout_gravity="center"
                 android:background="@drawable/entry_background"
                 android:padding="0dp"
                 android:text="@string/button_logout" />
