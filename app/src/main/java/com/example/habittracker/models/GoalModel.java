@@ -17,6 +17,16 @@ public class GoalModel {
         this.finished = finished;
     }
 
+    public GoalModel(String habit, int needed, String finished) {
+        this.habit = habit;
+        this.needed = needed;
+        if(finished.equals("true")) {
+            this.finished = true;
+        } else {
+            this.finished = false;
+        }
+    }
+
     public String getHabit() {
         return habit;
     }
@@ -64,5 +74,10 @@ public class GoalModel {
             }
         }
         return streak;
+    }
+
+    public String serialise() {
+        String s = habit + " ;; " + needed + " ;; " + finished;
+        return s;
     }
 }

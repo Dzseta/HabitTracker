@@ -16,11 +16,15 @@
     <string name="button_create">Create</string>
     <string name="button_change">Change</string>
     <string name="button_export">Export</string>
+    <string name="button_backup">Backup</string>
+    <string name="button_import">Import</string>
     <string name="button_edit">Edit</string>
     <string name="button_ok" translatable="false">OK</string>
 
     <!-- Toasts -->
     <string name="toast_successful_rating">Thank you for your feedback!</string>
+    <string name="toast_successful_backup">Successful backup</string>
+    <string name="toast_file_saved">File saved to the Downloads directory</string>
     <string name="toast_error">Unknown error, try later</string>
     <string name="toast_pay_cancel">Payment cancelled</string>
     <string name="toast_pay_failed">Payment failed</string>
@@ -39,6 +43,7 @@
     <string name="toast_successful_register">Registration successful</string>
     <string name="toast_successful_password_reset">Password reset email sent, check your inbox</string>
     <string name="toast_missing_permission">Missing permission</string>
+    <string name="toast_import">Data successfully imported</string>
 
     <!-- Notifications -->
     <string name="notification_daily_title">Daily reminder</string>
@@ -135,8 +140,9 @@
 
     <!-- Backup -->
     <string name="title_backup">Backup</string>
-    <string name="backup_data">Backup all data</string>
-    <string name="backup_export">Export to .csv file</string>
+    <string name="backup_data">Backup all data to cloud</string>
+    <string name="backup_export">Export to .txt file</string>
+    <string name="backup_import">Import data from cloud</string>
 
     <!-- Today -->
     <string name="title_today">Today</string>

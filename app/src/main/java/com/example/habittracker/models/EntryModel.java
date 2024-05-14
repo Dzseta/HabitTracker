@@ -64,4 +64,9 @@ public class EntryModel {
     public void setSuccess(int success) {
         this.success = success;
     }
+
+    public String serialise() {
+        String s = habit + " ;; " + date + " ;; " + data + " ;; " + success + " ;; " + comment;
+        return s;
+    }
 }

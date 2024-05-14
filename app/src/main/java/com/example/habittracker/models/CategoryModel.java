@@ -53,4 +53,9 @@ public class CategoryModel {
     public void setEntries(int entries) {
         this.entries = entries;
     }
+
+    public String serialise() {
+        String s = icon + " ;; " + name + " ;; " + color;
+        return s;
+    }
 }

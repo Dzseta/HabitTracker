@@ -37,72 +37,135 @@
     </LinearLayout>
 
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:orientation="vertical"
+        android:paddingBottom="120dp"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
 
-        <View
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="3dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:background="@color/medium_gray" />
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/backupImageView"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_gravity="center"
-            app:tint="?attr/colorPrimary"
-            android:paddingRight="10dp"
-            android:src="@drawable/icon_cloud_upload" />
+            <LinearLayout
+                android:id="@+id/premiumFunctionsLinearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:visibility="gone">
 
-        <TextView
-            android:id="@+id/backupTextView"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/backup_data"
-            android:textSize="20dp"
-            android:textStyle="bold" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@color/medium_gray" />
 
-        <Button
-            android:id="@+id/backupButton"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:padding="0dp"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginVertical="20dp"
-            android:layout_weight="1"
-            android:background="@drawable/entry_background"
-            android:text="@string/button_send" />
+                <ImageView
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_gravity="center"
+                    android:paddingRight="10dp"
+                    android:src="@drawable/icon_cloud_upload"
+                    app:tint="@color/light_gray" />
 
-        <TextView
-            android:id="@+id/exportTextView"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/backup_export"
-            android:textSize="20dp"
-            android:textStyle="bold" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/backup_data"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/changeEmailButton"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:padding="0dp"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginVertical="20dp"
-            android:layout_weight="1"
-            android:background="@drawable/entry_background"
-            android:text="@string/button_export" />
+                <Button
+                    android:id="@+id/backupButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginVertical="20dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/entry_background"
+                    android:padding="0dp"
+                    android:text="@string/button_backup" />
 
-    </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@color/medium_gray" />
+
+                <ImageView
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_gravity="center"
+                    android:paddingRight="10dp"
+                    android:src="@drawable/icon_cloud_download"
+                    app:tint="@color/light_gray" />
+
+                <TextView
+                    android:id="@+id/importTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/backup_import"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/importButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginVertical="20dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/entry_background"
+                    android:padding="0dp"
+                    android:text="@string/button_import" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/medium_gray" />
+
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_gravity="center"
+                android:paddingRight="10dp"
+                android:src="@drawable/icon_sd_card"
+                app:tint="@color/light_gray" />
+
+            <TextView
+                android:id="@+id/exportTextView"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/backup_export"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/exportButton"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginVertical="20dp"
+                android:layout_weight="1"
+                android:background="@drawable/entry_background"
+                android:padding="0dp"
+                android:text="@string/button_export" />
+
+        </LinearLayout>
+    </ScrollView>
 
     <include
         layout="@layout/hamburger_menu"

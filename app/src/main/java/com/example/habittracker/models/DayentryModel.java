@@ -35,4 +35,9 @@ public class DayentryModel {
     public void setComment(String comment) {
         this.comment = comment;
     }
+
+    public String serialise() {
+        String s = date + " ;; " + mood + " ;; " + comment;
+        return s;
+    }
 }

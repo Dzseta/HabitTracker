@@ -34,6 +34,25 @@ public class HabitModel {
         this.reminderMinute = reminderMinute;
     }
 
+    public HabitModel(String categoryName, String name, String description, String type, String typeData, String repeatType, String startDate, String endDate, int priority, String reminder, int reminderHour, int reminderMinute) {
+        this.categoryName = categoryName;
+        this.name = name;
+        this.description = description;
+        this.type = type;
+        this.typeData = typeData;
+        this.repeatType = repeatType;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.priority = priority;
+        if(reminder.equals("true")) {
+            this.reminder = true;
+        } else {
+            this.reminder = false;
+        }
+        this.reminderHour = reminderHour;
+        this.reminderMinute = reminderMinute;
+    }
+
     public String getCategoryName() {
         return categoryName;
     }
@@ -146,5 +165,11 @@ public class HabitModel {
             else if(Integer.parseInt(d[2]) >= Integer.parseInt(t[2])) return true;
         }
         return false;
+    }
+
+    public String serialise() {
+        String s = categoryName + " ;; " + name + " ;; " + description + " ;; " + type + " ;; " + typeData + " ;; " + repeatType + " ;; "
+                + startDate  + " ;; " + endDate + " ;; " + priority + " ;; " + reminder + " ;; " + reminderHour + " ;; " + reminderMinute;
+        return s;
     }
 }
