@@ -263,6 +263,10 @@ public class SettingsActivity extends AppCompatActivity {
                 i.setClass(this, RatingActivity.class);
                 startActivity(i);
                 break;
+            case R.id.helpButton:
+                i.setClass(this, HelpActivity.class);
+                startActivity(i);
+                break;
             default: break;
         }
     }

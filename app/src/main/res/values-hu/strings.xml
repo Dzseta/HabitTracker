@@ -156,7 +156,7 @@
     <string name="rating_bug_report">Hibajelzés</string>
     <string name="notification_daily_desc">Töltse ki a napi szokásait!</string>
     <string name="toast_missing_permission">Hiányzó engedély</string>
-    <string name="hamburger_help">SEGÍTSÉG</string>
+    <string name="hamburger_help">CHATBOT</string>
     <string name="notification_habit_title">Emlékeztető</string>
     <string name="notification_habit_desc">Ne felejtse el:</string>
     <string name="toast_empty_priority">A prioritás nem lehet üres</string>
@@ -172,4 +172,7 @@
     <string name="toast_file_saved">Fájl elmentve a Letöltések mappába</string>
     <string name="backup_import">Adatok importálása a felhőből</string>
     <string name="toast_import">Adatok sikeresen importálva</string>
+    <string name="help_title">Chatbot</string>
+    <string name="help_how_can">Hogyan segíthetek?</string>
+    <string name="help_question">Kérdés</string>
 </resources>

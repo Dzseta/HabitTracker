@@ -97,7 +97,7 @@
     <string name="hamburger_profile">PROFILE</string>
     <string name="hamburger_backups">BACKUPS</string>
     <string name="hamburger_rating">SEND FEEDBACK</string>
-    <string name="hamburger_help">HELP</string>
+    <string name="hamburger_help">CHATBOT</string>
 
     <!-- Rating -->
     <string name="title_rating">Feedback</string>
@@ -218,5 +218,10 @@
     <string name="profile_password">Password</string>
     <string name="profile_current_password">Current password</string>
     <string name="profile_new_password">New password</string>
+
+    <!-- Help -->
+    <string name="help_title">Chatbot</string>
+    <string name="help_how_can">How can I help you today?</string>
+    <string name="help_question">Question</string>
 
 </resources>
