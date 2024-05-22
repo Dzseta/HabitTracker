@@ -392,6 +392,7 @@ public class NewHabitActivity extends AppCompatActivity {
                 }
             }
         } else {
+            // if it's a new habit we don't have to load data
             TypedValue typedValue = new TypedValue();
             getTheme().resolveAttribute(com.google.android.material.R.attr.colorPrimaryVariant, typedValue, true);
             int c = ContextCompat.getColor(this, typedValue.resourceId);
@@ -400,7 +401,8 @@ public class NewHabitActivity extends AppCompatActivity {
             repeatSwitch.setChecked(true);
             reminderSwitch.setThumbTintList(ColorStateList.valueOf(c));
         }
-        // onValueChange
+
+        // onValueChanges
         startMonthNumberPicker.setOnValueChangedListener((numberPicker, oldVal, newVal) -> {
             if(newVal == 2) {
                 if(startDayNumberPicker.getValue() > 28) startDayNumberPicker.setValue(28);
@@ -493,6 +495,7 @@ public class NewHabitActivity extends AppCompatActivity {
                 reminderSwitch.setThumbTintList(ColorStateList.valueOf(c));
             }
         });
+        // onClickListener for the day of the week
         mondayTW.setOnClickListener(view -> monday = setDay((TextView) view, monday));
         tuesdayTW.setOnClickListener(view -> tuesday = setDay((TextView) view, tuesday));
         wednesdayTW.setOnClickListener(view -> wednesday = setDay((TextView) view, wednesday));
@@ -500,10 +503,16 @@ public class NewHabitActivity extends AppCompatActivity {
         fridayTW.setOnClickListener(view -> friday = setDay((TextView) view, friday));
         saturdayTW.setOnClickListener(view -> saturday = setDay((TextView) view, saturday));
         sundayTW.setOnClickListener(view -> sunday = setDay((TextView) view, sunday));
-        // set button onClick
+
+        // create button onClick
         createButton.setOnClickListener(view -> {
+            // ERRORS
+            // the priority can't be empty
             if(priorityEditText.getText().toString().equals("")) {
                 Toasty.error(this, getResources().getString(R.string.toast_empty_priority), Toast.LENGTH_SHORT, true).show();
+                return;
+            } else if(!repeatSwitch.isChecked() && !monday && !tuesday && !wednesday && !thursday && !friday && !saturday && !sunday){
+                Toasty.error(this, getResources().getString(R.string.toast_empty_day), Toast.LENGTH_SHORT, true).show();
                 return;
             }
             HabitModel habit;
@@ -512,7 +521,7 @@ public class NewHabitActivity extends AppCompatActivity {
             } else if(numberRadioButton.isChecked()) {
                 habit = new HabitModel(categoryNames[position], nameEditText.getText().toString(), descriptionEditText.getText().toString(), "number", numberEditText.getText().toString(), "everyday", "", "", Integer.parseInt(priorityEditText.getText().toString()), reminderSwitch.isChecked(), 0, 0);
             } else {
-                habit = new HabitModel(categoryNames[position], nameEditText.getText().toString(), descriptionEditText.getText().toString(), "time", hourNumberPicker.getValue() + ":" + minuteNumberPicker.getValue() + ":" + secondNumberPicker.getValue(), "daily", "", "", Integer.parseInt(priorityEditText.getText().toString()), reminderSwitch.isChecked(), 0, 0);
+                habit = new HabitModel(categoryNames[position], nameEditText.getText().toString(), descriptionEditText.getText().toString(), "time", hourNumberPicker.getValue() + ":" + minuteNumberPicker.getValue() + ":" + secondNumberPicker.getValue(), "everyday", "", "", Integer.parseInt(priorityEditText.getText().toString()), reminderSwitch.isChecked(), 0, 0);
             }
             LocalDate start;
             if(startMonthNumberPicker.getValue()<10) {

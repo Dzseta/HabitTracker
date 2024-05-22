@@ -35,6 +35,7 @@
     <string name="toast_auth_failed">Authentication failed, try again</string>
     <string name="toast_empty_name">The name can\'t be empty</string>
     <string name="toast_empty_priority">The priority can\'t be empty</string>
+    <string name="toast_empty_day">You have to choose at least one day!</string>
     <string name="toast_email_changed">The email address has been changed successfully</string>
     <string name="toast_password_changed">The password has been changed successfully</string>
     <string name="toast_logout">Logged out successfully</string>
@@ -223,5 +224,7 @@
     <string name="help_title">Chatbot</string>
     <string name="help_how_can">How can I help you today?</string>
     <string name="help_question">Question</string>
+    <string name="help_premium_needed">You need premium status to use this function</string>
+    <string name="help_motivation">Motivation</string>
 
 </resources>

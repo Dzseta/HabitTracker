@@ -175,4 +175,7 @@
     <string name="help_title">Chatbot</string>
     <string name="help_how_can">Hogyan segíthetek?</string>
     <string name="help_question">Kérdés</string>
+    <string name="help_premium_needed">Ezen funkció használatához prémium státusz szükséges</string>
+    <string name="help_motivation">Motiváció</string>
+    <string name="toast_empty_day">Legalább egy napot ki kell választani!</string>
 </resources>

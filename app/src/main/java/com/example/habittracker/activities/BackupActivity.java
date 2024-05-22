@@ -103,10 +103,12 @@ public class BackupActivity extends AppCompatActivity {
         backupIW.setColorFilter(ContextCompat.getColor(this, R.color.light_gray));
         backupTW = findViewById(R.id.backupTextView);
         backupTW.setTextColor(ContextCompat.getColor(this, R.color.light_gray));
-        // button
+        // backup button
         backupButton = findViewById(R.id.backupButton);
         backupButton.setOnClickListener(view -> {
+            // new backup model
             backup = new BackupModel(FirebaseAuth.getInstance().getUid(), serialiseCategories(), serialiseHabits(), serialiseGoals(), serialiseDayentries(), serialiseEntries());
+            // if backup doesn't exist yet
             if (docref == null) {
                 // Add a new document with a generated ID
                 db.collection("backups")
@@ -116,7 +118,7 @@ public class BackupActivity extends AppCompatActivity {
                         })
                         .addOnFailureListener(e -> Toasty.error(BackupActivity.this, getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT, true).show());
             } else {
-                // Refresh rating
+                // if a backup already exists refresh the data
                 docref
                         .update("categories", backup.getCategories(), "habits", backup.getHabits(), "goals", backup.getGoals(), "dayentries", backup.getDayentries(), "entries", backup.getEntries())
                         .addOnSuccessListener(aVoid -> {
@@ -125,9 +127,12 @@ public class BackupActivity extends AppCompatActivity {
                         .addOnFailureListener(e -> Toasty.error(BackupActivity.this, getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT, true).show());
             }
         });
+        // import data from Firestore
         importButton = findViewById(R.id.importButton);
         importButton.setOnClickListener(view -> {
+            // load the data
             loadBackup();
+            // create the categories, habits, goals, dayentries and entries
             String[] categories = backup.getCategories().split(" --- ");
             if(!categories[0].equals("")) {
                 for(int i=0; i<categories.length; i++) {
@@ -170,10 +175,13 @@ public class BackupActivity extends AppCompatActivity {
             }
             Toasty.success(BackupActivity.this, getResources().getString(R.string.toast_pay_success), Toast.LENGTH_SHORT, true).show();
         });
+        // export data to a file
         exportButton = findViewById(R.id.exportButton);
         exportButton.setOnClickListener(view -> {
             try {
+                // create the new file
                 File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "habittracker_data.txt");
+                // write the data into the file
                 FileWriter writer = new FileWriter(file);
                 writer.append("CATEGORIES\n");
                 writer.append(serialiseCategories());
@@ -200,6 +208,7 @@ public class BackupActivity extends AppCompatActivity {
         dbHandler = new DatabaseHandler(BackupActivity.this);
     }
 
+    // load the data into a BackupModel
     private void loadBackup() {
         db.collection("backups")
                 .whereEqualTo("uid", FirebaseAuth.getInstance().getCurrentUser().getUid()).get()
@@ -216,6 +225,7 @@ public class BackupActivity extends AppCompatActivity {
     }
 
     // ################################################### SERIALISE ######################################################
+    // convert the datamodels into Strings
     private String serialiseCategories() {
         ArrayList<CategoryModel> categories = dbHandler.readAllCategories();
         String save = "";
@@ -272,7 +282,7 @@ public class BackupActivity extends AppCompatActivity {
         }
     }
 
-    // onClick - open new activity
+    // open new activity
     public void openActivity(View view) {
         Intent i = new Intent();
         switch (view.getId()) {

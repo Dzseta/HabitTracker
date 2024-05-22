@@ -94,6 +94,7 @@ public class CalendarActivity extends AppCompatActivity {
         // calendar
         calendar = findViewById(R.id.calendar);
         LocalDate now = LocalDate.now();
+        // create start and enddate strings
         if(now.getMonthValue()<10) {
             s = now.getYear() + "-0" + now.getMonthValue() + "-01";
             e = now.getYear() + "-0" + now.getMonthValue() + "-" + now.lengthOfMonth();
@@ -101,8 +102,9 @@ public class CalendarActivity extends AppCompatActivity {
             s = now.getYear() + "-" + now.getMonthValue() + "-01";
             e = now.getYear() + "-" + now.getMonthValue() + "-" + now.lengthOfMonth();
         }
-
+        // mark the moods to the calendar between the dates
         markDays(s, e, "", true);
+        // on change of the month load the data for the month
         calendar.setOnMonthChangeListener(new OnMonthChangeListener() {
             @Override
             public void onMonthChange(int year, int month) {
@@ -116,12 +118,12 @@ public class CalendarActivity extends AppCompatActivity {
                     s = year + "-" + month + "-01";
                     e = year + "-" +month + "-" + now.lengthOfMonth();
                 }
-
                 if(position == 0) markDays(s, e, "", true);
                 else  markDays(s, e, habitNames[position], false);
             }
         });
 
+        // if clicked on a date go to TodayActivity
         calendar.setOnDateClickListener(new OnDateClickListener() {
             @Override
             public void onDateClick(View view, DateData date) {
@@ -167,11 +169,12 @@ public class CalendarActivity extends AppCompatActivity {
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, habitNames);
         // default position is 0
         position = 0;
-        //set the spinners adapter to the previously created one.
+        // set the spinners adapter to the previously created one
         habitSpinner.setAdapter(adapter);
         habitSpinner.setOnItemSelectedListener(
                 new AdapterView.OnItemSelectedListener() {
                     public void onItemSelected(AdapterView<?> parent, View view, int position2, long id) {
+                        // load data and mark days
                         position = habitSpinner.getSelectedItemPosition();
                         if(position == 0) markDays(s, e, "", true);
                         else  markDays(s, e, habitNames[position], false);
@@ -182,10 +185,11 @@ public class CalendarActivity extends AppCompatActivity {
                 });
     }
 
-    // mark the days
+    // mark the days method
     public void markDays(String startDay, String endDay, String habit, boolean mood){
         LocalDate habitStart = null;
         LocalDate habitEnd = null;
+        // if it's the mood then load from xx.01, otherwise load from startdate, if it's later then xx.01.
         if(!mood) {
             habitStart = LocalDate.parse(dbHandler.readHabitByName(habit).getStartDate()); // start of habit
             if(!dbHandler.readHabitByName(habit).getEndDate().equals("")) habitEnd = LocalDate.parse(dbHandler.readHabitByName(habit).getEndDate());     // end of habit
@@ -193,9 +197,11 @@ public class CalendarActivity extends AppCompatActivity {
         }
         LocalDate firstDay = LocalDate.parse(startDay);                                          // yyyy-mm-01
         LocalDate lastDay = LocalDate.parse(endDay);                                             // yyyy-mm-31
+        // unmark all
         for(int i=0; i<lastDay.lengthOfMonth(); i++) {
             calendar.unMarkDate(lastDay.getYear(), lastDay.getMonthValue(), i+1);
         }
+        // mark the dates based on the mood
         if(mood) {
             ArrayList<DayentryModel> dayentries = dbHandler.readAllDayentriesInRange(startDay, endDay);
             for(int i=0; i<dayentries.size(); i++) {
@@ -222,7 +228,9 @@ public class CalendarActivity extends AppCompatActivity {
             commentsRecyclerView.setAdapter(commentsAdapter);
             commentsAdapter.notifyDataSetChanged();
         } else if (habitStart.isBefore(lastDay.plusDays(1)) && habitEnd.isAfter(firstDay.minusDays(1))) {
+            // mark the days based on a habit's successfulness
             ArrayList<EntryModel> entries = dbHandler.readAllEntriesByHabitInRange(habit, startDay, endDay);
+            // sort entries by date
             Collections.sort(entries, Comparator.comparing(EntryModel::getDate));
             int s, e;
             if(habitStart.isBefore(firstDay)) s = 1;
@@ -230,11 +238,12 @@ public class CalendarActivity extends AppCompatActivity {
             if(habitEnd.isBefore(lastDay)) e = habitEnd.getDayOfMonth();
             else e = lastDay.getDayOfMonth();
 
-            // days
+            // get the days from the dates
             String[] days = dbHandler.readHabitByName(habit).getRepeatType().split("-");
             int j = 0;
             for(int i=s; i<=e; i++) {
                 LocalDate date = null;
+                // go from startday to endday and mark by the data if there was an entry, otherwise mark skipped
                 if(entries.size()>0) date = LocalDate.parse(entries.get(j).getDate());
                 if(entries.size()>0 && date.isEqual(firstDay.plusDays(i-1))) {
                     if (entries.get(j).getSuccess() == 1)
@@ -246,6 +255,7 @@ public class CalendarActivity extends AppCompatActivity {
                     calendar.markDate(new DateData(firstDay.getYear(), firstDay.getMonthValue(), i).setMarkStyle(new MarkStyle(MarkStyle.BACKGROUND, getResources().getColor(R.color.yellow))));
                 }
             }
+            // load comments
             commentsAdapter = new CommentsAdapter(false, entries, CalendarActivity.this);
             commentsRecyclerView.setAdapter(commentsAdapter);
             commentsAdapter.notifyDataSetChanged();

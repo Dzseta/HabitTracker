@@ -62,7 +62,6 @@ public class GoalModel {
             now = now.minusDays(1);
             entries.remove(0);
         }
-
         int streak = 0;
         for(int i=0; i<entries.size(); i++) {
             LocalDate entryDate = LocalDate.parse(entries.get(i).getDate());

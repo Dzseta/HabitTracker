@@ -186,7 +186,7 @@ public class GoalsActivity extends AppCompatActivity implements NewGoalFragment.
         return goalsArrayList;
     }
 
-    // ############################### ONCLICKS ##########################################
+    // ############################################### ONCLICKS ###########################x############################
     // show the new category fragment
     public void showBottomSheet(View view, String habit) {
         NewGoalFragment newGoalFragment = NewGoalFragment.newInstance();
@@ -197,6 +197,7 @@ public class GoalsActivity extends AppCompatActivity implements NewGoalFragment.
         newGoalFragment.show(getSupportFragmentManager(), NewGoalFragment.TAG);
     }
 
+    // change and show the new data
     public void notifyChange(GoalModel goal, String mode) {
         if(mode.equals("edit")){
             for(int i=0; i<goalsArrayList.size(); i++) {

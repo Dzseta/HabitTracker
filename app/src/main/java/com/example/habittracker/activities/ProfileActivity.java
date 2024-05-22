@@ -89,7 +89,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         // hamburger menu
         hamburgerMenu = findViewById(R.id.hamburgerMenu);
-        profileIW= findViewById(R.id.profileImageView);
+        profileIW = findViewById(R.id.profileImageView);
         profileIW.setColorFilter(ContextCompat.getColor(this, R.color.light_gray));
         profileTW = findViewById(R.id.profileTextView);
         profileTW.setTextColor(ContextCompat.getColor(this, R.color.light_gray));

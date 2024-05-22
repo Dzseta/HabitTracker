@@ -24,7 +24,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     // database name
     private static final String DB_NAME = "habitsdb";
     // database version
-    private static final int DB_VERSION = 25;
+    private static final int DB_VERSION = 28;
     // id column
     private static final String ID_COL = "id";
     // name column
@@ -284,8 +284,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(REMINDERHOUR_COL, habit.getReminderHour());
         values.put(REMINDERMINUTE_COL, habit.getReminderMinute());
 
-        // update database
-        db.update(HABIT_TABLE_NAME, values, "name=?", new String[]{String.valueOf(origName)});
         // delete all previous unneeded entries
         if(!readHabitByName(origName).getStartDate().equals(habit.getStartDate())){
             deleteAllEntriesBeforeDate(origName, habit.getStartDate());
@@ -298,9 +296,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 updateEntryHabit(entries.get(i), origName);
             }
             GoalModel goal = readGoalByHabit(origName);
-            goal.setHabit(habit.getName());
-            updateGoalHabit(goal, origName);
+            if(goal != null) {
+                goal.setHabit(habit.getName());
+                updateGoalHabit(goal, origName);
+            }
         }
+        // update database
+        db.update(HABIT_TABLE_NAME, values, "name=?", new String[]{String.valueOf(origName)});
     }
 
     // read a habit
@@ -564,7 +566,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
 
         // passing all values
-        values.put(NAME_COL, habit);
+        values.put(NAME_COL, entry.getHabit());
         values.put(DATE_COL, entry.getDate());
         values.put(DATA_COL, entry.getData());
         values.put(SUCCESS_COL, entry.getSuccess());

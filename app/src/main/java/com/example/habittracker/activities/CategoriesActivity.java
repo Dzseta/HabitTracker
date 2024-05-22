@@ -138,6 +138,7 @@ public class CategoriesActivity extends AppCompatActivity implements NewCategory
                 });
     }
 
+    // ################################################### SORT THE CATEGORIES ######################################################
     ArrayList<CategoryModel> sortNameAZ(ArrayList<CategoryModel> categoriesArrayList){
         Collections.sort(categoriesArrayList, Comparator.comparing(CategoryModel::getName));
         return categoriesArrayList;
@@ -183,6 +184,7 @@ public class CategoriesActivity extends AppCompatActivity implements NewCategory
         iconsDialog.show();
     }
 
+    // set the icon
     public void setIcon(String icon){
         newCategoryFragment.setIcon(icon);
     }
@@ -194,6 +196,7 @@ public class CategoriesActivity extends AppCompatActivity implements NewCategory
         colorsDialog.show();
     }
 
+    // set the color
     public void setColor(String color){
         newCategoryFragment.setColor(color);
     }
@@ -206,7 +209,7 @@ public class CategoriesActivity extends AppCompatActivity implements NewCategory
         categoriesAdapter.notifyDataSetChanged();
     }
 
-    // create the new category
+    // edit existing category
     @Override
     public void onEditCategory(CategoryModel cat, String origName) {
         for(int i=0; i<categoriesArrayList.size(); i++) {

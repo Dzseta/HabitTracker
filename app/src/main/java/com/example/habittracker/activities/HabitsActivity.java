@@ -92,7 +92,7 @@ public class HabitsActivity extends AppCompatActivity {
         habitsRecyclerView.setLayoutManager(linearLayoutManager);
         // setting adapter to recycler view
         habitsRecyclerView.setAdapter(habitsAdapter);
-
+        // open NewHabitActivity to create new habit
         createButton.setOnClickListener(view -> {
             Intent i = new Intent();
             i.putExtra("mode", "new");

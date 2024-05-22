@@ -60,7 +60,7 @@ public class LoginActivity extends AppCompatActivity {
                         i.setClass(getApplicationContext(), TodayActivity.class);
                         startActivity(i);
                     } else {
-                        // If sign in fails, display a message to the user.
+                        // if sign in fails, display a message to the user
                         Toasty.error(LoginActivity.this, getResources().getString(R.string.toast_auth_failed), Toast.LENGTH_SHORT, true).show();
                     }
                 });
